@@ -17,17 +17,17 @@ Team Composition:
 #### Table of Contents
 
 * 1 Project Overview 
-  * 1.1 Abstract…………………………………….………………………Pg 3
-  * 1.2 Target Customer……………….…………………………………Pg 4
-  * 1.3 Search Words……………….……………………………………Pg 4
-  * 1.4 Scope and Objectives….…………………………………………Pg 4, 5
+  * 1.1 Abstract
+  * 1.2 Target Customer
+  * 1.3 Search Words
+  * 1.4 Scope and Objectives
 * 2 Team and Constraints
-  * 2.1 Team Profile…….……………………………………………….…Pg 6
-  * 2.2 Challenges……….……………………………………………….Pg 7
-  * 2.3 Assumptions and Constraints………………………………....Pg 7
+  * 2.1 Team Profile
+  * 2.2 Challenges
+  * 2.3 Assumptions and Constraints
 * 3 Deliverables and Milestones
- * 3.1 Project Deliverables……………………………………………..Pg 8
- * 3.2 Schedule and Budget Summary…..…………………………..Pg 9
+ * 3.1 Project Deliverables
+ * 3.2 Schedule and Budget Summary
 
 
 ---
@@ -140,20 +140,13 @@ Game, casual, 2D, interactive, real-time, slick2D, lwjgl
 
 #### Constraints:
 * Non-Technical Constraints:
-
-       * Time Limits: 5 weeks total for the project to be done
-  
-       * Budget: project need to be done under lowest cost
-  
-       * Art: project requires lots of art assets to be functional
-       
-       * Subjective Requirements: the game should be fun, a non-objective judgement
-
-* Techinical Constraints:
-
-       * Tools: IntelliJ, libGdx
-  
-       * Performance: game should not be too demanding for the computer due to casual target audience
+  * Time Limits: 5 weeks total for the project to be done
+  * Budget: project need to be done under lowest cost
+  * Art: project requires lots of art assets to be functional
+  * Subjective Requirements: the game should be fun, a non-objective judgement
+* Technical Constraints:
+  * Tools: IntelliJ, libGdx
+  * Performance: game should not be too demanding for the computer due to casual target audience
 
 ## 3.0	Deliverables and Milestones
 
