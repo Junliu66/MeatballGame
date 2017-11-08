@@ -131,7 +131,8 @@ Game, casual, 2D, interactive, real-time, slick2D, lwjgl
     - If a team member is unwilling to consider other team members’ ideas and/or input, or is exhibiting negative behavior/attitudes towards the Team and the assignment, the rest of the Team will convene and decide if further action (termination) is appropriate.
 
 
-***IN WITNESS WHEREOF, the parties hereto have executed this assumptions on the date first above written.***<br>
+***IN WITNESS WHEREOF, the parties hereto have executed this assumptions on the date first above written.***
+
 1. Chunlei Li
 2. Stefano Mauri	
 3. Christian Wookey
