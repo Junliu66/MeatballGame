@@ -1,20 +1,20 @@
 
-###Project 2 Proposal
+### Project 2 Proposal
 
-####Super Meat Ball
+#### Super Meat Ball
 
-__Team Composition:__<br>
-Chunlei Li
-Christian Wookey
-Junliu Zhang
-Stefano Mauri 
-Andre Zhu
+Team Composition:
+* Chunlei Li
+* Christian Wookey
+* Junliu Zhang
+* Stefano Mauri 
+* Andre Zhu
 
 11/08/17
 
 ---
 
-####Table of Contents
+#### Table of Contents
 
 * 1 Project Overview 
   * 1.1 Abstract…………………………………….………………………Pg 3
@@ -43,7 +43,7 @@ The target customer for this project is people who like casual games.
 Game, casual, 2D, interactive, real-time, slick2D, lwjgl
 
 
-###1.4.	Scope and Objectives
+### 1.4.	Scope and Objectives
 1. Real-time graphics.
 2. Player controls physically-affected character.
 3. Player can lose by falling off the level or by hitting obstacles.
@@ -54,7 +54,7 @@ Game, casual, 2D, interactive, real-time, slick2D, lwjgl
 
 ## 2.0	Team and Constraints
 
-###2.1.	Team profile
+### 2.1.	Team profile
 
 ***Chunlei Li***<br>
 **Qualifications:**:I finished Java 1A classes，also had an experience work at a company that really need some good software to help with their stock managing. That’s why i feel like it will be super helpful if we could create the software that can deal with the similar issue that may happen in any companies. It will definitely save lots of manfully work and lower the miscounting or recording on any similar stocking system of  the companies, such as libraries, community services, manufactories.
@@ -80,10 +80,10 @@ Game, casual, 2D, interactive, real-time, slick2D, lwjgl
 
 
 ### 2.1.	Challenges
-####Technical Challenges
+#### Technical Challenges
 * Real-time applications are new for some members of our team.
 * Need to learn a complex library (libGdx) in order to complete this application. While libraries help speed up development, they also have a learning curve of their own. Additionally, it does not use the previous libraries we used (JavaFX and MySQL Connector Java), so their is some sunk time in that. However, the nature of the project requires these different libraries.
-####Non-Technical Challenges
+#### Non-Technical Challenges
 * The games need a lot of art assets compared to our previous project.
 * Games are complex systems that can be difficult to test due to unpredictable player behavior.
 
@@ -155,13 +155,9 @@ Game, casual, 2D, interactive, real-time, slick2D, lwjgl
   
        * Performance: game should not be too demanding for the computer due to casual target audience
 
-##3.0	Deliverables and Milestones
+## 3.0	Deliverables and Milestones
 
 ### 3.1.	Project Deliverables 
-
-[What are the specific delivarables by your team?]
-
-[***Provide a list of deliverables***<sup>[4](#footnote_4)</sup> of any project artifacts.]
 
 Deliverables include:
 *	Playable game
@@ -171,7 +167,7 @@ Deliverables include:
 
 
 ### 3.2.	Schedule and Budget Summary
-####Milestones
+#### Milestones
 | Item                                    | Date              |
 | :---------------------------------------|:------------------|
 | Project Proposal                        | November 9, 2017  |
