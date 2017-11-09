@@ -1,167 +1,173 @@
-###Instructions###
 
-*This is a guide document to help you write the project proposal.*
+### Project 2 Proposal
 
-*You have to remove this "Instructions" section and replace any text between brackets `[` and `]`.*
+#### Super Meat Ball
 
-*NOTE: For readability, individual items in a list are not surrounded by brackets (with the exception of the section titled  "Deliverables and Milestones"). Assume these need also be replaced
-Also, any other text is written as an example.*
+Team Composition:
+* Chunlei Li
+* Christian Wookey
+* Junliu Zhang
+* Stefano Mauri 
+* Andre Zhu
 
-*Post questions in the* ***public discussion forum*** *for the current project.*
-
-*Note: As long as your proposal contains the key parts and descriptions you may format this document as you see fit. However, I highly recommend certain sections such as* "Objectives and Deliverables" *be described via a bulleted list.*
-
----
-
-###Project 2 Proposal###
-
-####[Project Name]####
-
-__Team Composition:__<br>
-[Name of Teammates]
-
-[Date]
+11/08/17
 
 ---
 
-####Table of Contents####
-
-[*This page enables the reader to quickly find relevant parts of the document. Including titles and page numbers of each section.
-Note: The page numbers are for example only. Change these as you see fit.*]
+#### Table of Contents
 
 * 1 Project Overview 
-  * 1.1 Abstract…………………………………….………………………Pg 3
-  * 1.2 Target Customer……………….…………………………………Pg 4
-  * 1.3 Search Words……………….……………………………………Pg 4
-  * 1.4 Scope and Objectives….…………………………………………Pg 4, 5
+  * 1.1 Abstract
+  * 1.2 Target Customer
+  * 1.3 Search Words
+  * 1.4 Scope and Objectives
 * 2 Team and Constraints
-  * 2.1 Team Profile…….……………………………………………….…Pg 6
-  * 2.2 Challenges……….……………………………………………….Pg 7
-  * 2.3 Assumptions and Constraints………………………………....Pg 7
+  * 2.1 Team Profile
+  * 2.2 Challenges
+  * 2.3 Assumptions and Constraints
 * 3 Deliverables and Milestones
- * 3.1 Project Deliverables……………………………………………..Pg 8
- * 3.2 Schedule and Budget Summary…..…………………………..Pg 9
+ * 3.1 Project Deliverables
+ * 3.2 Schedule and Budget Summary
 
 
 ---
 
 ## 1.0	Project Overview
 ### 1.1 Abstract
+The player controls a spherical character in a top-down perspective. The ball has a physical feeling to it, bouncing off of walls and obstacles. The player loses by falling off the level or running into dangerous obstacles. The player wins by reaching the end of the level unharmed.
 
-[How would you briefly describe the purpose of your project?]
-
-[Often readers lack sufficient time to read the entire project proposal. Therefore, a short synopsis is necessary to provide motivation and a high level introduction of the project. ]
-
-* [Give a brief introduction as to ***problem statement***, the ***scope*** and a high level description of the system to be ***delivered***.] 
-*	[Include ***background*** for the project. Motivate the project by describing:
-  * What is the value of the system over the status quo?
-  * How will the final product be used by the target customer?]
-
-
-### 1.2.	Target Customer [important part]
-
-[Who is the target audience?]
-
-[List the intended user group(s):
-*	Who is  client (direct customer)? 
-*	Who is user (indrect customer)?]
-
-For example, for a patient management software the client may be the dental office and users may be Office Manager, Patient Coordinator, and Receptionist.
-
+### 1.2.	Target Customer
+The target customer for this project is people who like casual games.
 
 ### 1.3.	Search Words 
-[Brief descriptors of your project that you think someone might use to search for your project. The descriptor may be three to five words or short phrases.]
+Game, casual, 2D, interactive, real-time, slick2D, lwjgl
 
 
-###1.4.	Scope and Objectives [critical section]
-[What is the scope and goals of your group project?]
+### 1.4.	Scope and Objectives
+1. Real-time graphics.
+2. Player controls physically-affected character.
+3. Player can lose by falling off the level or by hitting obstacles.
+4. Player will win when reaching the goal.
+5. Multiple levels.
+6. Main menu.
 
-[The scope describes the specific software system that your team will be designing and delivering.]
-
-[Reminder:
-
-*	The ideal project will be a software system that will challenge a team of 4 or 5 students to use a broad range of software engineering skills. This includes skills, such as, requirements analysis, software design and architecture,  implementation, testing, to project planning, scheduling, tracking and documentaiton.
-
-*	Each student will each work approximately 10 hours per week for 4 weeks<sup>[1](#footnote_1)</sup>.  As part of the team experience, you will be analyzing what the client would be asking from the developers, list the services and features  to be provided by the proposed system, estimate the efforts for each service or feature, identify the components that have priority and negotiate project services based on time (and budget constraints).<br>
- *<sup><a name="footnote_1">1</a></sup>Note: Rarely does a proposal come in over the top. Instead, more often a proposal is not sufficient in scope and hence not accepted (until modified).*
-
-*	 For every component, state whether you will be working on the implementation<sup>[2](#footnote_2)</sup> that  will support it, or whether you will use existing work. <br>
- *<sup><a name="footnote_2">2</a></sup>Note: The impelementation involves source code.*]
-
-
----
 
 ## 2.0	Team and Constraints
 
-###2.1.	Team profile
-[What are the strengths for each team member?]
+### 2.1.	Team profile
 
-[For each member of the team ***describe qualifications and strengths***<sup>[3](#footnote_3)</sup>.
+***Chunlei Li***<br>
+**Qualifications:**:I finished Java 1A classes，also had an experience work at a company that really need some good software to help with their stock managing. That’s why i feel like it will be super helpful if we could create the software that can deal with the similar issue that may happen in any companies. It will definitely save lots of manfully work and lower the miscounting or recording on any similar stocking system of  the companies, such as libraries, community services, manufactories.
+ <br>
+**Strengths**: I believe I have a strong sense of responsibility, especially when we work as a team. Also, great communication skill. I could learn new things efficiently with full of energy. I always have a positive attitude to life and like new challenges, because it feels fantastic when i could figure difficulty problems out.
+<br>
 
-*<sup><a name="footnote_3">3</a></sup>Note: Every team member is expected to be involved in all project activities. This section only describes individual strengths, and NOT the team member’s sole responsibilites.*]
+***Stefano Mauri***	<br>
+**Qualifications:**: Experience in Java, MySQL and HTML<br>
+**Strengths**: Personal experience working as a stockroom manager and in shipping and receiving for a small business.<br>
+
+***Christian Wookey***<br>
+**Qualifications:**: Programming Experience: Objective-C, C, C++, Python, Lua. Design Experience: Adobe Photoshop, Krita, Adobe Illustrator, iOS design standards.<br>
+**Strengths**: I have experience programming for UI/UX design. I do graphical design on a semi-regular basis. I have experience working in an Amazon Prime warehouse, which uses a virtual inventory system similar to the one we are implementing.<br>
+
+***Junliu Zhang***	<br>
+**Qualifications:**: I have taken some Java courses before. So I basically know how to use Java for programming. I also learned knowledge about quality assurance, which is quite related to software engineering. Moreover, I had some project experience in the school and company which gave me the idea of how the project works. My accountant experience also let me understand the importance of shipping and tracking products for a company and provided me the insight of how to make  stockroom system better.<br>
+**Strengths**: I’m a quick learner and work well under pressure. I’m responsible to my work and take every small part seriously. Honestly I’m good at working on some small parts and able to find some small mistakes on them. I’m a very gentle and thoughtful person and I believe I can be a good team member as well. <br>
+
+***Andre Zhu***	<br>
+**Qualifications:**:I have a decent amount of computer science coursework and a couple of projects under my belt. I have experience with MySQL and databases in general, which should be useful for this project in particular.
+**Strengths**:I do well in program design and implementation, as well as working until something is finished once I have started it. 
 
 
 ### 2.1.	Challenges
-[What are the challenges you foresee in successfully completing your project?]
+#### Technical Challenges
+* Real-time applications are new for some members of our team.
+* Need to learn a complex library (libGdx) in order to complete this application. While libraries help speed up development, they also have a learning curve of their own. Additionally, it does not use the previous libraries we used (JavaFX and MySQL Connector Java), so their is some sunk time in that. However, the nature of the project requires these different libraries.
+#### Non-Technical Challenges
+* The games need a lot of art assets compared to our previous project.
+* Games are complex systems that can be difficult to test due to unpredictable player behavior.
 
-[Provide a ***description of challenges*** that your group might face. These are often technical and non-technical aspects that may not be apparent to the reader.]
-
-For example, if you were creating a software system for a dental office to manage patients, a challenge may be learning the domain, which involves following HIPPA regulations in disclosure of protected health information.
 
 ### 2.2.	Assumptions and Constraints
-[Under what assumptions and constraints will the team adhere to?]
 
-[**List any specific assumptions on which the project is based on and imposed constraints** that your team will be working under. Non-technical constraints could be: such as schedule and budget. Technical constraints may be design or implementation metholodogies, tools, operating system(s), hardware or software constraints.
+#### Assumptions:
 
+***Meetings***<br>
+ - Team will be meeting twice before and after class.
+    - Tuesdays, 1:00 - 2:00 PM, Library
+    - Thursday, 4:00 - 5:00 PM, Library
+ - Scheduled library meetings and additional/emergency meetings may fluctuate based on the Team’s project progress.
+    - If the Team finishes the weekly task before the scheduled deadline, scheduled library meetings may be cancelled (with a unanimous vote from the entire Team).
+    - If a team member misses more than the maximum meetings allotted, the rest of the Team will convene and decide if further action (termination) is appropriate.
+    - If a team member misses ANY meeting without timely notice to the rest of the team, Bita will be notified and individual point will be deducted from that team member’s score for that weekly task.
+
+***Attendance***<br>
+- Team members must attend every class and meeting.
+    - Team member may miss no more than one class meeting AND one library meeting. (with timely notice to the rest of the Team) during the duration of the assignment.
+      If a team member is not available to physically attend a meeting, they may attend the meeting via video chat (eg. Google Hangouts, Skype) without penalization.
+
+***Communication***<br>
+- Team will be using Canvas mail tool, Google Hangouts and group texts to communicate.
+    - Team members must send out a message to the rest of the Team once they have completed their job.
+    - Team members must respond to messages requiring a response within one hour (unless a timely notice is given to the rest of the Team).
+    - If the Team decides an additional/emergency meeting is in order, then the meeting can be conducted either physically, in person, or virtually, by means of phone calls or video chats.
+***Deadlines***<br>
+- Deadlines are posted on the team schedule: https://goo.gl/4uPGc7
+    - Each team member must meet deadlines when submitting drafts, giving feedback ,to other team members, and turning deliverables in to Bita..
+    - If a team member misses one deadline, a warning will be given, and that team member will be required to submit feedback for the next task 24 hours in advance from the following deadline.
+    - If a team member misses two deadlines, the rest of the Team will convene and decide if further action (termination) is appropriate.
+    - If a team member misses more than one deadline, the rest of the Team will convene and decide if further action (termination) is appropriate.
+
+***Files***<br>
+- Team will be sharing files using Google Drive.
+    - Google Drive:https://goo.gl/DoS5ef
+
+***Backup and Recovery***<br>
+- Requirements for task not met
+    - If the requirements of the task submitted to Bita are not met and bounced back, an additional meeting (physical or virtual) must be held to discuss and fix all issues with the task, and re-submit as soon as possible.
+- Team member is uncommitted
+    - If a team member is constantly missing deadlines, unresponsive to messages, and not attending meetings, the rest of the Team will convene and decide if further action (termination) is appropriate.
+- Team member is uncooperative
+    - If a team member is unwilling to consider other team members’ ideas and/or input, or is exhibiting negative behavior/attitudes towards the Team and the assignment, the rest of the Team will convene and decide if further action (termination) is appropriate.
+
+
+***IN WITNESS WHEREOF, the parties hereto have executed this assumptions on the date first above written.***
+
+1. Chunlei Li
+2. Stefano Mauri	
+3. Christian Wookey
+4. Junliu Zhang	
+5. Andre Zhu
+
+#### Constraints:
 * Non-Technical Constraints:
-  * Such as time limit
-  * add here...
-* Techinical Constraints:
-  * add here...]
+  * Time Limits: 5 weeks total for the project to be done
+  * Budget: project need to be done under lowest cost
+  * Art: project requires lots of art assets to be functional
+  * Subjective Requirements: the game should be fun, a non-objective judgement
+* Technical Constraints:
+  * Tools: IntelliJ, libGdx
+  * Performance: game should not be too demanding for the computer due to casual target audience
 
----
-
-##3.0	Deliverables and Milestones
+## 3.0	Deliverables and Milestones
 
 ### 3.1.	Project Deliverables 
 
-[What are the specific delivarables by your team?]
-
-[***Provide a list of deliverables***<sup>[4](#footnote_4)</sup> of any project artifacts.]
-
 Deliverables include:
-*	Software System Project Proposal.
-*	[design document]
-*	[user manual and installation instructions]
-*	[presentations]
-*	[any other documents]
-*	[UML overview of different components in your system (see NOTE below)]
-*   [UML diagram representing Architectural Pattern of your system (see NOTE below)]
-*	[implementation code]
-*	[unit tests and test suites (see NOTE below)]
-*	[This list may include product deployment activities that are necessary for the successful use of the system your team develops.]
-
- *<sup><a name="footnote_4">4</a></sup>Note: This list may be modified over the weeks until the final submission.* 
-
-NOTE: Required by final submission of project.
+*	Playable game
+* Instruction manual with controls 
+* Video demonstration of game
 
 
 
-### 3.2.	Schedule and Budget Summary [critical section]
-[What are the projected milestones and specific delivarables?]
-
-[Fill in your teams projected milestones. You will be modifying this over the next few weeks.]
-
-
-####Milestones
-
-| Item                       | Date            |
-| :--------------------------|:----------------|
-| Project Proposal           | April 13, 2016  |
-| Proposal Presentation      | April 14, 2016  |
-| [feature 1]                | [expected date] |
-| [feature 2]                | [expected date] |
-| ...                        | [expected date] |
-| Sprint 1                   | April 21, 2016  |
-| ...                        | [expected date] |
-| Demonstration and Delivery | May 12, 2016    |
+### 3.2.	Schedule and Budget Summary
+#### Milestones
+| Item                                    | Date              |
+| :---------------------------------------|:------------------|
+| Project Proposal                        | November 9, 2017  |
+| Project structure done; tasks assigned. | November 10, 2017 |
+| Player movement done, Map loading       | November 16, 2017 |
+| Collision between obstacles and player  | November 23, 2017 |
+|                                         | November 28, 2017 |
+|                                         | September 7, 2017 |
+| Final Presentation                      | December 14, 2017 |
