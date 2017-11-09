@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.*;
  * The player. Every level needs one.
  */
 public class Player {
-    private Vector2 force;
+    private Vector2 input;
     private Texture origTex;
     private TextureRegion tex;
     private float acceleration;
@@ -28,7 +28,7 @@ public class Player {
     public Player(Vector2 spawnLoc, float acceleration, float deAcceleration, float maxSpeed, World world) {
         this.origTex = new Texture("meatball_face.png");
         this.acceleration = acceleration;
-        this.force = new Vector2();
+        this.input = new Vector2();
         this.deAcceleration = deAcceleration;
         this.maxSpeed = maxSpeed;
         this.tex = new TextureRegion(origTex, 32, 32, 32, 32);
@@ -41,103 +41,56 @@ public class Player {
      * @param force the new force
      */
     public void setForce(Vector2 force) {
-        this.force = force;
+        this.input = force;
     }
 
-    public void update(Body body)
-    {
-        Vector2 velocity = new Vector2();
-        force = new Vector2();
+    public void update(Body body) {
+        input = new Vector2();
         boolean up, down, left, right;
         up = (Gdx.input.isKeyPressed(Input.Keys.UP));
         down = (Gdx.input.isKeyPressed(Input.Keys.DOWN));
         left = (Gdx.input.isKeyPressed(Input.Keys.LEFT));
         right = (Gdx.input.isKeyPressed(Input.Keys.RIGHT));
-        if (up&&down)
-            force.y = 0;
+        if (up && down)
+            input.y = 0;
         else if (up)
-            force.y = 1;
+            input.y = 1;
         else if (down)
-            force.y = -1;
-        if (left&&right)
-            force.x = 0;
+            input.y = -1;
+        if (left && right)
+            input.x = 0;
         else if (left)
-            force.x = -1;
+            input.x = -1;
         else if (right)
-            force.x = 1;
+            input.x = 1;
 
-        float vX = body.getLinearVelocity().x;
-        float vY = body.getLinearVelocity().y;
-        Vector2 velocityNormal = new Vector2(body.getLinearVelocity().x, body.getLinearVelocity().y).nor();
+        Vector2 velocity = body.getLinearVelocity();
+        float vX = velocity.x;
+        float vY = velocity.y;
+        Vector2 velocityNormal = new Vector2(vX, vY).nor();
 
-        if (Math.abs(force.x) > 0) {
-            vX = vX + force.x*acceleration;
+        if (Math.abs(input.x) > 0) {
+            vX = vX + input.x * acceleration;
         } else {
-            vX = vX - velocityNormal.x*deAcceleration;
+            vX = vX - velocityNormal.x * deAcceleration;
         }
-        if (Math.abs(force.y) > 0) {
-            vY = vY + force.y*acceleration;
+        if (Math.abs(input.y) > 0) {
+            vY = vY + input.y * acceleration;
         } else {
-            vY = vY - velocityNormal.y*deAcceleration;
+            vY = vY - velocityNormal.y * deAcceleration;
         }
 
-        body.setLinearVelocity(new Vector2(vX, vY));
-        if (body.getAngularVelocity() > maxSpeed)
+        body.setLinearVelocity(vX, vY);
+
+        if (body.getLinearVelocity().len() > maxSpeed)
             body.getLinearVelocity().nor().scl(maxSpeed);
-    }
 
-    /**
-     * Updates the player's velocity vector and location.
-     * @param dt The delta-time.
-     */
-    public void update(float dt)
-    {
-        force = new Vector2();
-        boolean up, down, left, right;
-        up = (Gdx.input.isKeyPressed(Input.Keys.UP));
-        down = (Gdx.input.isKeyPressed(Input.Keys.DOWN));
-        left = (Gdx.input.isKeyPressed(Input.Keys.LEFT));
-        right = (Gdx.input.isKeyPressed(Input.Keys.RIGHT));
-        if (up&&down)
-            force.y = 0;
-        else if (up)
-            force.y = 1;
-        else if (down)
-            force.y = -1;
-        if (left&&right)
-            force.x = 0;
-        else if (left)
-            force.x = -1;
-        else if (right)
-            force.x = 1;
-//
-//        float vX = getLinearVelocity().x;
-//        float vY = getLinearVelocity().y;
-//        Vector2 velocityNormal = new Vector2(getLinearVelocity().x, getLinearVelocity().y).nor();
-//
-//        if (Math.abs(force.x) > 0) {
-//            vX = vX + force.x*dt*acceleration;
-//        } else {
-//            vX = vX - velocityNormal.x*dt*deAcceleration;
-//        }
-//        if (Math.abs(force.y) > 0) {
-//            vY = vY + force.y*dt*acceleration;
-//        } else {
-//            vY = vY - velocityNormal.y*dt*deAcceleration;
-//        }
-
-//        setLinearVelocity(new Vector2(vX, vY));
-//        if (getAngularVelocity() > maxSpeed)
-//            getLinearVelocity().nor().scl(maxSpeed);
-
-//        System.out.println("vel_len: " + velocity.len());
-//        location.set(location.x + velocity.x, location.y + velocity.y);
-
-//        int y = Math.round(getPosition().y % 64f);
-//        int x = 64 + Math.round (-getPosition().x % 64f);
+        int y = Math.round(2*MeatGame.TO_PIXELS * body.getPosition().y % 64f);
+        int x = 64 - Math.round(2*MeatGame.TO_PIXELS * body.getPosition().x % 64f);
 //        System.out.println("y: " + y + ", x: " + x);
-//        tex = new TextureRegion(origTex, x, y, 32, 32);
+        tex = new TextureRegion(origTex, x, y, 32, 32);
     }
+
 
     public void dispose()
     {
