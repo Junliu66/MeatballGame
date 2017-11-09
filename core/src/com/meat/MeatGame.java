@@ -11,51 +11,54 @@ import com.badlogic.gdx.physics.box2d.*;
 public class MeatGame extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private Player player;
-	private Body playerBody;
 	private OrthographicCamera camera;
 	private World world;
 	private float accumulator;
-    private float TIME_STEP = 1/60f;
-    private int VELOCITY_ITERATIONS = 6;
-    private int POSITION_ITERATIONS = 2;
-
+    private static float TIME_STEP = 1/60f;
+    private static int VELOCITY_ITERATIONS = 6;
+    private static int POSITION_ITERATIONS = 2;
+    private Box2DDebugRenderer debugRenderer;
+    //public static float TO_METERS = 1f;//0.02f;
+    public static float TO_PIXELS = 50f;
 
 	@Override
 	public void create () {
 	    accumulator = 0f;
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 600);
-        batch = new SpriteBatch();
-
+		camera.setToOrtho(false, 16, 12);
         world = new World(new Vector2(), true);
 
-        player = new Player(new Vector2(100,100), 2, 3, 4, world);
+        debugRenderer = new Box2DDebugRenderer();
 
-        BodyDef playerDef = new BodyDef();
-        playerDef.type = BodyDef.BodyType.KinematicBody;
-        playerDef.position.set(new Vector2(100,100));
-        playerBody = world.createBody(playerDef);
-		CircleShape circle = new CircleShape();
-        circle.setRadius(6f);
+        batch = new SpriteBatch();
+
+        player = new Player(new Vector2(4,10), 200f, world);
+
+        Body wall;
+        BodyDef wallDef = new BodyDef();
+        wallDef.type = BodyDef.BodyType.StaticBody;
+        wallDef.position.set(5, 3);
+        wall = world.createBody(wallDef);
+        PolygonShape poly = new PolygonShape();
+        poly.setAsBox(2, 2);
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = circle;
-        Fixture fixture = playerBody.createFixture(fixtureDef);
-        circle.dispose();
+        fixtureDef.shape = poly;
+        wall.createFixture(fixtureDef);
+        poly.dispose();
 	}
 
 	@Override
 	public void render () {
 	    float dt = Gdx.graphics.getDeltaTime();
-
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(player.getTex(), playerBody.getPosition().x, playerBody.getPosition().y);
+		batch.draw(player.getTex(), player.getPosition().x * TO_PIXELS - player.getTex().getRegionWidth()/2, player.getPosition().y * TO_PIXELS - player.getTex().getRegionHeight()/2);
 		batch.end();
-
 		camera.update();
+        debugRenderer.render(world, camera.combined);
 
-		player.update(playerBody);
+		player.update();
 		doPhysicsStep(dt);
 	}
 
