@@ -167,7 +167,7 @@ Deliverables include:
 | Project Proposal                        | November 9, 2017  |
 | Project structure done; tasks assigned. | November 10, 2017 |
 | Player movement done, Map loading       | November 16, 2017 |
-| Collision between obstacles and player  | November 23, 2017 |
-|                                         | November 28, 2017 |
+| Player can fall off level               | November 23, 2017 |
+| Collision between obstacles and player  | November 28, 2017 |
 |                                         | September 7, 2017 |
 | Final Presentation                      | December 14, 2017 |
