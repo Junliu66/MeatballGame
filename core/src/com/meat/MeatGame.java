@@ -18,7 +18,6 @@ public class MeatGame extends ApplicationAdapter {
     private static int VELOCITY_ITERATIONS = 6;
     private static int POSITION_ITERATIONS = 2;
     private Box2DDebugRenderer debugRenderer;
-    //public static float TO_METERS = 1f;//0.02f;
     public static float TO_PIXELS = 50f;
 
 	@Override
@@ -53,7 +52,7 @@ public class MeatGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(player.getTex(), player.getPosition().x * TO_PIXELS - player.getTex().getRegionWidth()/2, player.getPosition().y * TO_PIXELS - player.getTex().getRegionHeight()/2);
+		player.render(batch);
 		batch.end();
 		camera.update();
         debugRenderer.render(world, camera.combined);
