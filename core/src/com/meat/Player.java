@@ -86,8 +86,6 @@ public class Player {
 
     public static Pixmap roundPixmap(Pixmap pixmap, int xOff, int yOff, int radius)
     {
-        Gdx.app.log("xOff", "" + xOff);
-        Gdx.app.log("yOff", "" + yOff);
         Pixmap round = new Pixmap(radius*2, radius*2, Pixmap.Format.RGBA8888);
         for(int y=yOff; y<radius*2+yOff; y++)
         {
