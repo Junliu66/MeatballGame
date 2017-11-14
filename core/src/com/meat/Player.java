@@ -20,22 +20,28 @@ public class Player {
     private Body body;
     private int textureOffsetX;
     private int textureOffsetY;
+    private boolean isPlayerOne;
+    private static Pixmap bloodTrail = new Pixmap(800, 600, Pixmap.Format.RGBA8888);;
+    private Pixmap blood;
+    private Vector2 lastPos;
 
     /**
      *
      * @param spawnLoc The location the player spawns in the game.
      * @param acceleration How fast the player accelerates.
      */
-    public Player(Vector2 spawnLoc, float acceleration, World world) {
+    public Player(Vector2 spawnLoc, float acceleration, World world, boolean isPlayerOne) {
         this.meatTexture = new Texture("meatball_texture.png");
         this.acceleration = acceleration;
         this.input = new Vector2();
+        this.isPlayerOne = isPlayerOne;
+        blood = new Pixmap(Gdx.files.internal("meat_splatter.png"));
 
         textureOffsetX = 0;
         textureOffsetY = 0;
         BodyDef playerDef = new BodyDef();
         playerDef.type = BodyDef.BodyType.DynamicBody;
-        playerDef.position.set(4, 10);
+        playerDef.position.set(spawnLoc);
         playerDef.fixedRotation = true;
         playerDef.linearDamping = 0.5f;
         body = world.createBody(playerDef);
@@ -47,19 +53,25 @@ public class Player {
         fixtureDef.friction = 0.5f;
         fixtureDef.density = 300f;
         body.createFixture(fixtureDef);
+        lastPos = new Vector2(body.getPosition().x, body.getPosition().y);
         circle.dispose();
     }
-
-
-    public Vector2 getPosition() {return body.getPosition();}
 
     public void update() {
         input = new Vector2();
         boolean up, down, left, right;
-        up = (Gdx.input.isKeyPressed(Input.Keys.UP));
-        down = (Gdx.input.isKeyPressed(Input.Keys.DOWN));
-        left = (Gdx.input.isKeyPressed(Input.Keys.LEFT));
-        right = (Gdx.input.isKeyPressed(Input.Keys.RIGHT));
+        if (isPlayerOne)
+        {
+            up = (Gdx.input.isKeyPressed(Input.Keys.UP));
+            down = (Gdx.input.isKeyPressed(Input.Keys.DOWN));
+            left = (Gdx.input.isKeyPressed(Input.Keys.LEFT));
+            right = (Gdx.input.isKeyPressed(Input.Keys.RIGHT));
+        } else {
+            up = (Gdx.input.isKeyPressed(Input.Keys.W));
+            down = (Gdx.input.isKeyPressed(Input.Keys.S));
+            left = (Gdx.input.isKeyPressed(Input.Keys.A));
+            right = (Gdx.input.isKeyPressed(Input.Keys.D));
+        }
         if (up && down)
             input.y = 0;
         else if (up)
@@ -79,10 +91,35 @@ public class Player {
     public void render(SpriteBatch batch)
     {
         int y = Math.round(2* TO_PIXELS * body.getPosition().y % 64f);
-        int x = 64 - Math.round(2* TO_PIXELS * body.getPosition().x % 64f);
+        int x = -Math.round(2* TO_PIXELS * body.getPosition().x % 64f);
+        if (x < 0) {
+            x += 64;
+        }
+        if (y < 0) {
+            y += 64;
+        }
         Pixmap p = roundPixmap(new Pixmap(Gdx.files.internal("meatball_texture.png")), x+textureOffsetX, y+textureOffsetY, 16);
-        batch.draw(new Texture(p), body.getPosition().x * TO_PIXELS - 16, body.getPosition().y * TO_PIXELS - 16);
+        meatTexture = new Texture(p);
+
+        if (!isPlayerOne)
+            batch.setColor(Color.GRAY);
+        if (lastPos.dst(body.getPosition()) > 0.2) {
+            Pixmap bloodRotated = rotatePixmap(blood, (float) ( (Math.atan2(body.getLinearVelocity().x, body.getLinearVelocity().y) + 0) / (2*Math.PI) ) * 360f + 90f);
+            bloodTrail.drawPixmap(bloodRotated, (int) (body.getPosition().x * TO_PIXELS - 8), (int) (600 - body.getPosition().y * TO_PIXELS - 8));
+             bloodRotated.dispose();
+            lastPos = new Vector2(body.getPosition().x, body.getPosition().y);
+        }
+
+        Texture bT = new Texture(bloodTrail);
+        if (isPlayerOne)
+            batch.draw(bT, 0, 0);
+        batch.draw(meatTexture, body.getPosition().x * TO_PIXELS - 16, body.getPosition().y * TO_PIXELS - 16);
+        if (!isPlayerOne)
+            batch.setColor(Color.WHITE);
+        bT.dispose();
     }
+
+    public Vector2 getPosition() {return body.getPosition();}
 
     public static Pixmap roundPixmap(Pixmap pixmap, int xOff, int yOff, int radius)
     {
@@ -111,8 +148,36 @@ public class Player {
         return round;
     }
 
+    public Pixmap rotatePixmap (Pixmap src, float angle){
+        Gdx.app.log("angle", ""+angle);
+        final int width = src.getWidth();
+        final int height = src.getHeight();
+        Pixmap rotated = new Pixmap(width, height, src.getFormat());
+
+        final double radians = Math.toRadians(angle), cos = Math.cos(radians), sin = Math.sin(radians);
+
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                final int
+                        centerx = width/2, centery = height / 2,
+                        m = x - centerx,
+                        n = y - centery,
+                        j = ((int) (m * cos + n * sin)) + centerx,
+                        k = ((int) (n * cos - m * sin)) + centery;
+                if (j >= 0 && j < width && k >= 0 && k < height){
+                    rotated.drawPixel(x, y, src.getPixel(k, j));
+                }
+            }
+        }
+        return rotated;
+
+    }
+
     public void dispose()
     {
         meatTexture.dispose();
+        blood.dispose();
+        bloodTrail.dispose();
     }
 }

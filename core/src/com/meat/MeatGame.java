@@ -10,8 +10,9 @@ import com.badlogic.gdx.physics.box2d.*;
 
 public class MeatGame extends ApplicationAdapter {
 	private SpriteBatch batch;
-	private Player player;
-	private OrthographicCamera camera;
+    private Player player;
+    private OrthographicCamera camera;
+    private OrthographicCamera box2DCamera;
 	private World world;
 	private float accumulator;
     private static float TIME_STEP = 1/60f;
@@ -23,15 +24,17 @@ public class MeatGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 	    accumulator = 0f;
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 16, 12);
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 800, 600);
+        box2DCamera = new OrthographicCamera();
+        box2DCamera.setToOrtho(false, 16, 12);
         world = new World(new Vector2(), true);
 
         debugRenderer = new Box2DDebugRenderer();
 
         batch = new SpriteBatch();
 
-        player = new Player(new Vector2(4,10), 200f, world);
+        player = new Player(new Vector2(4,10), 200f, world, true);
 
         Body wall;
         BodyDef wallDef = new BodyDef();
@@ -51,11 +54,17 @@ public class MeatGame extends ApplicationAdapter {
 	    float dt = Gdx.graphics.getDeltaTime();
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
+
+        camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
+        box2DCamera.position.set(player.getPosition(), 0);
+        camera.update();
+        box2DCamera.update();
+
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
 		player.render(batch);
 		batch.end();
-		camera.update();
-        debugRenderer.render(world, camera.combined);
+        debugRenderer.render(world, box2DCamera.combined);
 
 		player.update();
 		doPhysicsStep(dt);
