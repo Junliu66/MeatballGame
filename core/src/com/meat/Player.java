@@ -3,6 +3,7 @@ package com.meat;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,10 +21,8 @@ public class Player {
     private Body body;
     private int textureOffsetX;
     private int textureOffsetY;
-
     /**
-     *
-     * @param spawnLoc The location the player spawns in the game.
+     *  @param spawnLoc The location the player spawns in the game.
      * @param acceleration How fast the player accelerates.
      */
     public Player(Vector2 spawnLoc, float acceleration, World world) {
@@ -74,6 +73,7 @@ public class Player {
             input.x = 1;
 
         body.applyForceToCenter(input.scl(acceleration), true);
+
     }
 
     public void render(SpriteBatch batch)
