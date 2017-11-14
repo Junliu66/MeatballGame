@@ -4,11 +4,19 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class MeatGame extends ApplicationAdapter {
+    Texture img;
+    TiledMap tiledMap;
+    TiledMapRenderer tiledMapRenderer;
 	private SpriteBatch batch;
     private Player player;
     private OrthographicCamera camera;
@@ -23,11 +31,17 @@ public class MeatGame extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+	    float w = Gdx.graphics.getWidth();
+	    float h = Gdx.graphics.getHeight();
+
 	    accumulator = 0f;
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 600);
-        box2DCamera = new OrthographicCamera();
-        box2DCamera.setToOrtho(false, 16, 12);
+	    box2DCamera = new OrthographicCamera();
+	    box2DCamera.setToOrtho(false, 16, 12);
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, w, h);
+        tiledMap = new TmxMapLoader().load("testlevel1.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        //Gdx.input.setInputProcessor(this);
         world = new World(new Vector2(), true);
 
         debugRenderer = new Box2DDebugRenderer();
@@ -60,10 +74,14 @@ public class MeatGame extends ApplicationAdapter {
         camera.update();
         box2DCamera.update();
 
-        batch.setProjectionMatrix(camera.combined);
+		tiledMapRenderer.setView(camera);
+        tiledMapRenderer.render();
+
         batch.begin();
+        batch.setProjectionMatrix(camera.combined);
 		player.render(batch);
 		batch.end();
+
         debugRenderer.render(world, box2DCamera.combined);
 
 		player.update();
