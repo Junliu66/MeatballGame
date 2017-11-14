@@ -18,8 +18,9 @@ public class MeatGame extends ApplicationAdapter {
     TiledMap tiledMap;
     TiledMapRenderer tiledMapRenderer;
 	private SpriteBatch batch;
-	private Player player;
-	private OrthographicCamera camera;
+    private Player player;
+    private OrthographicCamera camera;
+    private OrthographicCamera box2DCamera;
 	private World world;
 	private float accumulator;
     private static float TIME_STEP = 1/60f;
@@ -35,17 +36,14 @@ public class MeatGame extends ApplicationAdapter {
 
 	    accumulator = 0f;
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, w, h);
-        tiledMap = new TmxMapLoader().load("testlevel1.tmx");
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        //Gdx.input.setInputProcessor(this);
-		world = new World(new Vector2(), true);
+		camera.setToOrtho(false, 16, 12);
+        world = new World(new Vector2(), true);
 
         debugRenderer = new Box2DDebugRenderer();
 
         batch = new SpriteBatch();
 
-        player = new Player(new Vector2(w/2,h/2), 200f, world);
+        player = new Player(new Vector2(4,10), 200f, world, true);
 
         Body wall;
         BodyDef wallDef = new BodyDef();
@@ -66,18 +64,19 @@ public class MeatGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
-		tiledMapRenderer.setView(camera);
-		tiledMapRenderer.render();
-       //debugRenderer.render(world, camera.combined);
-        batch.begin();
-        player.render(batch);
-        batch.end();
-        doPhysicsStep(dt);
-		player.update();
-		camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
+        camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
+        box2DCamera.position.set(player.getPosition(), 0);
         camera.update();
+        box2DCamera.update();
 
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+		player.render(batch);
+		batch.end();
+        debugRenderer.render(world, box2DCamera.combined);
+
+		player.update();
+		doPhysicsStep(dt);
 	}
 
     private void doPhysicsStep(float deltaTime) {
