@@ -35,8 +35,13 @@ public class MeatGame extends ApplicationAdapter {
 	    float h = Gdx.graphics.getHeight();
 
 	    accumulator = 0f;
+	    box2DCamera = new OrthographicCamera();
+	    box2DCamera.setToOrtho(false, 16, 12);
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 16, 12);
+		camera.setToOrtho(false, w, h);
+        tiledMap = new TmxMapLoader().load("testlevel1.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        //Gdx.input.setInputProcessor(this);
         world = new World(new Vector2(), true);
 
         debugRenderer = new Box2DDebugRenderer();
@@ -69,10 +74,14 @@ public class MeatGame extends ApplicationAdapter {
         camera.update();
         box2DCamera.update();
 
-        batch.setProjectionMatrix(camera.combined);
+		tiledMapRenderer.setView(camera);
+        tiledMapRenderer.render();
+
         batch.begin();
+        batch.setProjectionMatrix(camera.combined);
 		player.render(batch);
 		batch.end();
+
         debugRenderer.render(world, box2DCamera.combined);
 
 		player.update();
