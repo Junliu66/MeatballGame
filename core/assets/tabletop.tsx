@@ -4,8 +4,9 @@
  <terraintypes>
   <terrain name="table" tile="0"/>
   <terrain name="floor" tile="0"/>
+  <terrain name="checkerboard" tile="0"/>
  </terraintypes>
- <tile id="0" terrain="1,1,1,1"/>
+ <tile id="0" terrain="2,2,2,2"/>
  <tile id="1" terrain="1,1,1,1"/>
  <tile id="2" terrain="1,1,1,1"/>
  <tile id="3" terrain="1,1,1,0"/>
