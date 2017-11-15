@@ -82,7 +82,7 @@ public class MeatGame extends ApplicationAdapter {
 		player.render(batch);
 		batch.end();
 
-        debugRenderer.render(world, box2DCamera.combined);
+//        debugRenderer.render(world, box2DCamera.combined);
 
 		player.update();
 		doPhysicsStep(dt);
@@ -103,5 +103,7 @@ public class MeatGame extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 		player.dispose();
+		world.dispose();
+		tiledMap.dispose();
 	}
 }

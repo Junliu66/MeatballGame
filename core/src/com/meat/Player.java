@@ -23,6 +23,7 @@ public class Player {
     private boolean isPlayerOne;
     private static Pixmap bloodTrail = new Pixmap(800, 600, Pixmap.Format.RGBA8888);;
     private Pixmap blood;
+    private Pixmap baseMeatPixmap;
     private Vector2 lastPos;
 
     /**
@@ -36,7 +37,7 @@ public class Player {
         this.input = new Vector2();
         this.isPlayerOne = isPlayerOne;
         blood = new Pixmap(Gdx.files.internal("meat_splatter.png"));
-
+        baseMeatPixmap = new Pixmap(Gdx.files.internal("meatball_texture.png"));
         textureOffsetX = 0;
         textureOffsetY = 0;
         BodyDef playerDef = new BodyDef();
@@ -98,15 +99,16 @@ public class Player {
         if (y < 0) {
             y += 64;
         }
-        Pixmap p = roundPixmap(new Pixmap(Gdx.files.internal("meatball_texture.png")), x+textureOffsetX, y+textureOffsetY, 16);
+        Pixmap p = roundPixmap(baseMeatPixmap, x+textureOffsetX, y+textureOffsetY, 16);
         meatTexture = new Texture(p);
+        p.dispose();
 
         if (!isPlayerOne)
             batch.setColor(Color.GRAY);
         if (lastPos.dst(body.getPosition()) > 0.2) {
             Pixmap bloodRotated = rotatePixmap(blood, (float) ( (Math.atan2(body.getLinearVelocity().x, body.getLinearVelocity().y) + 0) / (2*Math.PI) ) * 360f + 90f);
             bloodTrail.drawPixmap(bloodRotated, (int) (body.getPosition().x * TO_PIXELS - 8), (int) (600 - body.getPosition().y * TO_PIXELS - 8));
-             bloodRotated.dispose();
+            bloodRotated.dispose();
             lastPos = new Vector2(body.getPosition().x, body.getPosition().y);
         }
 
@@ -128,18 +130,18 @@ public class Player {
         {
             for(int x=xOff; x<radius*2+xOff; x++)
             {
-                //check if pixel is outside circle. Set pixel to transparant;
+                //check if pixel is outside circle. Set pixel to transparent;
                 double dist_x = radius - x + xOff;
                 double dist_y = radius - y + yOff;
                 double dist = Math.sqrt((dist_x*dist_x) + (dist_y*dist_y));
-                if(dist < radius)
+                if(dist < radius-1)
                     round.drawPixel(x-xOff, y-yOff, pixmap.getPixel(x, y));
                 if (dist < radius-3) {}
                 else if (dist < radius-2)
                     round.drawPixel(x-xOff, y-yOff, Color.rgba8888(0,0,0,0.3f));
                 else if (dist < radius-1)
                     round.drawPixel(x-xOff, y-yOff, Color.rgba8888(0,0,0,0.7f));
-                else if (dist < radius)
+                else if (dist <= radius)
                     round.drawPixel(x-xOff, y-yOff, Color.rgba8888(0,0,0,1));
                 else
                     round.drawPixel(x-xOff, y-yOff, 0);
@@ -177,6 +179,7 @@ public class Player {
     public void dispose()
     {
         meatTexture.dispose();
+        baseMeatPixmap.dispose();
         blood.dispose();
         bloodTrail.dispose();
     }
