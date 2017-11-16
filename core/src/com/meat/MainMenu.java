@@ -24,9 +24,6 @@ public class MainMenu implements Screen {
     Button btnPlay;
     Button btnHelp;
     Button btnExit;
-    Button btnPlaySmall;
-    Button btnHelpSmall;
-    Button btnExitSmall;
     private Texture myTexture;
     private TextureRegion myTextureRegion;
     private TextureRegionDrawable myTexRegionDrawable;
@@ -137,6 +134,8 @@ public class MainMenu implements Screen {
             }
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
+                game.setScreen(new MeatGame(game));
 
             }
         };

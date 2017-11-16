@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 
-public class MainGame extends Game {
+public class MainGame extends GameHandler {
 
     @Override
     public void create () {
