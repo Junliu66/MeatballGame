@@ -3,11 +3,13 @@ package com.meat;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -29,6 +31,9 @@ public class MainMenu extends Game {
     Button btnHelp;
     Button btnSettings;
     Button btnExit;
+    Button btnPlaySmall;
+    Button btnHelpSmall;
+    Button btnExitSmall;
     private Texture myTexture;
     private TextureRegion myTextureRegion;
     private TextureRegionDrawable myTexRegionDrawable;
@@ -38,9 +43,13 @@ public class MainMenu extends Game {
 
     Texture texture;
 
-    @Override
-    public void create () {
 
+    public MainMenu(Game game){
+        this.game = game;
+    }
+
+    private Game game;
+    public void create() {
         stage = new Stage(new ScreenViewport());
         texture = new Texture("mainMenu.png");
         Image image= new Image(texture);
@@ -90,7 +99,7 @@ public class MainMenu extends Game {
     }
 
     @Override
-    public void render () {
+    public void render(float delta) {
 
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -104,12 +113,47 @@ public class MainMenu extends Game {
     }
 
     @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
     public void dispose() {
         batch.dispose();
     }
 
     private ClickListener getPlayListener(){
         return new ClickListener(){
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                btnPlay.setHeight(70);
+                btnPlay.setWidth(70);
+                btnPlay.setPosition(400,120,0);
+
+                stage.draw();
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                btnPlay.setHeight(100);
+                btnPlay.setWidth(100);
+                btnPlay.setPosition(400,120,0);
+
+                stage.draw();
+            }
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
@@ -119,8 +163,27 @@ public class MainMenu extends Game {
 
     private ClickListener getHelpListener(){
         return new ClickListener(){
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                btnHelp.setHeight(70);
+                btnHelp.setWidth(70);
+                btnHelp.setPosition(400,80,0);
+
+                stage.draw();
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                btnHelp.setHeight(100);
+                btnHelp.setWidth(100);
+                btnHelp.setPosition(400,80,0);
+
+                stage.draw();
+            }
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
+                stage.draw();
+                game.setScreen(new HelpScreen(game));
+
 
 
             }
@@ -138,8 +201,25 @@ public class MainMenu extends Game {
 
     private ClickListener getExitListener(){
         return new ClickListener(){
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                btnExit.setHeight(70);
+                btnExit.setWidth(70);
+                btnExit.setPosition(400,40,0);
+
+                stage.draw();
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                btnExit.setHeight(100);
+                btnExit.setWidth(100);
+                btnExit.setPosition(400,40,0);
+
+                stage.draw();
+            }
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
+                stage.draw();
                 Gdx.app.exit();
             }
         };
