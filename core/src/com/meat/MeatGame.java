@@ -99,7 +99,7 @@ public class MeatGame extends ApplicationAdapter {
             accumulator -= TIME_STEP;
         }
     }
-	
+
 	@Override
 	public void dispose () {
 		batch.dispose();
