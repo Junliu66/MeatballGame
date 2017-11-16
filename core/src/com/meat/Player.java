@@ -62,15 +62,15 @@ public class Player {
         boolean up, down, left, right;
         if (isPlayerOne)
         {
-            up = (Gdx.input.isKeyPressed(Input.Keys.UP));
-            down = (Gdx.input.isKeyPressed(Input.Keys.DOWN));
-            left = (Gdx.input.isKeyPressed(Input.Keys.LEFT));
-            right = (Gdx.input.isKeyPressed(Input.Keys.RIGHT));
+            up = (Gdx.input.isKeyPressed(Config.player1Up));
+            down = (Gdx.input.isKeyPressed(Config.player1Down));
+            left = (Gdx.input.isKeyPressed(Config.player1Left));
+            right = (Gdx.input.isKeyPressed(Config.player1Right));
         } else {
-            up = (Gdx.input.isKeyPressed(Input.Keys.W));
-            down = (Gdx.input.isKeyPressed(Input.Keys.S));
-            left = (Gdx.input.isKeyPressed(Input.Keys.A));
-            right = (Gdx.input.isKeyPressed(Input.Keys.D));
+            up = (Gdx.input.isKeyPressed(Config.player2Up));
+            down = (Gdx.input.isKeyPressed(Config.player2Down));
+            left = (Gdx.input.isKeyPressed(Config.player2Left));
+            right = (Gdx.input.isKeyPressed(Config.player1Right));
         }
         if (up && down)
             input.y = 0;
