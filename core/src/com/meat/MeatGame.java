@@ -1,7 +1,7 @@
 package com.meat;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,7 +14,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
-public class MeatGame extends ApplicationAdapter {
+public class MeatGame implements Screen {
     Texture img;
     TiledMap tiledMap, collisionMap;
     TiledMapRenderer tiledMapRenderer, collisionMapRenderer;
@@ -31,8 +31,7 @@ public class MeatGame extends ApplicationAdapter {
     private Box2DDebugRenderer debugRenderer;
     public static float TO_PIXELS = 50f;
 
-    @Override
-    public void create () {
+    public MeatGame (final GameHandler game) {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
@@ -70,8 +69,7 @@ public class MeatGame extends ApplicationAdapter {
     }
 
     @Override
-    public void render () {
-        float dt = Gdx.graphics.getDeltaTime();
+    public void render (float dt) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -105,6 +103,31 @@ public class MeatGame extends ApplicationAdapter {
             world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
             accumulator -= TIME_STEP;
         }
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
     @Override
