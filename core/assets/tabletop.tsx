@@ -4,7 +4,7 @@
  <terraintypes>
   <terrain name="table" tile="0">
    <properties>
-    <property name="solid" type="bool" value="true"/>
+    <property name="solid" type="bool" value="false"/>
    </properties>
   </terrain>
   <terrain name="floor" tile="0">
@@ -39,19 +39,36 @@
  <tile id="18" terrain="1,1,1,1"/>
  <tile id="19" terrain="1,1,1,1"/>
  <tile id="20" terrain="1,1,1,1"/>
- <tile id="21" terrain="1,1,1,0"/>
- <tile id="22" terrain="1,1,0,0"/>
+ <tile id="21" terrain="1,1,1,0">
+  <objectgroup draworder="index"/>
+ </tile>
+ <tile id="22" terrain="1,1,0,0">
+  <objectgroup draworder="index"/>
+ </tile>
  <tile id="23" terrain="1,1,0,1"/>
  <tile id="24" terrain="0,0,0,1"/>
  <tile id="25" terrain="0,0,1,0"/>
  <tile id="26" terrain="1,1,1,1"/>
- <tile id="27" terrain="1,0,1,0"/>
- <tile id="28" terrain="0,0,0,0"/>
- <tile id="29" terrain="0,1,0,1"/>
+ <tile id="27" terrain="1,0,1,0">
+  <objectgroup draworder="index"/>
+ </tile>
+ <tile id="28" terrain="0,0,0,0">
+  <objectgroup draworder="index">
+   <object id="1" x="-0.217391" y="-0.130435" width="32.1304" height="32.1739"/>
+  </objectgroup>
+ </tile>
+ <tile id="29" terrain="0,1,0,1">
+  <objectgroup draworder="index"/>
+ </tile>
  <tile id="30" terrain="0,1,0,0"/>
  <tile id="31" terrain="1,0,0,0"/>
  <tile id="32" terrain="1,1,1,1"/>
  <tile id="33" terrain="1,0,1,1"/>
- <tile id="34" terrain="0,0,1,1"/>
+ <tile id="34" terrain="0,0,1,1">
+  <objectgroup draworder="index"/>
+ </tile>
  <tile id="35" terrain="0,1,1,1"/>
+ <wangsets>
+  <wangset name="New Wang Set" tile="-1"/>
+ </wangsets>
 </tileset>

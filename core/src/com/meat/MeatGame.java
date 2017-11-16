@@ -1,10 +1,10 @@
 package com.meat;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -14,8 +14,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
-public class MeatGame extends ApplicationAdapter {
-    Texture img;
+public class MeatGame implements Screen {
     TiledMap tiledMap;
     TiledMapRenderer tiledMapRenderer;
 	private SpriteBatch batch;
@@ -30,17 +29,15 @@ public class MeatGame extends ApplicationAdapter {
     private Box2DDebugRenderer debugRenderer;
     public static float TO_PIXELS = 50f;
 
-	@Override
-	public void create () {
+	public MeatGame(final GameHandler game){
 	    float w = Gdx.graphics.getWidth();
 	    float h = Gdx.graphics.getHeight();
-
 	    accumulator = 0f;
 	    box2DCamera = new OrthographicCamera();
 	    box2DCamera.setToOrtho(false, 16, 12);
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, w, h);
-        tiledMap = new TmxMapLoader().load("testlevel1.tmx");
+        tiledMap = new TmxMapLoader().load("test2.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         //Gdx.input.setInputProcessor(this);
         world = new World(new Vector2(), true);
@@ -49,7 +46,7 @@ public class MeatGame extends ApplicationAdapter {
 
         batch = new SpriteBatch();
 
-        player = new Player(new Vector2(4,10), 200f, world, true);
+        player = new Player(new Vector2(4,10), 400f, world, true);
 
         Body wall;
         BodyDef wallDef = new BodyDef();
@@ -65,8 +62,7 @@ public class MeatGame extends ApplicationAdapter {
 	}
 
 	@Override
-	public void render () {
-	    float dt = Gdx.graphics.getDeltaTime();
+	public void render (float dt) {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -100,7 +96,32 @@ public class MeatGame extends ApplicationAdapter {
         }
     }
 
-	@Override
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
+    }
+
+    @Override
 	public void dispose () {
 		batch.dispose();
 		player.dispose();
