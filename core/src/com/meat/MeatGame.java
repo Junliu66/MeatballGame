@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -69,7 +70,7 @@ public class MeatGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
+        camera.position.set((int) player.getPosition().scl(TO_PIXELS).x, (int) player.getPosition().scl(TO_PIXELS).y, 0);
         box2DCamera.position.set(player.getPosition(), 0);
         camera.update();
         box2DCamera.update();

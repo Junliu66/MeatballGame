@@ -15,16 +15,17 @@ import static com.meat.MeatGame.TO_PIXELS;
  */
 public class Player {
     private Vector2 input;
-    private Texture meatTexture;
     private float acceleration;
     private Body body;
     private int textureOffsetX;
     private int textureOffsetY;
     private boolean isPlayerOne;
-    private static Pixmap bloodTrail = new Pixmap(800, 600, Pixmap.Format.RGBA8888);;
+    private static Pixmap bloodTrail = new Pixmap(800, 600, Pixmap.Format.RGBA8888);
     private Pixmap blood;
     private Pixmap baseMeatPixmap;
+    private static Pixmap roundMeatPixmap = new Pixmap(32,32, Pixmap.Format.RGBA8888);
     private Vector2 lastPos;
+    public Texture roundMeat;
 
     /**
      *
@@ -32,7 +33,6 @@ public class Player {
      * @param acceleration How fast the player accelerates.
      */
     public Player(Vector2 spawnLoc, float acceleration, World world, boolean isPlayerOne) {
-        this.meatTexture = new Texture("meatball_texture.png");
         this.acceleration = acceleration;
         this.input = new Vector2();
         this.isPlayerOne = isPlayerOne;
@@ -99,13 +99,10 @@ public class Player {
         if (y < 0) {
             y += 64;
         }
-        Pixmap p = roundPixmap(baseMeatPixmap, x+textureOffsetX, y+textureOffsetY, 16);
-        meatTexture = new Texture(p);
-        p.dispose();
 
-        if (!isPlayerOne)
-            batch.setColor(Color.GRAY);
-        if (lastPos.dst(body.getPosition()) > 0.2) {
+        roundMeatPixmap = roundPixmap(baseMeatPixmap, x+textureOffsetX, y+textureOffsetY, 16);
+
+        if (lastPos.dst(body.getPosition()) > Math.random()*0.4) {
             Pixmap bloodRotated = rotatePixmap(blood, (float) ( (Math.atan2(body.getLinearVelocity().x, body.getLinearVelocity().y) + 0) / (2*Math.PI) ) * 360f + 90f);
             bloodTrail.drawPixmap(bloodRotated, (int) (body.getPosition().x * TO_PIXELS - 8), (int) (600 - body.getPosition().y * TO_PIXELS - 8));
             bloodRotated.dispose();
@@ -113,11 +110,10 @@ public class Player {
         }
 
         Texture bT = new Texture(bloodTrail);
-        if (isPlayerOne)
-            batch.draw(bT, 0, 0);
-        batch.draw(meatTexture, body.getPosition().x * TO_PIXELS - 16, body.getPosition().y * TO_PIXELS - 16);
-        if (!isPlayerOne)
-            batch.setColor(Color.WHITE);
+        roundMeat = new Texture(roundMeatPixmap);
+
+        batch.draw(bT, 0, 0);
+        batch.draw(roundMeat, body.getPosition().x * TO_PIXELS - 16, body.getPosition().y * TO_PIXELS - 16);
         bT.dispose();
     }
 
@@ -151,13 +147,11 @@ public class Player {
     }
 
     public Pixmap rotatePixmap (Pixmap src, float angle){
-        Gdx.app.log("angle", ""+angle);
         final int width = src.getWidth();
         final int height = src.getHeight();
         Pixmap rotated = new Pixmap(width, height, src.getFormat());
 
         final double radians = Math.toRadians(angle), cos = Math.cos(radians), sin = Math.sin(radians);
-
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -173,14 +167,13 @@ public class Player {
             }
         }
         return rotated;
-
     }
 
     public void dispose()
     {
-        meatTexture.dispose();
         baseMeatPixmap.dispose();
         blood.dispose();
         bloodTrail.dispose();
     }
+
 }
