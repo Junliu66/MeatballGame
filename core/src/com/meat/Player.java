@@ -5,8 +5,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+
 import static com.meat.MeatGame.TO_PIXELS;
 
 /**
@@ -14,29 +17,30 @@ import static com.meat.MeatGame.TO_PIXELS;
  */
 public class Player {
     private Vector2 input;
+    private Texture meatTexture;
     private float acceleration;
     private Body body;
     private int textureOffsetX;
     private int textureOffsetY;
     private boolean isPlayerOne;
-    private static Pixmap bloodTrail = new Pixmap(800, 600, Pixmap.Format.RGBA8888);
+    private static Pixmap bloodTrail = new Pixmap(800, 600, Pixmap.Format.RGBA8888);;
     private Pixmap blood;
-    private Pixmap baseMeatPixmap;
-    private static Pixmap roundMeatPixmap = new Pixmap(32,32, Pixmap.Format.RGBA8888);
     private Vector2 lastPos;
-    public Texture roundMeat;
+    TiledMapTileLayer collisionLayer;
 
     /**
-     *
-     * @param spawnLoc The location the player spawns in the game.
+     *  @param spawnLoc The location the player spawns in the game.
+     * @param collisionLayer
      * @param acceleration How fast the player accelerates.
      */
-    public Player(Vector2 spawnLoc, float acceleration, World world, boolean isPlayerOne) {
+    public Player(Vector2 spawnLoc, TiledMapTileLayer collisionLayer, float acceleration, World world, boolean isPlayerOne) {
+        this.meatTexture = new Texture("meatball_texture.png");
         this.acceleration = acceleration;
         this.input = new Vector2();
         this.isPlayerOne = isPlayerOne;
+        this.collisionLayer = collisionLayer;
         blood = new Pixmap(Gdx.files.internal("meat_splatter.png"));
-        baseMeatPixmap = new Pixmap(Gdx.files.internal("meatball_texture.png"));
+
         textureOffsetX = 0;
         textureOffsetY = 0;
         BodyDef playerDef = new BodyDef();
@@ -58,6 +62,7 @@ public class Player {
     }
 
     public void update() {
+        checkCollisionMap();
         input = new Vector2();
         boolean up, down, left, right;
         if (isPlayerOne)
@@ -98,10 +103,12 @@ public class Player {
         if (y < 0) {
             y += 64;
         }
+        Pixmap p = roundPixmap(new Pixmap(Gdx.files.internal("meatball_texture.png")), x+textureOffsetX, y+textureOffsetY, 16);
+        meatTexture = new Texture(p);
 
-        roundMeatPixmap = roundPixmap(baseMeatPixmap, x+textureOffsetX, y+textureOffsetY, 16);
-
-        if (lastPos.dst(body.getPosition()) > Math.random()*0.4) {
+        if (!isPlayerOne)
+            batch.setColor(Color.GRAY);
+        if (lastPos.dst(body.getPosition()) > 0.2) {
             Pixmap bloodRotated = rotatePixmap(blood, (float) ( (Math.atan2(body.getLinearVelocity().x, body.getLinearVelocity().y) + 0) / (2*Math.PI) ) * 360f + 90f);
             bloodTrail.drawPixmap(bloodRotated, (int) (body.getPosition().x * TO_PIXELS - 8), (int) (600 - body.getPosition().y * TO_PIXELS - 8));
             bloodRotated.dispose();
@@ -109,10 +116,11 @@ public class Player {
         }
 
         Texture bT = new Texture(bloodTrail);
-        roundMeat = new Texture(roundMeatPixmap);
-
-        batch.draw(bT, 0, 0);
-        batch.draw(roundMeat, body.getPosition().x * TO_PIXELS - 16, body.getPosition().y * TO_PIXELS - 16);
+        if (isPlayerOne)
+            batch.draw(bT, 0, 0);
+        batch.draw(meatTexture, body.getPosition().x * TO_PIXELS - 16, body.getPosition().y * TO_PIXELS - 16);
+        if (!isPlayerOne)
+            batch.setColor(Color.WHITE);
         bT.dispose();
     }
 
@@ -125,18 +133,18 @@ public class Player {
         {
             for(int x=xOff; x<radius*2+xOff; x++)
             {
-                //check if pixel is outside circle. Set pixel to transparent;
+                //check if pixel is outside circle. Set pixel to transparant;
                 double dist_x = radius - x + xOff;
                 double dist_y = radius - y + yOff;
                 double dist = Math.sqrt((dist_x*dist_x) + (dist_y*dist_y));
-                if(dist < radius-1)
+                if(dist < radius)
                     round.drawPixel(x-xOff, y-yOff, pixmap.getPixel(x, y));
                 if (dist < radius-3) {}
                 else if (dist < radius-2)
                     round.drawPixel(x-xOff, y-yOff, Color.rgba8888(0,0,0,0.3f));
                 else if (dist < radius-1)
                     round.drawPixel(x-xOff, y-yOff, Color.rgba8888(0,0,0,0.7f));
-                else if (dist <= radius)
+                else if (dist < radius)
                     round.drawPixel(x-xOff, y-yOff, Color.rgba8888(0,0,0,1));
                 else
                     round.drawPixel(x-xOff, y-yOff, 0);
@@ -146,11 +154,13 @@ public class Player {
     }
 
     public Pixmap rotatePixmap (Pixmap src, float angle){
+        Gdx.app.log("angle", ""+angle);
         final int width = src.getWidth();
         final int height = src.getHeight();
         Pixmap rotated = new Pixmap(width, height, src.getFormat());
 
         final double radians = Math.toRadians(angle), cos = Math.cos(radians), sin = Math.sin(radians);
+
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -166,13 +176,49 @@ public class Player {
             }
         }
         return rotated;
+
+    }
+
+    public void checkCollisionMap(){
+        float x = body.getWorldCenter().x * TO_PIXELS;
+        float y = body.getWorldCenter().y * TO_PIXELS;
+
+        int collisionWithMap = 0;
+
+        collisionWithMap = isCellBlocked(x, y);
+
+        switch (collisionWithMap) {
+            case 1:
+                System.out.println("YOU LOSE!");
+                break;
+            case 2:
+                System.out.println("CONGRATULATIONS");
+                break;
+        }
+    }
+
+    public int isCellBlocked(float x, float y) {
+        TiledMapTileLayer.Cell cell = collisionLayer.getCell(
+                (int) (x / collisionLayer.getTileWidth()),
+                (int) (y / collisionLayer.getTileHeight())
+        );
+        if ( cell != null && cell.getTile() != null
+                && cell.getTile().getProperties().containsKey("hole"))
+        {
+            return 1;
+        }
+        if ( cell != null && cell.getTile() != null
+                && cell.getTile().getProperties().containsKey("goal"))
+        {
+            return 2;
+        }
+        return 0;
     }
 
     public void dispose()
     {
-        baseMeatPixmap.dispose();
+        meatTexture.dispose();
         blood.dispose();
         bloodTrail.dispose();
     }
-
 }
