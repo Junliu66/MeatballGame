@@ -22,7 +22,7 @@ public class HelpScreen implements Screen {
 
     Stage stage;
     Button btnBack;
-    Button btnBackSmall;
+    Button btnLeft;
     private Texture myTexture;
     private TextureRegion myTextureRegion;
     private TextureRegionDrawable myTexRegionDrawable;
@@ -47,10 +47,21 @@ public class HelpScreen implements Screen {
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnBack = new ImageButton(myTexRegionDrawable);
 
+        myTexture = new Texture(Gdx.files.internal("btnLeft.png"));
+        myTextureRegion = new TextureRegion(myTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        btnLeft = new ImageButton(myTexRegionDrawable);
+
         btnBack.addListener(getBackListener());
+        btnLeft.addListener(getLeftListener());
+
         btnBack.setPosition(400, 120, 0);
+        btnLeft.setPosition(180, 400, 0);
         stage.addActor(btnBack);
+        stage.addActor(btnLeft);
         Gdx.input.setInputProcessor(stage);
+
+
     }
 
     @Override
@@ -110,6 +121,29 @@ public class HelpScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 
                 game.setScreen(new MainMenu(game));
+            }
+        };
+    }
+
+    private ClickListener getLeftListener() {
+        return new ClickListener() {
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+
+                btnLeft.setHeight(70);
+                btnLeft.setWidth(70);
+                btnLeft.setPosition(180,400,0);
+
+
+                stage.draw();
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+
+                btnLeft.setHeight(100);
+                btnLeft.setWidth(100);
+                btnLeft.setPosition(180,400,0);
+
+                stage.draw();
             }
         };
     }
