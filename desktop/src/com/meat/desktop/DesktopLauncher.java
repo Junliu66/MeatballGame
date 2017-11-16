@@ -2,7 +2,6 @@ package com.meat.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.meat.MainGame;
 import com.meat.MainMenu;
 
 public class DesktopLauncher {
@@ -11,6 +10,6 @@ public class DesktopLauncher {
 		config.title = "Super Meat Ball";
 		config.width = 800;
 		config.height = 600;
-		new LwjglApplication(new MainGame(), config);
+		new LwjglApplication(new MainMenu(), config);
 	}
 }

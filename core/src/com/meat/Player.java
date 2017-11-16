@@ -1,13 +1,15 @@
 package com.meat;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+
 import static com.meat.MeatGame.TO_PIXELS;
 
 /**
@@ -24,17 +26,19 @@ public class Player {
     private static Pixmap bloodTrail = new Pixmap(800, 600, Pixmap.Format.RGBA8888);;
     private Pixmap blood;
     private Vector2 lastPos;
+    TiledMapTileLayer collisionLayer;
 
     /**
-     *
-     * @param spawnLoc The location the player spawns in the game.
+     *  @param spawnLoc The location the player spawns in the game.
+     * @param collisionLayer
      * @param acceleration How fast the player accelerates.
      */
-    public Player(Vector2 spawnLoc, float acceleration, World world, boolean isPlayerOne) {
+    public Player(Vector2 spawnLoc, TiledMapTileLayer collisionLayer, float acceleration, World world, boolean isPlayerOne) {
         this.meatTexture = new Texture("meatball_texture.png");
         this.acceleration = acceleration;
         this.input = new Vector2();
         this.isPlayerOne = isPlayerOne;
+        this.collisionLayer = collisionLayer;
         blood = new Pixmap(Gdx.files.internal("meat_splatter.png"));
 
         textureOffsetX = 0;
@@ -58,6 +62,7 @@ public class Player {
     }
 
     public void update() {
+        checkCollisionMap();
         input = new Vector2();
         boolean up, down, left, right;
         if (isPlayerOne)
@@ -106,7 +111,7 @@ public class Player {
         if (lastPos.dst(body.getPosition()) > 0.2) {
             Pixmap bloodRotated = rotatePixmap(blood, (float) ( (Math.atan2(body.getLinearVelocity().x, body.getLinearVelocity().y) + 0) / (2*Math.PI) ) * 360f + 90f);
             bloodTrail.drawPixmap(bloodRotated, (int) (body.getPosition().x * TO_PIXELS - 8), (int) (600 - body.getPosition().y * TO_PIXELS - 8));
-             bloodRotated.dispose();
+            bloodRotated.dispose();
             lastPos = new Vector2(body.getPosition().x, body.getPosition().y);
         }
 
@@ -172,6 +177,42 @@ public class Player {
         }
         return rotated;
 
+    }
+
+    public void checkCollisionMap(){
+        float x = body.getWorldCenter().x * TO_PIXELS;
+        float y = body.getWorldCenter().y * TO_PIXELS;
+
+        int collisionWithMap = 0;
+
+        collisionWithMap = isCellBlocked(x, y);
+
+        switch (collisionWithMap) {
+            case 1:
+                System.out.println("YOU LOSE!");
+                break;
+            case 2:
+                System.out.println("CONGRATULATIONS");
+                break;
+        }
+    }
+
+    public int isCellBlocked(float x, float y) {
+        TiledMapTileLayer.Cell cell = collisionLayer.getCell(
+                (int) (x / collisionLayer.getTileWidth()),
+                (int) (y / collisionLayer.getTileHeight())
+        );
+        if ( cell != null && cell.getTile() != null
+                && cell.getTile().getProperties().containsKey("hole"))
+        {
+            return 1;
+        }
+        if ( cell != null && cell.getTile() != null
+                && cell.getTile().getProperties().containsKey("goal"))
+        {
+            return 2;
+        }
+        return 0;
     }
 
     public void dispose()
