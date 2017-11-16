@@ -22,8 +22,6 @@ public class MainMenu extends ApplicationAdapter  {
     Button btnPlay;
     Button btnHelp;
     Button btnExit;
-    TextButton.TextButtonStyle style;
-    Skin skin;
     private Texture myTexture;
     private TextureRegion myTextureRegion;
     private TextureRegionDrawable myTexRegionDrawable;
@@ -33,10 +31,6 @@ public class MainMenu extends ApplicationAdapter  {
 
     @Override
     public void create () {
-
-        //TextButton play = new TextButton("Play", blueTextButtonStyle);
-        //TextButton help = new TextButton("Help", blueTextButtonStyle);
-        //TextButton exit = new TextButton("Exit", blueTextButtonStyle);
 
         stage = new Stage(new ScreenViewport());
         texture = new Texture("mainMenu.png");
