@@ -20,8 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class MainMenu extends Game {
-    Game self = this;
+public class MainMenu implements Screen {
+    MainGame game;
     OrthographicCamera camera;
 
 
@@ -44,12 +44,11 @@ public class MainMenu extends Game {
     Texture texture;
 
 
-    public MainMenu(Game game){
-        this.game = game;
+    public MainMenu(MainGame game){
+        game = game;
     }
 
-    private Game game;
-    public void create() {
+    public void show() {
         stage = new Stage(new ScreenViewport());
         texture = new Texture("mainMenu.png");
         Image image= new Image(texture);
@@ -109,7 +108,6 @@ public class MainMenu extends Game {
         //stage.act();
         stage.draw();
         //batch.end();
-        super.render();
     }
 
     @Override
@@ -194,7 +192,7 @@ public class MainMenu extends Game {
         return new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
-                setScreen(new ControlMenu(self));
+                game.setScreen(new ControlMenu(game));
             }
         };
     }
@@ -225,12 +223,5 @@ public class MainMenu extends Game {
         };
     }
 
-
-    class SettingsClickListener extends ClickListener{
-        @Override
-        public void clicked(InputEvent event, float x, float y){
-            setScreen(new ControlMenu(self));
-        }
-    }
 
 }

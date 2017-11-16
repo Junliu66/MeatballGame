@@ -12,7 +12,7 @@ public class GameHandler extends Game
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont();
-        this.setScreen(new MeatGame(this));
+        //this.setScreen(new MeatGame(this));
     }
 
     public void render() {
