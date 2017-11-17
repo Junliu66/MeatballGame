@@ -34,7 +34,14 @@ public class MainMenu implements Screen {
     private TextureRegion myTextureRegion;
     private TextureRegionDrawable myTexRegionDrawable;
 
-    int buttonsX = 400;
+    int buttonXPlay = 400;
+    int buttonXHelp = 400;
+    int buttonXSettings = 400;
+    int buttonXExit = 400;
+    int buttonYHelp = 90;
+    int buttonYSettings = 50;
+    int buttonYExit = 20;
+    int buttonYPlay = 125;
 
 
     Texture texture;
@@ -59,12 +66,14 @@ public class MainMenu implements Screen {
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnHelp = new ImageButton(myTexRegionDrawable);
 
+
         //Skin buttonSkin = new Skin();
         //btnSettings = new TextButton("Controls", buttonSkin);
-        myTexture = new Texture(Gdx.files.internal("btnHelp.png"));
+        myTexture = new Texture(Gdx.files.internal("btnSettings.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnSettings = new ImageButton(myTexRegionDrawable);
+
 
 
         myTexture = new Texture(Gdx.files.internal("btnExit.png"));
@@ -77,10 +86,10 @@ public class MainMenu implements Screen {
         btnSettings.addListener(getSettingsListener());
         btnExit.addListener(getExitListener());
 
-        btnPlay.setPosition(buttonsX, 160, 0);
-        btnHelp.setPosition(buttonsX, 120, 0);
-        btnSettings.setPosition(buttonsX, 80, 0);
-        btnExit.setPosition(buttonsX, 40, 0);
+        btnPlay.setPosition(buttonXPlay, buttonYPlay, 0);
+        btnHelp.setPosition(buttonXHelp, buttonYHelp, 0);
+        btnSettings.setPosition(buttonXSettings, buttonYSettings, 0);
+        btnExit.setPosition(buttonXExit, buttonYExit, 0);
 
         stage.addActor(image);
         stage.addActor(btnPlay);
@@ -136,7 +145,7 @@ public class MainMenu implements Screen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 btnPlay.setHeight(70);
                 btnPlay.setWidth(70);
-                btnPlay.setPosition(400,120,0);
+                btnPlay.setPosition(buttonXPlay,buttonYPlay,0);
 
                 stage.draw();
             }
@@ -144,13 +153,14 @@ public class MainMenu implements Screen {
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 btnPlay.setHeight(100);
                 btnPlay.setWidth(100);
-                btnPlay.setPosition(400,120,0);
+                btnPlay.setPosition(buttonXPlay,buttonYPlay,0);
 
                 stage.draw();
             }
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
+                stage.draw();
                 game.setScreen(new MeatGame(game));
 
             }
@@ -162,7 +172,7 @@ public class MainMenu implements Screen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 btnHelp.setHeight(70);
                 btnHelp.setWidth(70);
-                btnHelp.setPosition(400,80,0);
+                btnHelp.setPosition(buttonXHelp,buttonYHelp,0);
 
                 stage.draw();
             }
@@ -170,7 +180,7 @@ public class MainMenu implements Screen {
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 btnHelp.setHeight(100);
                 btnHelp.setWidth(100);
-                btnHelp.setPosition(400,80,0);
+                btnHelp.setPosition(buttonXHelp,buttonYHelp,0);
 
                 stage.draw();
             }
@@ -200,7 +210,7 @@ public class MainMenu implements Screen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 btnExit.setHeight(70);
                 btnExit.setWidth(70);
-                btnExit.setPosition(400,40,0);
+                btnExit.setPosition(buttonXExit,buttonYExit,0);
 
                 stage.draw();
             }
@@ -208,7 +218,7 @@ public class MainMenu implements Screen {
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 btnExit.setHeight(100);
                 btnExit.setWidth(100);
-                btnExit.setPosition(400,40,0);
+                btnExit.setPosition(buttonXExit,buttonYExit,0);
 
                 stage.draw();
             }

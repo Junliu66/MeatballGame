@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -23,10 +24,14 @@ public class HelpScreen implements Screen {
     Stage stage;
     Button btnBack;
     Button btnLeft;
+    Button btnRight;
+    Button btnUp;
+    Button btnDown;
     private Texture myTexture;
     private TextureRegion myTextureRegion;
     private TextureRegionDrawable myTexRegionDrawable;
     Texture texture;
+    Label label;
 
     public HelpScreen(MainGame game) {
         this.game = game;
@@ -52,13 +57,43 @@ public class HelpScreen implements Screen {
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnLeft = new ImageButton(myTexRegionDrawable);
 
+        myTexture = new Texture(Gdx.files.internal("btnRight.png"));
+        myTextureRegion = new TextureRegion(myTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        btnRight = new ImageButton(myTexRegionDrawable);
+
+        myTexture = new Texture(Gdx.files.internal("btnUp.png"));
+        myTextureRegion = new TextureRegion(myTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        btnUp = new ImageButton(myTexRegionDrawable);
+
+        myTexture = new Texture(Gdx.files.internal("btnDown.png"));
+        myTextureRegion = new TextureRegion(myTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        btnDown = new ImageButton(myTexRegionDrawable);
+
         btnBack.addListener(getBackListener());
         btnLeft.addListener(getLeftListener());
+        btnRight.addListener(getLeftListener());
+        btnUp.addListener(getLeftListener());
+        btnDown.addListener(getLeftListener());
 
         btnBack.setPosition(400, 120, 0);
         btnLeft.setPosition(180, 400, 0);
+        btnRight.setPosition(280, 400,0);
+        btnUp.setPosition(230, 450,0);
+        btnDown.setPosition(230, 400,0);
+
+
+        btnLeft.addListener(getLeftListener());
+        btnLeft.addListener(getLeftListener());
         stage.addActor(btnBack);
         stage.addActor(btnLeft);
+        stage.addActor(btnRight);
+        stage.addActor(btnUp);
+        stage.addActor(btnDown);
+
+
         Gdx.input.setInputProcessor(stage);
 
 
@@ -133,6 +168,9 @@ public class HelpScreen implements Screen {
                 btnLeft.setWidth(70);
                 btnLeft.setPosition(180,400,0);
 
+
+                //label.setText("Go Left");
+                //label.setPosition(400, 400,0);
 
                 stage.draw();
             }
