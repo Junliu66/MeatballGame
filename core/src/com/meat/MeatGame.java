@@ -54,7 +54,7 @@ public class MeatGame implements Screen {
         batch = new SpriteBatch();
 
         player = new Player(new Vector2(480 / TO_PIXELS,160 / TO_PIXELS), collisionLayer, 200f, world, true);
-
+        buildWalls();
         Body wall;
         BodyDef wallDef = new BodyDef();
         wallDef.type = BodyDef.BodyType.StaticBody;
@@ -135,4 +135,33 @@ public class MeatGame implements Screen {
         batch.dispose();
         player.dispose();
     }
+
+    private void buildWalls() {
+        float pixels = 2f;
+        for ( int x = 0; x <  collisionLayer.getWidth(); x++)
+        {
+            for ( int y = 0; y < collisionLayer.getHeight(); y++)
+            {
+//                System.out.println(collisionLayer.getCell(x,y).getTile().getOffsetX());
+                TiledMapTileLayer.Cell cell = collisionLayer.getCell(x,y);
+                if ( cell != null && cell.getTile() != null
+                        && cell.getTile().getProperties().containsKey("wall"))
+                {
+                    System.out.println(x * pixels / TO_PIXELS);
+                    Body wall;
+                    BodyDef wallDef = new BodyDef();
+                    wallDef.type = BodyDef.BodyType.StaticBody;
+                    wallDef.position.set( x * pixels / TO_PIXELS, y * pixels / TO_PIXELS );
+                    wall = world.createBody(wallDef);
+                    PolygonShape poly = new PolygonShape();
+                    poly.setAsBox(2 / TO_PIXELS, 2 / TO_PIXELS);
+                    FixtureDef fixtureDef = new FixtureDef();
+                    fixtureDef.shape = poly;
+                    wall.createFixture(fixtureDef);
+                    poly.dispose();
+                }
+            }
+        }
+    }
+
 }
