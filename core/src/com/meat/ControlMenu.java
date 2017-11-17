@@ -96,7 +96,7 @@ public class ControlMenu extends Stage implements Screen {
 
         this.addActor(displayTable);
         displayTable.setFillParent(true);
-        displayTable.setBackground();
+        //displayTable.setBackground();
     }
 
 

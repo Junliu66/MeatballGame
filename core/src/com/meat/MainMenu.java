@@ -42,7 +42,7 @@ public class MainMenu implements Screen {
 
 
     public MainMenu(MainGame game){
-        game = game;
+        this.game = game;
     }
 
     public void show() {
@@ -60,12 +60,14 @@ public class MainMenu implements Screen {
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnHelp = new ImageButton(myTexRegionDrawable);
 
-        //Skin buttonSkin = new Skin();
-        //btnSettings = new TextButton("Controls", buttonSkin);
+
+        Skin buttonSkin = new Skin();
+        btnSettings = new TextButton("Controls", buttonSkin);
         myTexture = new Texture(Gdx.files.internal("btnHelp.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnSettings = new ImageButton(myTexRegionDrawable);
+
 
 
         myTexture = new Texture(Gdx.files.internal("btnExit.png"));

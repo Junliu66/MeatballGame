@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -27,6 +28,7 @@ public class HelpScreen implements Screen {
     private TextureRegion myTextureRegion;
     private TextureRegionDrawable myTexRegionDrawable;
     Texture texture;
+    Label label;
 
     public HelpScreen(MainGame game) {
         this.game = game;
@@ -133,6 +135,9 @@ public class HelpScreen implements Screen {
                 btnLeft.setWidth(70);
                 btnLeft.setPosition(180,400,0);
 
+
+                //label.setText("Go Left");
+                //label.setPosition(400, 400,0);
 
                 stage.draw();
             }
