@@ -14,6 +14,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
+
 public class MeatGame implements Screen {
     Texture img;
     TiledMap tiledMap, collisionMap;
@@ -25,13 +26,13 @@ public class MeatGame implements Screen {
     private OrthographicCamera box2DCamera;
     private World world;
     private float accumulator;
-    private static float TIME_STEP = 1/60f;
+    private static float TIME_STEP = 1 / 60f;
     private static int VELOCITY_ITERATIONS = 6;
     private static int POSITION_ITERATIONS = 2;
     private Box2DDebugRenderer debugRenderer;
     public static float TO_PIXELS = 50f;
 
-    public MeatGame (final GameHandler game) {
+    public MeatGame(final GameHandler game) {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
@@ -69,7 +70,9 @@ public class MeatGame implements Screen {
     }
 
     @Override
-    public void render (float dt) {
+    public void render(float dt) {
+        Gdx.app.log("FPS", (1/dt)+"");
+
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -131,30 +134,26 @@ public class MeatGame implements Screen {
     }
 
     @Override
-    public void dispose () {
+    public void dispose() {
         batch.dispose();
         player.dispose();
     }
 
     private void buildWalls() {
         float pixels = 2f;
-        for ( int x = 0; x <  collisionLayer.getWidth(); x++)
-        {
-            for ( int y = 0; y < collisionLayer.getHeight(); y++)
-            {
-//                System.out.println(collisionLayer.getCell(x,y).getTile().getOffsetX());
-                TiledMapTileLayer.Cell cell = collisionLayer.getCell(x,y);
-                if ( cell != null && cell.getTile() != null
-                        && cell.getTile().getProperties().containsKey("wall"))
-                {
-                    System.out.println(x * pixels / TO_PIXELS);
-                    Body wall;
-                    BodyDef wallDef = new BodyDef();
-                    wallDef.type = BodyDef.BodyType.StaticBody;
-                    wallDef.position.set( x * pixels / TO_PIXELS, y * pixels / TO_PIXELS );
-                    wall = world.createBody(wallDef);
+
+        BodyDef wallDef = new BodyDef();
+        wallDef.type = BodyDef.BodyType.StaticBody;
+        wallDef.position.set(0, 0);
+        Body wall = world.createBody(wallDef);
+//        List<Polygon> plist = new ArrayList<Polygon>();
+        for (int x = 0; x < collisionLayer.getWidth(); x++) {
+            for (int y = 0; y < collisionLayer.getHeight(); y++) {
+                TiledMapTileLayer.Cell cell = collisionLayer.getCell(x, y);
+                if (cell != null && cell.getTile() != null
+                        && cell.getTile().getProperties().containsKey("wall")) {
                     PolygonShape poly = new PolygonShape();
-                    poly.setAsBox(2 / TO_PIXELS, 2 / TO_PIXELS);
+                    poly.setAsBox(2 / TO_PIXELS, 2 / TO_PIXELS, new Vector2(x*pixels/TO_PIXELS, y*pixels/TO_PIXELS), 0f);
                     FixtureDef fixtureDef = new FixtureDef();
                     fixtureDef.shape = poly;
                     wall.createFixture(fixtureDef);
@@ -162,6 +161,35 @@ public class MeatGame implements Screen {
                 }
             }
         }
+
     }
+
+//    private void buildWalls() {
+//        float pixels = 2f;
+//        for ( int x = 0; x <  collisionLayer.getWidth(); x++)
+//        {
+//            for ( int y = 0; y < collisionLayer.getHeight(); y++)
+//            {
+////                System.out.println(collisionLayer.getCell(x,y).getTile().getOffsetX());
+//                TiledMapTileLayer.Cell cell = collisionLayer.getCell(x,y);
+//                if ( cell != null && cell.getTile() != null
+//                        && cell.getTile().getProperties().containsKey("wall"))
+//                {
+//                    System.out.println(x * pixels / TO_PIXELS);
+//                    Body wall;
+//                    BodyDef wallDef = new BodyDef();
+//                    wallDef.type = BodyDef.BodyType.StaticBody;
+//                    wallDef.position.set( x * pixels / TO_PIXELS, y * pixels / TO_PIXELS );
+//                    wall = world.createBody(wallDef);
+//                    PolygonShape poly = new PolygonShape();
+//                    poly.setAsBox(2 / TO_PIXELS, 2 / TO_PIXELS);
+//                    FixtureDef fixtureDef = new FixtureDef();
+//                    fixtureDef.shape = poly;
+//                    wall.createFixture(fixtureDef);
+//                    poly.dispose();
+//                }
+//            }
+//        }
+//    }
 
 }
