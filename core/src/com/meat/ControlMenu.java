@@ -5,8 +5,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.util.ArrayList;
 
@@ -96,7 +100,8 @@ public class ControlMenu extends Stage implements Screen {
 
         this.addActor(displayTable);
         displayTable.setFillParent(true);
-        //displayTable.setBackground();
+        Texture background = new Texture(Gdx.files.internal("helpScreen.png"));
+        displayTable.setBackground(new TextureRegionDrawable(new TextureRegion(background)));
     }
 
 
