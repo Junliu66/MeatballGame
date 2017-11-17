@@ -42,7 +42,7 @@ public class MainMenu implements Screen {
 
 
     public MainMenu(MainGame game){
-        game = game;
+        this.game = game;
     }
 
     public void show() {
