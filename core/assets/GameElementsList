@@ -19,3 +19,7 @@ Tile Map:32*32
 wall
 sink hole
 table
+
+Green is goal(finishing line)
+Yellow is hole (edges of the map)
+Red is the wall (the block)

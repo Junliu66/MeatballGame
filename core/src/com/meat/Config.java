@@ -11,7 +11,7 @@ public class Config {
     static int player1Right = Input.Keys.RIGHT;
 
 
-    //Player 2, default W A S D
+    //Player 2, default W A S D-
     static int player2Up = Input.Keys.W;
     static int player2Down = Input.Keys.S;
     static int player2Left = Input.Keys.A;

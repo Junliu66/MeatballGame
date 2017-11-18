@@ -24,7 +24,6 @@ public class MainMenu implements Screen {
     MainGame game;
     OrthographicCamera camera;
 
-
     SpriteBatch batch;
     Stage stage;
     Button btnPlay;

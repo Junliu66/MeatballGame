@@ -95,8 +95,8 @@ public class Player {
 
     public void render(SpriteBatch batch)
     {
-        int y = Math.round(2* TO_PIXELS * body.getPosition().y % 64f);
-        int x = -Math.round(2* TO_PIXELS * body.getPosition().x % 64f);
+        int y = Math.round(1.25f * TO_PIXELS * body.getPosition().y % 64f);
+        int x = -Math.round(1.25f * TO_PIXELS * body.getPosition().x % 64f);
         if (x < 0) {
             x += 64;
         }
@@ -154,7 +154,6 @@ public class Player {
     }
 
     public Pixmap rotatePixmap (Pixmap src, float angle){
-        Gdx.app.log("angle", ""+angle);
         final int width = src.getWidth();
         final int height = src.getHeight();
         Pixmap rotated = new Pixmap(width, height, src.getFormat());
