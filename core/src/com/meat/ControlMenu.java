@@ -7,10 +7,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
 
@@ -44,6 +48,7 @@ public class ControlMenu extends Stage implements Screen {
     TextButton playerDown;
     TextButton playerLeft;
     TextButton playerRight;
+
 
 
 
@@ -102,6 +107,8 @@ public class ControlMenu extends Stage implements Screen {
         displayTable.setFillParent(true);
         Texture background = new Texture(Gdx.files.internal("helpScreen.png"));
         displayTable.setBackground(new TextureRegionDrawable(new TextureRegion(background)));
+
+
     }
 
 
@@ -124,6 +131,7 @@ public class ControlMenu extends Stage implements Screen {
         //draw a box that is smaller than the splash screen and centered, then draw the screen
         //or have the screen draw everything
         this.draw();
+        //stage.draw();
         //displayTable.setVisible(true);
     }
 
@@ -138,4 +146,5 @@ public class ControlMenu extends Stage implements Screen {
     public void dispose(){
 
     }
+
 }
