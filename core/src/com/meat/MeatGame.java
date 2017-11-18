@@ -33,6 +33,8 @@ public class MeatGame implements Screen {
     private Box2DDebugRenderer debugRenderer;
     public static float TO_PIXELS = 50f;
     final MainGame game;
+    private static int DESIRED_RENDER_WIDTH = 800;
+    private static int DESIRED_RENDER_HEIGHT = 600;
 
     public MeatGame(final MainGame game) {
         this.game = game;
@@ -61,7 +63,7 @@ public class MeatGame implements Screen {
 
 //        batch = new SpriteBatch();
 
-        player = new Player(new Vector2(60 * 32 / TO_PIXELS, 65 * 32 / TO_PIXELS), collisionLayer, 600f, world, true);
+        player = new Player(new Vector2(60 * 32 / TO_PIXELS, 65 * 32 / TO_PIXELS), collisionLayer, 24f, world, true);
         buildWalls();
         Body wall;
         BodyDef wallDef = new BodyDef();
@@ -92,7 +94,7 @@ public class MeatGame implements Screen {
 
         game.batch.begin();
         game.batch.setProjectionMatrix(camera.combined);
-        game.batch.draw(background, camera.position.x-Gdx.graphics.getWidth()/2, camera.position.y-Gdx.graphics.getHeight()/2, (int)camera.position.x/4, (int)-camera.position.y/4, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        game.batch.draw(background, camera.position.x-camera.viewportWidth/2, camera.position.y-camera.viewportHeight/2, (int)camera.position.x/4, (int)-camera.position.y/4, (int) camera.viewportWidth, (int) camera.viewportHeight);
         game.batch.end();
 
         tiledMapRenderer.setView(camera);
@@ -126,7 +128,14 @@ public class MeatGame implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        camera.setToOrtho(false, width, height);
+        // scales to fixed viewport width
+        int newHeight = (int) (height * (((double) DESIRED_RENDER_WIDTH) / ((double) width)));
+        if (height < DESIRED_RENDER_HEIGHT)
+        {
+            newHeight = (int) (((double) DESIRED_RENDER_WIDTH) / ((double) width)) * height;
+        }
+
+        camera.setToOrtho(false, DESIRED_RENDER_WIDTH, newHeight);
         box2DCamera.setToOrtho(false, width/TO_PIXELS, height/TO_PIXELS);
     }
 
