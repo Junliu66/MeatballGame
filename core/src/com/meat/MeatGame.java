@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 
 
@@ -36,6 +37,8 @@ public class MeatGame implements Screen {
     private static int DESIRED_RENDER_WIDTH = 800;
     private static int DESIRED_RENDER_HEIGHT = 600;
 
+    public static float lerp = 5.0f;
+
     public MeatGame(final MainGame game) {
         this.game = game;
 
@@ -50,8 +53,8 @@ public class MeatGame implements Screen {
         box2DCamera.setToOrtho(false, 16, 12);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
-        tiledMap = new TmxMapLoader().load("LevelOne.tmx");
-        collisionMap = new TmxMapLoader().load("LevelOneCollisionMap.tmx");
+        tiledMap = new TmxMapLoader().load("testlevel2.tmx");
+        collisionMap = new TmxMapLoader().load("testlevel2.tmx");
 
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         collisionMapRenderer = new OrthogonalTiledMapRenderer(collisionMap);
@@ -76,6 +79,8 @@ public class MeatGame implements Screen {
         fixtureDef.shape = poly;
         wall.createFixture(fixtureDef);
         poly.dispose();
+
+
     }
 
     @Override
@@ -84,8 +89,19 @@ public class MeatGame implements Screen {
 
         doPhysicsStep(dt);
         player.update();
-        camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
-        box2DCamera.position.set(player.getPosition(), 0);
+
+        Vector3 position = camera.position;
+        Vector3 box2dposition = box2DCamera.position;
+        Vector2 player_pos = player.getPosition().scl(TO_PIXELS);
+
+        position.x += (player_pos.x - position.x) * lerp * dt;
+        position.y += (player_pos.y - position.y) * lerp * dt;
+
+        box2dposition.x += (player.getPosition().x - box2dposition.x) * lerp * dt;
+        box2dposition.y += (player.getPosition().y - box2dposition.y) * lerp * dt;
+
+        //camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
+        //box2DCamera.position.set(player.getPosition(), 0);
         camera.update();
         box2DCamera.update();
 
@@ -137,6 +153,10 @@ public class MeatGame implements Screen {
 
         camera.setToOrtho(false, DESIRED_RENDER_WIDTH, newHeight);
         box2DCamera.setToOrtho(false, width/TO_PIXELS, height/TO_PIXELS);
+        camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
+        camera.update();
+        box2DCamera.position.set(player.getPosition(),0);
+        box2DCamera.update();
     }
 
     @Override

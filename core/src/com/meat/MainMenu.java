@@ -30,21 +30,19 @@ public class MainMenu implements Screen {
     Button btnHelp;
     Button btnSettings;
     Button btnExit;
+    Texture texture;
     private Texture myTexture;
     private TextureRegion myTextureRegion;
     private TextureRegionDrawable myTexRegionDrawable;
 
     int buttonXPlay = 400;
-    int buttonXHelp = 400;
+    int buttonXHelp = 250;
     int buttonXSettings = 400;
-    int buttonXExit = 400;
-    int buttonYHelp = 90;
-    int buttonYSettings = 50;
-    int buttonYExit = 20;
-    int buttonYPlay = 125;
-
-
-    Texture texture;
+    int buttonXExit = 550;
+    int buttonYHelp = 30;
+    int buttonYSettings = 30;
+    int buttonYExit = 30;
+    int buttonYPlay = 100;
 
 
     public MainMenu(MainGame game){
@@ -55,6 +53,7 @@ public class MainMenu implements Screen {
         stage = new Stage(new ScreenViewport());
         texture = new Texture("mainMenu.png");
         Image image= new Image(texture);
+        image.setSize(800,600);
 
         myTexture = new Texture(Gdx.files.internal("btnPlay.png"));
         myTextureRegion = new TextureRegion(myTexture);
@@ -73,8 +72,6 @@ public class MainMenu implements Screen {
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnSettings = new ImageButton(myTexRegionDrawable);
-
-
 
         myTexture = new Texture(Gdx.files.internal("btnExit.png"));
         myTextureRegion = new TextureRegion(myTexture);
@@ -96,8 +93,6 @@ public class MainMenu implements Screen {
         stage.addActor(btnHelp);
         stage.addActor(btnSettings);
         stage.addActor(btnExit);
-
-
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -143,16 +138,16 @@ public class MainMenu implements Screen {
     private ClickListener getPlayListener(){
         return new ClickListener(){
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                btnPlay.setHeight(70);
-                btnPlay.setWidth(70);
+                btnPlay.setHeight(120);
+                btnPlay.setWidth(120);
                 btnPlay.setPosition(buttonXPlay,buttonYPlay,0);
 
                 stage.draw();
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                btnPlay.setHeight(100);
-                btnPlay.setWidth(100);
+                btnPlay.setHeight(140);
+                btnPlay.setWidth(140);
                 btnPlay.setPosition(buttonXPlay,buttonYPlay,0);
 
                 stage.draw();
@@ -189,15 +184,27 @@ public class MainMenu implements Screen {
 
                 stage.draw();
                 game.setScreen(new HelpScreen(game));
-
-
-
             }
         };
     }
 
     private ClickListener getSettingsListener(){
         return new ClickListener(){
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                btnSettings.setHeight(120);
+                btnSettings.setWidth(120);
+                btnSettings.setPosition(buttonXSettings,buttonYSettings,0);
+
+                stage.draw();
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                btnSettings.setHeight(150);
+                btnSettings.setWidth(150);
+                btnSettings.setPosition(buttonXSettings,buttonYSettings,0);
+
+                stage.draw();
+            }
             @Override
             public void clicked(InputEvent event, float x, float y){
                 game.setScreen(new ControlMenu(game));

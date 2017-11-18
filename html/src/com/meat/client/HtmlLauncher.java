@@ -3,6 +3,7 @@ package com.meat.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
+import com.meat.MainGame;
 import com.meat.MeatGame;
 
 public class HtmlLauncher extends GwtApplication {
@@ -14,6 +15,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new MeatGame();
+                return new MainGame();
         }
 }
