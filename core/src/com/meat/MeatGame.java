@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 
 public class MeatGame implements Screen {
@@ -31,6 +32,8 @@ public class MeatGame implements Screen {
     private Box2DDebugRenderer debugRenderer;
     public static float TO_PIXELS = 50f;
 
+    public static float lerp = 0.95f;
+
     public MeatGame (final GameHandler game) {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -40,8 +43,8 @@ public class MeatGame implements Screen {
         box2DCamera.setToOrtho(false, 16, 12);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
-        tiledMap = new TmxMapLoader().load("LevelOne.tmx");
-        collisionMap = new TmxMapLoader().load("LevelOneCollisionMap.tmx");
+        tiledMap = new TmxMapLoader().load("testlevel2.tmx");
+        collisionMap = new TmxMapLoader().load("testlevel2.tmx");
 
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         collisionMapRenderer = new OrthogonalTiledMapRenderer(collisionMap);
@@ -53,7 +56,7 @@ public class MeatGame implements Screen {
 
         batch = new SpriteBatch();
 
-        player = new Player(new Vector2(60 * 32 / TO_PIXELS, 65 * 32 / TO_PIXELS), collisionLayer, 200f, world, true);
+        player = new Player(new Vector2(60 / TO_PIXELS, 65 / TO_PIXELS), collisionLayer, 200f, world, true);
         buildWalls();
         Body wall;
         BodyDef wallDef = new BodyDef();
@@ -66,6 +69,9 @@ public class MeatGame implements Screen {
         fixtureDef.shape = poly;
         wall.createFixture(fixtureDef);
         poly.dispose();
+
+        camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
+        box2DCamera.position.set(player.getPosition(),0);
     }
 
     @Override
@@ -73,8 +79,18 @@ public class MeatGame implements Screen {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
-        box2DCamera.position.set(player.getPosition(), 0);
+        Vector3 position = camera.position;
+        Vector3 box2dposition = box2DCamera.position;
+        Vector2 player_pos = player.getPosition().scl(TO_PIXELS);
+
+        position.x += (player_pos.x - position.x) * lerp * dt;
+        position.y += (player_pos.y - position.y) * lerp * dt;
+
+        box2dposition.x += (player.getPosition().x - box2dposition.x) * lerp * dt;
+        box2dposition.y += (player.getPosition().y - box2dposition.y) * lerp * dt;
+
+        //camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
+        //box2DCamera.position.set(player.getPosition(), 0);
         camera.update();
         box2DCamera.update();
 
@@ -137,6 +153,7 @@ public class MeatGame implements Screen {
     }
 
     private void buildWalls() {
+        System.out.println("building");
         float pixels = 2f;
         for ( int x = 0; x <  collisionLayer.getWidth(); x++)
         {
@@ -147,13 +164,17 @@ public class MeatGame implements Screen {
                 if ( cell != null && cell.getTile() != null
                         && cell.getTile().getProperties().containsKey("wall"))
                 {
-                    System.out.println(x * pixels / TO_PIXELS);
+                    //We will first check to see if the new cell is adjacent to any current wall, and if it is
+                    //then we add it to that wall, otherwise we start a new wall
+                    //System.out.println(x * pixels / TO_PIXELS);
                     Body wall;
                     BodyDef wallDef = new BodyDef();
                     wallDef.type = BodyDef.BodyType.StaticBody;
                     wallDef.position.set( x * pixels / TO_PIXELS, y * pixels / TO_PIXELS );
                     wall = world.createBody(wallDef);
+                    wall.setAwake(false);
                     PolygonShape poly = new PolygonShape();
+
                     poly.setAsBox(2 / TO_PIXELS, 2 / TO_PIXELS);
                     FixtureDef fixtureDef = new FixtureDef();
                     fixtureDef.shape = poly;
