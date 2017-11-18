@@ -35,7 +35,7 @@ public class MeatGame implements Screen {
     public static float TO_PIXELS = 50f;
     final MainGame game;
 
-    public static float lerp = 0.95f;
+    public static float lerp = 5.0f;
 
     public MeatGame(final MainGame game) {
         this.game = game;
@@ -78,8 +78,7 @@ public class MeatGame implements Screen {
         wall.createFixture(fixtureDef);
         poly.dispose();
 
-        camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
-        box2DCamera.position.set(player.getPosition(),0);
+
     }
 
     @Override
@@ -88,8 +87,7 @@ public class MeatGame implements Screen {
 
         doPhysicsStep(dt);
         player.update();
-        camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
-        box2DCamera.position.set(player.getPosition(), 0);
+
         Vector3 position = camera.position;
         Vector3 box2dposition = box2DCamera.position;
         Vector2 player_pos = player.getPosition().scl(TO_PIXELS);
@@ -146,6 +144,10 @@ public class MeatGame implements Screen {
     public void resize(int width, int height) {
         camera.setToOrtho(false, width, height);
         box2DCamera.setToOrtho(false, width/TO_PIXELS, height/TO_PIXELS);
+        camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
+        camera.update();
+        box2DCamera.position.set(player.getPosition(),0);
+        box2DCamera.update();
     }
 
     @Override
