@@ -3,7 +3,6 @@ package com.meat.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.meat.MainGame;
-import com.meat.MainMenu;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

@@ -14,27 +14,35 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
+
 public class MeatGame implements Screen {
     Texture img;
     TiledMap tiledMap, collisionMap;
     TiledMapRenderer tiledMapRenderer, collisionMapRenderer;
     TiledMapTileLayer collisionLayer;
-    private SpriteBatch batch;
+//    private SpriteBatch batch;
     private Player player;
     private OrthographicCamera camera;
     private OrthographicCamera box2DCamera;
     private World world;
     private float accumulator;
-    private static float TIME_STEP = 1/60f;
+    private static float TIME_STEP = 1 / 60f;
     private static int VELOCITY_ITERATIONS = 6;
     private static int POSITION_ITERATIONS = 2;
+    private Texture background;
     private Box2DDebugRenderer debugRenderer;
     public static float TO_PIXELS = 50f;
+    final MainGame game;
 
-    public MeatGame (final GameHandler game) {
+    public MeatGame(final MainGame game) {
+        this.game = game;
+
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
+        background = new Texture("clouds_bg.png");
+        background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        background.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         accumulator = 0f;
         box2DCamera = new OrthographicCamera();
         box2DCamera.setToOrtho(false, 16, 12);
@@ -51,9 +59,9 @@ public class MeatGame implements Screen {
         world = new World(new Vector2(), true);
         debugRenderer = new Box2DDebugRenderer();
 
-        batch = new SpriteBatch();
+//        batch = new SpriteBatch();
 
-        player = new Player(new Vector2(60 * 32 / TO_PIXELS, 65 * 32 / TO_PIXELS), collisionLayer, 200f, world, true);
+        player = new Player(new Vector2(60 * 32 / TO_PIXELS, 65 * 32 / TO_PIXELS), collisionLayer, 600f, world, true);
         buildWalls();
         Body wall;
         BodyDef wallDef = new BodyDef();
@@ -69,29 +77,35 @@ public class MeatGame implements Screen {
     }
 
     @Override
-    public void render (float dt) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    public void render(float dt) {
+//        Gdx.app.log("FPS", (1/dt)+"");
 
+        doPhysicsStep(dt);
+        player.update();
         camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
         box2DCamera.position.set(player.getPosition(), 0);
         camera.update();
         box2DCamera.update();
+
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        game.batch.begin();
+        game.batch.setProjectionMatrix(camera.combined);
+        game.batch.draw(background, camera.position.x-Gdx.graphics.getWidth()/2, camera.position.y-Gdx.graphics.getHeight()/2, (int)camera.position.x/4, (int)-camera.position.y/4, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        game.batch.end();
 
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
         collisionMapRenderer.setView(camera);
         collisionMapRenderer.render();
 
-        batch.begin();
-        batch.setProjectionMatrix(camera.combined);
-        player.render(batch);
-        batch.end();
+        game.batch.begin();
+        player.render(game.batch);
+        game.batch.end();
 
-        debugRenderer.render(world, box2DCamera.combined);
+//        debugRenderer.render(world, box2DCamera.combined);
 
-        player.update();
-        doPhysicsStep(dt);
     }
 
     private void doPhysicsStep(float deltaTime) {
@@ -112,7 +126,8 @@ public class MeatGame implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        camera.setToOrtho(false, width, height);
+        box2DCamera.setToOrtho(false, width/TO_PIXELS, height/TO_PIXELS);
     }
 
     @Override
@@ -131,30 +146,25 @@ public class MeatGame implements Screen {
     }
 
     @Override
-    public void dispose () {
-        batch.dispose();
+    public void dispose() {
         player.dispose();
     }
 
     private void buildWalls() {
         float pixels = 2f;
-        for ( int x = 0; x <  collisionLayer.getWidth(); x++)
-        {
-            for ( int y = 0; y < collisionLayer.getHeight(); y++)
-            {
-//                System.out.println(collisionLayer.getCell(x,y).getTile().getOffsetX());
-                TiledMapTileLayer.Cell cell = collisionLayer.getCell(x,y);
-                if ( cell != null && cell.getTile() != null
-                        && cell.getTile().getProperties().containsKey("wall"))
-                {
-                    System.out.println(x * pixels / TO_PIXELS);
-                    Body wall;
-                    BodyDef wallDef = new BodyDef();
-                    wallDef.type = BodyDef.BodyType.StaticBody;
-                    wallDef.position.set( x * pixels / TO_PIXELS, y * pixels / TO_PIXELS );
-                    wall = world.createBody(wallDef);
+
+        BodyDef wallDef = new BodyDef();
+        wallDef.type = BodyDef.BodyType.StaticBody;
+        wallDef.position.set(0, 0);
+        Body wall = world.createBody(wallDef);
+        for (int x = 0; x < collisionLayer.getWidth(); x++) {
+            for (int y = 0; y < collisionLayer.getHeight(); y++) {
+                TiledMapTileLayer.Cell cell = collisionLayer.getCell(x, y);
+                if (cell != null && cell.getTile() != null
+                        && cell.getTile().getProperties().containsKey("wall")
+                        && (x%16 == 0 && y%16 == 0)) {
                     PolygonShape poly = new PolygonShape();
-                    poly.setAsBox(2 / TO_PIXELS, 2 / TO_PIXELS);
+                    poly.setAsBox(16 / TO_PIXELS, 16 / TO_PIXELS, new Vector2((pixels*x-16)/TO_PIXELS, (pixels*y+16)/TO_PIXELS), 0f);
                     FixtureDef fixtureDef = new FixtureDef();
                     fixtureDef.shape = poly;
                     wall.createFixture(fixtureDef);
@@ -162,6 +172,6 @@ public class MeatGame implements Screen {
                 }
             }
         }
-    }
 
+    }
 }
