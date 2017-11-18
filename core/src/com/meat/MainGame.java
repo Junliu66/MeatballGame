@@ -1,22 +1,26 @@
 package com.meat;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class MainGame extends GameHandler {
+public class MainGame extends Game
+{
+    public SpriteBatch batch;
+    public BitmapFont font;
 
-    @Override
-    public void create () {
-        setScreen(new MainMenu(this));
+    public void create() {
+        batch = new SpriteBatch();
+        font = new BitmapFont();
+        this.setScreen(new MeatGame(this));
     }
 
-    @Override
     public void render() {
         super.render();
-        if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)){
-            setScreen(new MainMenu(this));
-        }
+    }
+
+    public void dispose() {
+        batch.dispose();
+        font.dispose();
     }
 }
-
