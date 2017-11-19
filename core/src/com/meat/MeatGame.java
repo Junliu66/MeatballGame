@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -59,6 +62,16 @@ public class MeatGame implements Screen {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         collisionMapRenderer = new OrthogonalTiledMapRenderer(collisionMap);
         collisionLayer = (TiledMapTileLayer) collisionMap.getLayers().get("Tile Layer 1");
+        MapLayer objectLayer = tiledMap.getLayers().get("Object Layer 1");
+        Vector2 playerStart = new Vector2(0,0);
+        for (MapObject obj : objectLayer.getObjects())
+        {
+            if (obj instanceof RectangleMapObject && obj.getName().equals("start"))
+            {
+                playerStart = new Vector2(((RectangleMapObject) obj).getRectangle().x, ((RectangleMapObject) obj).getRectangle().y);
+            }
+
+        }
 
         //Gdx.input.setInputProcessor(this);
         world = new World(new Vector2(), true);
@@ -66,7 +79,7 @@ public class MeatGame implements Screen {
 
 //        batch = new SpriteBatch();
 
-        player = new Player(new Vector2(60 * 32 / TO_PIXELS, 65 * 32 / TO_PIXELS), collisionLayer, 24f, world, true);
+        player = new Player(new Vector2(playerStart.x / TO_PIXELS, playerStart.y / TO_PIXELS), collisionLayer, 24f, world, true);
         buildWalls();
         Body wall;
         BodyDef wallDef = new BodyDef();
@@ -145,13 +158,14 @@ public class MeatGame implements Screen {
     @Override
     public void resize(int width, int height) {
         // scales to fixed viewport width
-        int newHeight = (int) (height * (((double) DESIRED_RENDER_WIDTH) / ((double) width)));
-        if (height < DESIRED_RENDER_HEIGHT)
-        {
-            newHeight = (int) (((double) DESIRED_RENDER_WIDTH) / ((double) width)) * height;
-        }
+        int newHeight = DESIRED_RENDER_HEIGHT;
+        int newWidth = DESIRED_RENDER_WIDTH;
+        if (((double) width)/DESIRED_RENDER_WIDTH < ((double) height)/DESIRED_RENDER_HEIGHT)
+            newHeight = (int) (height * (((double) DESIRED_RENDER_WIDTH) / ((double) width)));
+        else
+            newWidth = (int) (width * (((double) DESIRED_RENDER_HEIGHT) / ((double) height)));
 
-        camera.setToOrtho(false, DESIRED_RENDER_WIDTH, newHeight);
+        camera.setToOrtho(false, newWidth, newHeight);
         box2DCamera.setToOrtho(false, width/TO_PIXELS, height/TO_PIXELS);
         camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
         camera.update();

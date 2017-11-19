@@ -55,7 +55,7 @@ public class Player {
         fixtureDef.shape = circle;
         fixtureDef.restitution = 0.5f;
         fixtureDef.friction = 0.0f;
-        fixtureDef.density = 30f;
+        fixtureDef.density = 15f;
         body.createFixture(fixtureDef);
         lastPos = new Vector2(body.getPosition().x, body.getPosition().y);
         circle.dispose();
