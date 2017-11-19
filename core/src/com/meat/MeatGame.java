@@ -53,8 +53,8 @@ public class MeatGame implements Screen {
         box2DCamera.setToOrtho(false, 16, 12);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
-        tiledMap = new TmxMapLoader().load("testlevel2.tmx");
-        collisionMap = new TmxMapLoader().load("testlevel2.tmx");
+        tiledMap = new TmxMapLoader().load("LevelOne.tmx");
+        collisionMap = new TmxMapLoader().load("LevelOneCollisionMap.tmx");
 
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         collisionMapRenderer = new OrthogonalTiledMapRenderer(collisionMap);
@@ -88,7 +88,7 @@ public class MeatGame implements Screen {
 //        Gdx.app.log("FPS", (1/dt)+"");
 
         doPhysicsStep(dt);
-        player.update();
+        player.update(game);
 
         Vector3 position = camera.position;
         Vector3 box2dposition = box2DCamera.position;

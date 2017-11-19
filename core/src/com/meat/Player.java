@@ -8,7 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import static com.meat.MeatGame.TO_PIXELS;
 
@@ -61,8 +65,8 @@ public class Player {
         circle.dispose();
     }
 
-    public void update() {
-        checkCollisionMap();
+    public void update(MainGame game) {
+        checkCollisionMap(game);
         input = new Vector2();
         boolean up, down, left, right;
         if (isPlayerOne)
@@ -178,7 +182,7 @@ public class Player {
 
     }
 
-    public void checkCollisionMap(){
+    public void checkCollisionMap(MainGame game){
         float x = body.getWorldCenter().x * TO_PIXELS;
         float y = body.getWorldCenter().y * TO_PIXELS;
 
@@ -189,9 +193,11 @@ public class Player {
         switch (collisionWithMap) {
             case 1:
                 System.out.println("YOU LOSE!");
+                game.setScreen(new RestartScreen(game));
                 break;
             case 2:
                 System.out.println("CONGRATULATIONS");
+                // // TODO add pop out box
                 break;
         }
     }
