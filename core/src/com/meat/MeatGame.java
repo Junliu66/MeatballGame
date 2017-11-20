@@ -17,6 +17,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import javafx.util.Pair;
+
+import java.util.ArrayList;
 
 
 public class MeatGame implements Screen {
@@ -39,6 +42,8 @@ public class MeatGame implements Screen {
     final MainGame game;
     private static int DESIRED_RENDER_WIDTH = 800;
     private static int DESIRED_RENDER_HEIGHT = 600;
+
+    private ArrayList<Enemy> enemies;
 
     public static float lerp = 5.0f;
 
@@ -63,7 +68,8 @@ public class MeatGame implements Screen {
         collisionMapRenderer = new OrthogonalTiledMapRenderer(collisionMap);
         collisionLayer = (TiledMapTileLayer) collisionMap.getLayers().get("Tile Layer 1");
         MapLayer objectLayer = tiledMap.getLayers().get("Object Layer 1");
-        Vector2 playerStart = new Vector2(0,0);
+        Vector2 playerStart = new Vector2(50f,50f);
+        /*
         for (MapObject obj : objectLayer.getObjects())
         {
             if (obj instanceof RectangleMapObject && obj.getName().equals("start"))
@@ -72,6 +78,7 @@ public class MeatGame implements Screen {
             }
 
         }
+        */
 
         //Gdx.input.setInputProcessor(this);
         world = new World(new Vector2(), true);
@@ -79,7 +86,43 @@ public class MeatGame implements Screen {
 
 //        batch = new SpriteBatch();
 
-        player = new Player(new Vector2(playerStart.x / TO_PIXELS, playerStart.y / TO_PIXELS), collisionLayer, 24f, world, true);
+        player = new Player(new Vector2(playerStart.x / TO_PIXELS, playerStart.y / TO_PIXELS), collisionLayer, 24, world, true);
+        enemies = new ArrayList<Enemy>();
+
+        //*****Testing Enemy AI **** Comment out if needed
+        ArrayList<Pair<Vector2, Float>> testPath = new ArrayList<Pair<Vector2, Float>>();
+
+        Vector2 leftVector = new Vector2(-1, 0);
+        Float leftDist = new Float(1.0f);
+        Pair<Vector2, Float> leftPair = new Pair(leftVector, leftDist);
+        testPath.add(leftPair);
+
+        Vector2 upVector = new Vector2(0, 1);
+        Float upDist = new Float(1.0f);
+        Pair<Vector2, Float> upPair = new Pair(upVector, upDist);
+        testPath.add(upPair);
+
+        Vector2 rightVector = new Vector2(1, 0);
+        Float rightDist = new Float(1.0f);
+        Pair<Vector2, Float> rightPair = new Pair(rightVector, rightDist);
+        testPath.add(rightPair);
+
+        Vector2 downVector = new Vector2(0, -1);
+        Float downDist = new Float(1.0f);
+        Pair<Vector2, Float> downPair = new Pair(downVector, downDist);
+        testPath.add(downPair);
+
+        FixedPathEnemy newEnemy = new FixedPathEnemy(
+                new Vector2(playerStart.x / TO_PIXELS, playerStart.y / TO_PIXELS),
+                world,
+                1.0f,
+                player,
+                0.5f,
+                0.5f,
+                testPath
+        );
+        enemies.add(newEnemy);
+        //***** End testing Enemy ****
         buildWalls();
         Body wall;
         BodyDef wallDef = new BodyDef();
@@ -102,6 +145,10 @@ public class MeatGame implements Screen {
 
         doPhysicsStep(dt);
         player.update(game);
+        for(int i=0; i < enemies.size(); i++){
+            Enemy currEnemy = enemies.get(i);
+            currEnemy.update();
+        }
 
         Vector3 position = camera.position;
         Vector3 box2dposition = box2DCamera.position;
@@ -135,7 +182,7 @@ public class MeatGame implements Screen {
         player.render(game.batch);
         game.batch.end();
 
-//        debugRenderer.render(world, box2DCamera.combined);
+        debugRenderer.render(world, box2DCamera.combined);
 
     }
 
