@@ -33,7 +33,6 @@ public class Player {
     private static Pixmap bloodTrail = new Pixmap(800, 600, Pixmap.Format.RGBA8888);;
     private Pixmap blood;
     private Vector2 lastPos;
-    TiledMapTileLayer collisionLayer;
 
     /**
      *  @param spawnLoc The location the player spawns in the game.
@@ -45,7 +44,6 @@ public class Player {
         this.acceleration = acceleration;
         this.input = new Vector2();
         this.isPlayerOne = isPlayerOne;
-        this.collisionLayer = collisionLayer;
         blood = new Pixmap(Gdx.files.internal("meat_splatter.png"));
 
         textureOffsetX = 0;
@@ -196,7 +194,7 @@ public class Player {
         switch (collisionWithMap) {
             case 1:
                 System.out.println("YOU LOSE!");
-//                game.setScreen(new RestartScreen(game));
+                meatGame.lose();
                 break;
             case 2:
                 System.out.println("CONGRATULATIONS");
@@ -217,21 +215,6 @@ public class Player {
                 return 1;
         }
         return 0;
-//        TiledMapTileLayer.Cell cell = collisionLayer.getCell(
-//                (int) (x / collisionLayer.getTileWidth()),
-//                (int) (y / collisionLayer.getTileHeight())
-//        );
-//        if ( cell != null && cell.getTile() != null
-//                && cell.getTile().getProperties().containsKey("hole"))
-//        {
-//            return 1;
-//        }
-//        if ( cell != null && cell.getTile() != null
-//                && cell.getTile().getProperties().containsKey("goal"))
-//        {
-//            return 2;
-//        }
-//        return 0;
     }
 
     public void dispose()
@@ -239,5 +222,13 @@ public class Player {
         meatTexture.dispose();
         blood.dispose();
         bloodTrail.dispose();
+    }
+
+    public void setPosition(Vector2 position) {
+        body.setTransform(position, 0f);
+    }
+
+    public void setVelocity(Vector2 velocity) {
+        this.body.setLinearVelocity(velocity);
     }
 }
