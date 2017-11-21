@@ -39,7 +39,6 @@ public class MeatGame implements Screen {
     private static int DESIRED_RENDER_WIDTH = 800;
     private static int DESIRED_RENDER_HEIGHT = 600;
     private static boolean RENDER_DEBUG = true;
-    private int finishedLoading = 1;
     public ArrayList<Shape2D> holes;
     public ArrayList<Shape2D> goals;
     private ShapeRenderer shapeRenderer;
@@ -328,31 +327,6 @@ public class MeatGame implements Screen {
             }
         }
         shapeRenderer.end();
-    }
-
-    private void buildWalls() {
-        float pixels = 2f;
-
-        BodyDef wallDef = new BodyDef();
-        wallDef.type = BodyDef.BodyType.StaticBody;
-        wallDef.position.set(0, 0);
-        Body wall = world.createBody(wallDef);
-        for (int x = 0; x < collisionLayer.getWidth(); x++) {
-            for (int y = 0; y < collisionLayer.getHeight(); y++) {
-                TiledMapTileLayer.Cell cell = collisionLayer.getCell(x, y);
-                if (cell != null && cell.getTile() != null
-                        && cell.getTile().getProperties().containsKey("wall")
-                        && (x%16 == 0 && y%16 == 0)) {
-                    PolygonShape poly = new PolygonShape();
-                    poly.setAsBox(16 / TO_PIXELS, 16 / TO_PIXELS, new Vector2((pixels*x-16)/TO_PIXELS, (pixels*y+16)/TO_PIXELS), 0f);
-                    FixtureDef fixtureDef = new FixtureDef();
-                    fixtureDef.shape = poly;
-                    wall.createFixture(fixtureDef);
-                    poly.dispose();
-                }
-            }
-        }
-        finishedLoading = 1;
     }
 
     public void lose() {
