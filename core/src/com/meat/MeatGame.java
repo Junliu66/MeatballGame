@@ -68,7 +68,7 @@ public class MeatGame implements Screen {
         collisionMapRenderer = new OrthogonalTiledMapRenderer(collisionMap);
         collisionLayer = (TiledMapTileLayer) collisionMap.getLayers().get("Tile Layer 1");
         MapLayer objectLayer = tiledMap.getLayers().get("Object Layer 1");
-        Vector2 playerStart = new Vector2(50f,50f);
+        Vector2 playerStart = new Vector2(75f,75f);
         /*
         for (MapObject obj : objectLayer.getObjects())
         {
