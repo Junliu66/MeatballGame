@@ -62,7 +62,7 @@ public class MeatGame implements Screen {
         box2DCamera.setToOrtho(false, 16, 12);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
-        tiledMap = new TmxMapLoader().load("ObjectLayerTestLevel.tmx");
+        tiledMap = new TmxMapLoader().load("LevelOne.tmx");
 //        collisionMap = new TmxMapLoader().load("LevelOneCollisionMap.tmx");
 
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
