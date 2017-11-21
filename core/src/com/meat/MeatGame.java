@@ -43,6 +43,7 @@ public class MeatGame implements Screen {
     public ArrayList<Shape2D> holes;
     public ArrayList<Shape2D> goals;
     private ShapeRenderer shapeRenderer;
+    private Vector2 playerStart;
 
     public static float lerp = 5.0f;
 
@@ -69,7 +70,7 @@ public class MeatGame implements Screen {
 //        collisionMapRenderer = new OrthogonalTiledMapRenderer(collisionMap);
 //        collisionLayer = (TiledMapTileLayer) collisionMap.getLayers().get("Tile Layer 1");
         MapLayer objectLayer = tiledMap.getLayers().get("Object Layer 1");
-        Vector2 playerStart = new Vector2(0,0);
+        playerStart = new Vector2(0,0);
 
         world = new World(new Vector2(), true);
 
@@ -188,15 +189,15 @@ public class MeatGame implements Screen {
 
 //        batch = new SpriteBatch();
 
-        player = new Player(new Vector2(playerStart.x, playerStart.y), collisionLayer, 24f, world, true);
+        player = new Player(new Vector2(playerStart.x, playerStart.y), collisionLayer, 64f, world, true);
 
     }
 
     @Override
     public void render(float dt) {
-        //        Gdx.app.log("FPS", (1/dt)+"");
 
         doPhysicsStep(dt);
+//        world.step(dt, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
         player.update(this);
 
         Vector3 position = camera.position;
@@ -243,6 +244,7 @@ public class MeatGame implements Screen {
         float frameTime = Math.min(deltaTime, 0.25f);
         accumulator += frameTime;
         while (accumulator >= TIME_STEP) {
+            Gdx.app.log("FPS", (1f/frameTime)+"");
             world.step(TIME_STEP, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
             accumulator -= TIME_STEP;
         }
@@ -351,5 +353,14 @@ public class MeatGame implements Screen {
             }
         }
         finishedLoading = 1;
+    }
+
+    public void lose() {
+        game.setScreen(new RestartScreen(game));
+    }
+
+    public void resetLevel() {
+        player.setPosition(playerStart);
+        player.setVelocity(new Vector2(0,0));
     }
 }

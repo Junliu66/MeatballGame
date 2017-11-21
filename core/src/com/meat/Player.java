@@ -196,7 +196,7 @@ public class Player {
         switch (collisionWithMap) {
             case 1:
                 System.out.println("YOU LOSE!");
-//                game.setScreen(new RestartScreen(game));
+                meatGame.lose();
                 break;
             case 2:
                 System.out.println("CONGRATULATIONS");
@@ -239,5 +239,13 @@ public class Player {
         meatTexture.dispose();
         blood.dispose();
         bloodTrail.dispose();
+    }
+
+    public void setPosition(Vector2 position) {
+        body.setTransform(position, 0f);
+    }
+
+    public void setVelocity(Vector2 velocity) {
+        this.body.setLinearVelocity(velocity);
     }
 }

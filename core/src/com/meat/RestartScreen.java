@@ -2,6 +2,7 @@ package com.meat;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -17,7 +18,7 @@ public class RestartScreen implements Screen {
     private MainGame game;
     private Button restart;
     private final Stage stage;
-    public RestartScreen(MainGame game) {
+    public  RestartScreen(MainGame game) {
         this.game = game;
         stage = new Stage(new ScreenViewport(), game.batch);
     }
@@ -52,14 +53,15 @@ public class RestartScreen implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
-                game.setScreen(new MeatGame(game));
+                game.setScreen(game.meatGame);
+                game.meatGame.resetLevel();
             }
         };
     }
     @Override
     public void render(float delta) {
         // stage.act(Gdx.graphics.getDeltaTime());
+        Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
     }
 
