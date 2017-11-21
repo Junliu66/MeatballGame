@@ -118,8 +118,8 @@ public class MeatGame implements Screen {
         );
         enemies.add(newEnemy);
         //***** End testing Enemy ****
-        buildWalls();
-        Body wall;
+
+
         BodyDef wallDef = new BodyDef();
         wallDef.type = BodyDef.BodyType.StaticBody;
         wallDef.position.set(0, 0);
@@ -241,7 +241,7 @@ public class MeatGame implements Screen {
 //        Gdx.app.log("FPS", (1/dt)+"");
 
         doPhysicsStep(dt);
-        player.update(game);
+        player.update(this);
         for(int i=0; i < enemies.size(); i++){
             Enemy currEnemy = enemies.get(i);
             currEnemy.update();
