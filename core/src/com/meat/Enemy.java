@@ -11,16 +11,12 @@ public abstract class Enemy {
     float speed;
     boolean isAggressive;
     Player playerRef;
-    float minRadius;        //the radius that will trigger enemy aggro
-    float minRadiusSquare;
-    float maxRadius;        //the radius that the enemy loses aggro
-    float maxRadiusSquare;
 
     public Enemy(){
         body = null;
     }
 
-    public Enemy(Vector2 initialPos, World world, float speed, Player player, float minRadius, float maxRadius){
+    public Enemy(Vector2 initialPos, World world, float speed, Player player){
         this.speed = speed;
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
@@ -40,21 +36,9 @@ public abstract class Enemy {
 
         isAggressive = false;
         playerRef = player;
-        this.minRadius = minRadius;
-        minRadiusSquare = minRadius * minRadius;
-        this.maxRadius = maxRadius;
-        maxRadiusSquare = maxRadius * maxRadius;
     }
 
     public abstract void update();
 
-    protected boolean isNearPlayer(){
-        Vector2 playerPosition = playerRef.getPosition();
-        return ((float)Math.pow(playerPosition.x, playerPosition.y) <= minRadiusSquare);
-    }
 
-    protected boolean hasLostPlayer(){
-        Vector2 playerPosition = playerRef.getPosition();
-        return ((float)Math.pow(playerPosition.x, playerPosition.y) >= maxRadiusSquare);
-    }
 }

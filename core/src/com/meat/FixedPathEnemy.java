@@ -18,9 +18,9 @@ public class FixedPathEnemy extends Enemy {
 
     }
 
-    public FixedPathEnemy(Vector2 initialPos, World world, float speed, Player player, float minRadius, float maxRadius,
+    public FixedPathEnemy(Vector2 initialPos, World world, float speed, Player player,
                           ArrayList<Pair<Vector2, Float>> path){
-        super(initialPos, world, speed, player, minRadius, maxRadius);
+        super(initialPos, world, speed, player);
 
         this.path = path;
         currentIndex = -1;
