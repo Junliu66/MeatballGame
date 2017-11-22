@@ -8,6 +8,7 @@ public class MainGame extends Game
 {
     public SpriteBatch batch;
     public BitmapFont font;
+    public MeatGame meatGame = null;
 
     public void create() {
         batch = new SpriteBatch();
@@ -17,6 +18,8 @@ public class MainGame extends Game
 
     public void render() {
         super.render();
+        batch.begin();
+        batch.end();
     }
 
     public void dispose() {

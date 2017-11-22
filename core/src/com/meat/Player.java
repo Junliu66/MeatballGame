@@ -5,10 +5,17 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
+import java.util.ArrayList;
 
 import static com.meat.MeatGame.TO_PIXELS;
 
@@ -19,14 +26,13 @@ public class Player {
     private Vector2 input;
     private Texture meatTexture;
     private float acceleration;
-    private Body body;
+    public Body body;
     private int textureOffsetX;
     private int textureOffsetY;
     private boolean isPlayerOne;
     private static Pixmap bloodTrail = new Pixmap(800, 600, Pixmap.Format.RGBA8888);;
     private Pixmap blood;
     private Vector2 lastPos;
-    TiledMapTileLayer collisionLayer;
 
     /**
      *  @param spawnLoc The location the player spawns in the game.
@@ -38,7 +44,6 @@ public class Player {
         this.acceleration = acceleration;
         this.input = new Vector2();
         this.isPlayerOne = isPlayerOne;
-        this.collisionLayer = collisionLayer;
         blood = new Pixmap(Gdx.files.internal("meat_splatter.png"));
 
         textureOffsetX = 0;
@@ -47,22 +52,22 @@ public class Player {
         playerDef.type = BodyDef.BodyType.DynamicBody;
         playerDef.position.set(spawnLoc);
         playerDef.fixedRotation = true;
-        playerDef.linearDamping = 0.5f;
+        playerDef.linearDamping = 1.0f;
         body = world.createBody(playerDef);
         CircleShape circle = new CircleShape();
         circle.setRadius(16/50f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
-        fixtureDef.restitution = 0.75f;
-        fixtureDef.friction = 0.5f;
-        fixtureDef.density = 300f;
+        fixtureDef.restitution = 0.5f;
+        fixtureDef.friction = 0.0f;
+        fixtureDef.density = 15f;
         body.createFixture(fixtureDef);
         lastPos = new Vector2(body.getPosition().x, body.getPosition().y);
         circle.dispose();
     }
 
-    public void update() {
-        checkCollisionMap();
+    public void update(MeatGame game) {
+        checkCollisionMap(game);
         input = new Vector2();
         boolean up, down, left, right;
         if (isPlayerOne)
@@ -178,38 +183,36 @@ public class Player {
 
     }
 
-    public void checkCollisionMap(){
+    public void checkCollisionMap(MeatGame meatGame){
         float x = body.getWorldCenter().x * TO_PIXELS;
         float y = body.getWorldCenter().y * TO_PIXELS;
 
         int collisionWithMap = 0;
 
-        collisionWithMap = isCellBlocked(x, y);
+        collisionWithMap = isCellBlocked(meatGame, x, y);
 
         switch (collisionWithMap) {
             case 1:
                 System.out.println("YOU LOSE!");
+                meatGame.lose();
                 break;
             case 2:
                 System.out.println("CONGRATULATIONS");
+                // // TODO add pop out box
                 break;
         }
     }
 
-    public int isCellBlocked(float x, float y) {
-        TiledMapTileLayer.Cell cell = collisionLayer.getCell(
-                (int) (x / collisionLayer.getTileWidth()),
-                (int) (y / collisionLayer.getTileHeight())
-        );
-        if ( cell != null && cell.getTile() != null
-                && cell.getTile().getProperties().containsKey("hole"))
+    public int isCellBlocked(MeatGame meatGame, float x, float y) {
+        for (Shape2D s : meatGame.goals)
         {
-            return 1;
+            if (s.contains(x, y))
+                return 2;
         }
-        if ( cell != null && cell.getTile() != null
-                && cell.getTile().getProperties().containsKey("goal"))
+        for (Shape2D s : meatGame.holes)
         {
-            return 2;
+            if (s.contains(x, y))
+                return 1;
         }
         return 0;
     }
@@ -219,5 +222,13 @@ public class Player {
         meatTexture.dispose();
         blood.dispose();
         bloodTrail.dispose();
+    }
+
+    public void setPosition(Vector2 position) {
+        body.setTransform(position, 0f);
+    }
+
+    public void setVelocity(Vector2 velocity) {
+        this.body.setLinearVelocity(velocity);
     }
 }
