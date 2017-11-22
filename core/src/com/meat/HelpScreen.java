@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -37,6 +38,9 @@ public class HelpScreen implements Screen {
     Label labelElements;
     Skin labelSkin;
 
+    SpriteBatch spriteBatch;
+    Sprite bug;
+
     public HelpScreen(MainGame game) {
         this.game = game;
     }
@@ -58,6 +62,7 @@ public class HelpScreen implements Screen {
         texture = new Texture("helpScreen.png");
         Image image = new Image(texture);
         stage.addActor(image);
+
 
         myTexture = new Texture(Gdx.files.internal("btnBack.png"));
         myTextureRegion = new TextureRegion(myTexture);
@@ -133,6 +138,11 @@ public class HelpScreen implements Screen {
         stage.addActor(btnPepperBomb);
         stage.addActor(btnBug);
 
+        spriteBatch = new SpriteBatch();
+        bug = new Sprite(new Texture("bug.png"));
+        bug.setSize(50, 85);
+        bug.setPosition(0,0);
+
 
 
         Gdx.input.setInputProcessor(stage);
@@ -142,6 +152,10 @@ public class HelpScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        spriteBatch.begin();
+        bug.translate(20 , 60);
+        bug.draw(spriteBatch);
+        spriteBatch.end();
         //Gdx.gl.glClearColor(1, 0, 0, 1);
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Gdx.graphics.getDeltaTime());

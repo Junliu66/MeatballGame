@@ -55,6 +55,12 @@ public class MainMenu implements Screen {
         Image image= new Image(texture);
         image.setSize(800,600);
 
+        /**
+        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        btnPlay = new TextButton("Play", skin);
+        btnPlay.setSize(10,10);**/
+
+
         myTexture = new Texture(Gdx.files.internal("btnPlay.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
