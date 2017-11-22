@@ -8,12 +8,13 @@ public class Pepper extends Pickup {
     private static float SPEED_BOOST = 30;
     private static float BOOST_TIME = 5;
 
-    public Pepper(Texture texture, float x, float y) {
-        super(texture, x, y);
+    public Pepper(Texture texture, float x, float y, Player player) {
+        super(texture, x, y, player);
     }
 
     @Override
     public void effect() {
         Gdx.app.log("got", "Pepper");
+        player.addModifier(new SpeedUp(5, player, 2.5f));
     }
 }

@@ -69,7 +69,7 @@ public class MeatGame implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
 
-        tiledMap = new TmxMapLoader().load("LevelTwo.tmx");
+        tiledMap = new TmxMapLoader().load("LevelOne.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
         world = new World(new Vector2(), true);
@@ -120,7 +120,7 @@ public class MeatGame implements Screen {
         debugRenderer = new Box2DDebugRenderer();
 
         // Testing pickups
-        pepper = new Pepper(new Texture("pepperbomb.png"), playerStart.x*TO_PIXELS, playerStart.y*TO_PIXELS);
+        pepper = new Pepper(new Texture("pepperbomb.png"), playerStart.x*TO_PIXELS + 64, playerStart.y*TO_PIXELS, player);
 
     }
 
@@ -130,7 +130,7 @@ public class MeatGame implements Screen {
 //        Gdx.app.log("FPS", (1/dt)+"");
 
         doPhysicsStep(dt);
-        player.update(this);
+        player.update(this, dt);
         for(int i=0; i < enemies.size(); i++){
             Enemy currEnemy = enemies.get(i);
             currEnemy.update();
@@ -166,7 +166,8 @@ public class MeatGame implements Screen {
 
         game.batch.begin();
         player.render(game.batch);
-        pepper.render(game.batch, dt, player_pos);
+        if (pepper != null && pepper.render(game.batch, dt) == Pickup.Status.FINISHED)
+            pepper = null;
         game.batch.end();
 
         if (RENDER_DEBUG)
