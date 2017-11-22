@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -46,6 +47,7 @@ public class MeatGame implements Screen {
     public ArrayList<Shape2D> goals;
     private ShapeRenderer shapeRenderer;
     private Vector2 playerStart;
+    private Pickup pepper;
 
     private ArrayList<Enemy> enemies;
 
@@ -234,6 +236,7 @@ public class MeatGame implements Screen {
 
         player = new Player(new Vector2(playerStart.x, playerStart.y), collisionLayer, 64f, world, true);
 
+        pepper = new Pepper(new Texture("pepperbomb.png"), playerStart.x*TO_PIXELS, playerStart.y*TO_PIXELS);
     }
 
     @Override
@@ -275,8 +278,10 @@ public class MeatGame implements Screen {
 //        collisionMapRenderer.setView(camera);
 //        collisionMapRenderer.render();
 
+//        Sprite test = new Sprite("pepperbomb.png", playerStart.x*TO_PIXELS, playerStart.y*TO_PIXELS);
         game.batch.begin();
         player.render(game.batch);
+        pepper.render(game.batch, dt, player.getPosition());
         game.batch.end();
 
         if (RENDER_DEBUG)
