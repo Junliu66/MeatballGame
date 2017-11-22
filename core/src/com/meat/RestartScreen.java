@@ -28,7 +28,10 @@ public class RestartScreen implements Screen {
         final Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
         restart = new TextButton("RESTART", skin);
         restart.addListener(getRestartListener());
-        restart.setPosition(180, 270, 0);
+        restart.setPosition(580, 270, 0);
+
+
+
         stage.addActor(restart);
         Gdx.input.setInputProcessor(stage);
     }
@@ -60,7 +63,7 @@ public class RestartScreen implements Screen {
     }
     @Override
     public void render(float delta) {
-        // stage.act(Gdx.graphics.getDeltaTime());
+        stage.act(Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
     }

@@ -69,7 +69,7 @@ public class MeatGame implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
 
-        tiledMap = new TmxMapLoader().load("LevelOne.tmx");
+        tiledMap = new TmxMapLoader().load("LevelTwo.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
         world = new World(new Vector2(), true);
@@ -361,7 +361,7 @@ public class MeatGame implements Screen {
 
         for (int i = 0; i < vertices.length; ++i) {
             worldVertices[i] = vertices[i] / TO_PIXELS ;
-        }
+            }
 
         polygonShape.set(worldVertices);
 
