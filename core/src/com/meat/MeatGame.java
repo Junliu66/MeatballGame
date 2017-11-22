@@ -121,8 +121,8 @@ public class MeatGame implements Screen {
         //Gdx.input.setInputProcessor(this);
         debugRenderer = new Box2DDebugRenderer();
 
-//        batch = new SpriteBatch();
-
+        // Testing pickups
+        pepper = new Pepper(new Texture("pepperbomb.png"), playerStart.x*TO_PIXELS, playerStart.y*TO_PIXELS);
 
     }
 
@@ -168,6 +168,7 @@ public class MeatGame implements Screen {
 
         game.batch.begin();
         player.render(game.batch);
+        pepper.render(game.batch, dt, player_pos);
         game.batch.end();
 
         if (RENDER_DEBUG)
