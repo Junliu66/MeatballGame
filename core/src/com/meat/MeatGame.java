@@ -107,7 +107,7 @@ public class MeatGame implements Screen {
         testPath.add(downPair);
 
         FixedPathEnemy newEnemy = new FixedPathEnemy(
-                new Vector2(playerStart.x, playerStart.y),
+                new Vector2(playerStart.x + 2, playerStart.y + 1),
                 world,
                 1.0f,
                 player,
@@ -136,8 +136,8 @@ public class MeatGame implements Screen {
             currEnemy.update();
         }
 
-        Vector3 position = camera.position;
-        Vector3 box2dposition = box2DCamera.position;
+        Vector2 position = new Vector2(camera.position.x, camera.position.y);
+        Vector2 box2dposition = new Vector2(box2DCamera.position.x, box2DCamera.position.y);
         Vector2 player_pos = player.getPosition().scl(TO_PIXELS);
 
         position.x += (player_pos.x - position.x) * lerp * dt;
@@ -146,8 +146,8 @@ public class MeatGame implements Screen {
         box2dposition.x += (player.getPosition().x - box2dposition.x) * lerp * dt;
         box2dposition.y += (player.getPosition().y - box2dposition.y) * lerp * dt;
 
-        camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
-        box2DCamera.position.set(player.getPosition(), 0);
+        camera.position.set(position, 0);
+        box2DCamera.position.set(box2dposition, 0);
         camera.update();
         box2DCamera.update();
 
