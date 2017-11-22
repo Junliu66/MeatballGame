@@ -111,8 +111,6 @@ public class MeatGame implements Screen {
                 world,
                 1.0f,
                 player,
-                0.5f,
-                0.5f,
                 testPath
         );
         enemies.add(newEnemy);
