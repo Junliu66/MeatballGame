@@ -200,7 +200,7 @@ public class Player {
                 break;
             case 2:
                 System.out.println("CONGRATULATIONS");
-                // // TODO add pop out box
+                meatGame.congrats();
                 break;
         }
     }

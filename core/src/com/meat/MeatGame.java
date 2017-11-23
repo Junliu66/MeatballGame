@@ -419,6 +419,9 @@ public class MeatGame implements Screen {
     public void lose() {
         game.setScreen(new RestartScreen(game));
     }
+    public void congrats() {
+        game.setScreen(new CongratsScreen(game));
+    }
 
     public void resetLevel() {
         player.clearModifiers();
