@@ -63,7 +63,6 @@ public class Player {
     }
 
     public void update(MeatGame game, float dt) {
-        Gdx.app.log("player.acceleration", ""+acceleration);
         checkCollisionMap(game);
         input = new Vector2();
         boolean up, down, left, right;
@@ -245,5 +244,15 @@ public class Player {
 
     public void addModifier(PlayerModifier modifier) {
         modifers.add(modifier);
+    }
+
+    public void clearModifiers() {
+        for (PlayerModifier m : modifers)
+            m.finished();
+        modifers.clear();
+    }
+
+    public Vector2 getPixelPosition() {
+        return new Vector2(body.getPosition().x * TO_PIXELS, body.getPosition().y * TO_PIXELS);
     }
 }

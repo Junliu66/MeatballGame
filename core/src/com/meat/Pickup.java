@@ -1,5 +1,6 @@
 package com.meat;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -29,7 +30,8 @@ public abstract class Pickup extends Sprite {
             hoverTimer = 0;
         setY(origY + getHeight()/4 * (float) Math.sin(hoverTimer) - getHeight()/8);
         this.draw(batch);
-        if (this.getBoundingRectangle().overlaps(new Rectangle(player.getPosition().x*MeatGame.TO_PIXELS+15f, player.getPosition().y*MeatGame.TO_PIXELS+15f, 30f, 30f))) {
+        float distToPlayer = getCenter().dst(player.getPixelPosition());
+        if (distToPlayer <= (16+getWidth()/2)) {
             effect();
             return Status.FINISHED;
         }
@@ -37,4 +39,9 @@ public abstract class Pickup extends Sprite {
     }
 
     public abstract void effect();
+
+    public Vector2 getCenter()
+    {
+        return new Vector2(getX()+getWidth()/2, getY()+getHeight()/2);
+    }
 }

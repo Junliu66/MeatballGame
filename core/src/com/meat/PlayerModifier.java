@@ -9,6 +9,7 @@ public abstract class PlayerModifier {
     private boolean useDuration;
     private boolean firstRun;
     protected Player player;
+
     public enum Status {RUNNING, FINISHED};
 
     /**
