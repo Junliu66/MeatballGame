@@ -46,9 +46,10 @@ public class MeatGame implements Screen {
     public ArrayList<Shape2D> goals;
     private ShapeRenderer shapeRenderer;
     private Vector2 playerStart;
-    private Pickup pepper;
 
     private ArrayList<Enemy> enemies;
+    private ArrayList<Pickup> pickups;
+    private ArrayList<Pickup> finishedPickups;
 
     public static float lerp = 5.0f;
 
@@ -75,11 +76,17 @@ public class MeatGame implements Screen {
         world = new World(new Vector2(), true);
         holes = new ArrayList<Shape2D>();
         goals = new ArrayList<Shape2D>();
+        pickups = new ArrayList<Pickup>();
+        finishedPickups = new ArrayList<Pickup>();
         playerStart = new Vector2(0,0);
+        player = new Player(new Vector2(playerStart.x, playerStart.y), collisionLayer, 24f, world, true);
 
-        MapLayer objectLayer = tiledMap.getLayers().get("Object Layer 1");
-        parseTiledObjects(objectLayer);
-        player = new Player(new Vector2(playerStart.x, playerStart.y), collisionLayer, 24, world, true);
+        // parse Tiled objects
+        for (MapLayer layer : tiledMap.getLayers())
+            if (layer instanceof MapLayer && layer.getObjects().getCount() > 0)
+                parseTiledObjects(layer);
+
+        player.setPosition(playerStart);
 
         enemies = new ArrayList<Enemy>();
 
@@ -119,9 +126,6 @@ public class MeatGame implements Screen {
         //Gdx.input.setInputProcessor(this);
         debugRenderer = new Box2DDebugRenderer();
 
-        // Testing pickups
-        pepper = new Pepper(new Texture("pepperbomb.png"), playerStart.x*TO_PIXELS + 64, playerStart.y*TO_PIXELS, player);
-
     }
 
 
@@ -131,7 +135,7 @@ public class MeatGame implements Screen {
 
         doPhysicsStep(dt);
         player.update(this, dt);
-        for(int i=0; i < enemies.size(); i++){
+        for (int i = 0; i < enemies.size(); i++) {
             Enemy currEnemy = enemies.get(i);
             currEnemy.update();
         }
@@ -166,8 +170,12 @@ public class MeatGame implements Screen {
 
         game.batch.begin();
         player.render(game.batch);
-        if (pepper != null && pepper.render(game.batch, dt) == Pickup.Status.FINISHED)
-            pepper = null;
+        for (int i = 0; i < pickups.size(); i++)
+            if (pickups.get(i).render(game.batch, dt) == Pickup.Status.FINISHED) {
+                finishedPickups.add(pickups.get(i));
+                pickups.remove(i);
+            }
+
         game.batch.end();
 
         if (RENDER_DEBUG)
@@ -349,6 +357,8 @@ public class MeatGame implements Screen {
                 } else {
                     Gdx.app.log("Shape not recognized", "" + obj.getClass().getName());
                 }
+            } else if (obj.getName().equals("pepper")) {
+                pickups.add(new Pepper(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
             }
         }
     }
@@ -411,7 +421,14 @@ public class MeatGame implements Screen {
     }
 
     public void resetLevel() {
+        player.clearModifiers();
         player.setPosition(playerStart);
-        player.setVelocity(new Vector2(0,0));
+        player.setVelocity(new Vector2(0, 0));
+        if (finishedPickups.size() > 0) {
+            for (int i = 0; i < finishedPickups.size(); i++) {
+                pickups.add(finishedPickups.get(i));
+                pickups.remove(i);
+            }
+        }
     }
 }
