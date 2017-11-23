@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -17,6 +18,11 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -53,9 +59,12 @@ public class MeatGame implements Screen {
 
     public static float lerp = 5.0f;
 
+    private static final int TOTAL_BLOOD_POINTS = 5;
+    private int currentBloodPoint;
     public MeatGame(final MainGame game) {
         this.game = game;
-
+        // TODO currentBloodPoint-- if hit any blood-losing object
+        currentBloodPoint = TOTAL_BLOOD_POINTS;
         shapeRenderer = new ShapeRenderer();
 
         float w = Gdx.graphics.getWidth();
@@ -182,6 +191,32 @@ public class MeatGame implements Screen {
             renderDebug();
 
         debugRenderer.render(world, box2DCamera.combined);
+        displayBloodPoints();
+
+    }
+
+    private void displayBloodPoints() {
+        Stage bpStage = new Stage(new ScreenViewport(), game.batch);
+        Texture myTexture = new Texture(Gdx.files.internal("blod.png"));
+        TextureRegion myTextureRegion = new TextureRegion(myTexture);
+        TextureRegionDrawable blood = new TextureRegionDrawable(myTextureRegion);
+
+        Texture emptyblodTex = new Texture(Gdx.files.internal("emptyblod.png"));
+        TextureRegion emptyblodTexRegion = new TextureRegion(emptyblodTex);
+        TextureRegionDrawable emptyBood = new TextureRegionDrawable(emptyblodTexRegion);
+
+        int curXPosition = 15;
+        for (int i = 0; i < currentBloodPoint; i++) {
+            Button button = new ImageButton(blood);
+            button.setPosition(15 * i + curXPosition, 30, 0);
+            bpStage.addActor(button);
+        }
+        for (int i = currentBloodPoint; i < TOTAL_BLOOD_POINTS; i++) {
+            Button button = new ImageButton(emptyBood);
+            button.setPosition(15 * i + curXPosition, 30, 0);
+            bpStage.addActor(button);
+        }
+        bpStage.draw();
     }
 
     private void doPhysicsStep(float deltaTime) {
@@ -417,6 +452,7 @@ public class MeatGame implements Screen {
     }
 
     public void lose() {
+        currentBloodPoint = 0;
         game.setScreen(new RestartScreen(game));
     }
     public void congrats() {
