@@ -314,7 +314,7 @@ public class HelpScreen implements Screen {
 
                 btnTomato.setPosition(180,290,0);
 
-                labelElements.setText("Tomato: more words...");
+                labelElements.setText("Tomato: Rewards for the score.");
                 stage.addActor(labelElements);
                 stage.draw();
             }
@@ -335,7 +335,7 @@ public class HelpScreen implements Screen {
 
                 btnPepperBomb.setPosition(270,290,0);
 
-                labelElements.setText("Pepper Bomb: more words...");
+                labelElements.setText("Pepper Bomb: Accelerate the speed of MeatBall.");
                 stage.addActor(labelElements);
                 stage.draw();
             }
@@ -356,7 +356,7 @@ public class HelpScreen implements Screen {
 
                 btnBug.setPosition(360,290,0);
 
-                labelElements.setText("Bug: more words...");
+                labelElements.setText("Bug: Loss blood of MeatBall.");
                 stage.addActor(labelElements);
                 stage.draw();
             }
