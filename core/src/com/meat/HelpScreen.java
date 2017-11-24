@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -29,6 +30,9 @@ public class HelpScreen implements Screen {
     Button btnTomato;
     Button btnPepperBomb;
     Button btnBug;
+    Button btnGarlic;
+    Button btnLava;
+    Button btnWater;
     Texture myTexture;
     TextureRegion myTextureRegion;
     TextureRegionDrawable myTexRegionDrawable;
@@ -50,7 +54,7 @@ public class HelpScreen implements Screen {
         labelArrow = new Label("", labelSkin);
         labelElements = new Label("", labelSkin);
         labelArrow.setPosition(500,400);
-        labelElements.setPosition(180,190);
+        labelElements.setPosition(400,300);
         labelArrow.setFontScale(1.5f);
         labelElements.setFontScale(1.2f);
 
@@ -98,12 +102,33 @@ public class HelpScreen implements Screen {
         myTexRegionDrawable.setMinWidth(60);
         btnPepperBomb = new ImageButton(myTexRegionDrawable);
 
+        myTexture = new Texture(Gdx.files.internal("garlicSlow.png"));
+        myTextureRegion = new TextureRegion(myTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        myTexRegionDrawable.setMinHeight(60);
+        myTexRegionDrawable.setMinWidth(60);
+        btnGarlic = new ImageButton(myTexRegionDrawable);
+
         myTexture = new Texture(Gdx.files.internal("bug.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         myTexRegionDrawable.setMinHeight(60);
         myTexRegionDrawable.setMinWidth(60);
         btnBug = new ImageButton(myTexRegionDrawable);
+
+        myTexture = new Texture(Gdx.files.internal("lava.png"));
+        myTextureRegion = new TextureRegion(myTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        myTexRegionDrawable.setMinHeight(60);
+        myTexRegionDrawable.setMinWidth(60);
+        btnLava = new ImageButton(myTexRegionDrawable);
+
+        myTexture = new Texture(Gdx.files.internal("water.png"));
+        myTextureRegion = new TextureRegion(myTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        myTexRegionDrawable.setMinHeight(60);
+        myTexRegionDrawable.setMinWidth(60);
+        btnWater = new ImageButton(myTexRegionDrawable);
 
 
         btnBack.addListener(getBackListener());
@@ -113,16 +138,23 @@ public class HelpScreen implements Screen {
         btnDown.addListener(getDownListener());
         btnTomato.addListener(getTomatoListener());
         btnPepperBomb.addListener(getPepperBombListener());
+
+        btnGarlic.addListener(getGarlicSlowListener());
+        btnLava.addListener(getLavaListener());
+        btnWater.addListener(getWaterListener());
         btnBug.addListener(getBugListener());
 
-        btnBack.setPosition(400, 120, 0);
+        btnBack.setPosition(400, 80, 0);
         btnLeft.setPosition(180, 400, 0);
         btnRight.setPosition(340, 400,0);
         btnUp.setPosition(260, 480,0);
         btnDown.setPosition(260, 400,0);
         btnTomato.setPosition(180,270,0);
         btnPepperBomb.setPosition(270,270,0);
-        btnBug.setPosition(360,270,0);
+        btnGarlic.setPosition(360,270,0);
+        btnBug.setPosition(180,150,0);
+        btnLava.setPosition(270,150,0);
+        btnWater.setPosition(360,150,0);
 
         stage.addActor(btnBack);
         stage.addActor(btnLeft);
@@ -131,13 +163,12 @@ public class HelpScreen implements Screen {
         stage.addActor(btnDown);
         stage.addActor(btnTomato);
         stage.addActor(btnPepperBomb);
+        stage.addActor(btnGarlic);
+        stage.addActor(btnLava);
+        stage.addActor(btnWater);
         stage.addActor(btnBug);
 
-
-
         Gdx.input.setInputProcessor(stage);
-
-
     }
 
     @Override
@@ -180,7 +211,7 @@ public class HelpScreen implements Screen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 btnBack.setHeight(60);
                 btnBack.setWidth(60);
-                btnBack.setPosition(400,120,0);
+                btnBack.setPosition(400,100,0);
 
                 stage.draw();
             }
@@ -188,7 +219,7 @@ public class HelpScreen implements Screen {
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 btnBack.setHeight(100);
                 btnBack.setWidth(100);
-                btnBack.setPosition(400,120,0);
+                btnBack.setPosition(400,80,0);
 
                 stage.draw();
             }
@@ -335,7 +366,7 @@ public class HelpScreen implements Screen {
 
                 btnPepperBomb.setPosition(270,290,0);
 
-                labelElements.setText("Pepper Bomb: Accelerate the speed of MeatBall.");
+                labelElements.setText("Pepper: Accelerate speed of MeatBall.");
                 stage.addActor(labelElements);
                 stage.draw();
             }
@@ -350,11 +381,32 @@ public class HelpScreen implements Screen {
         };
     }
 
+    public EventListener getGarlicSlowListener() {
+        return new ClickListener() {
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+
+                btnGarlic.setPosition(360,290,0);
+
+                labelElements.setText("Garlic: Reduce the speed of MeatBall.");
+                stage.addActor(labelElements);
+                stage.draw();
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+
+                btnGarlic.setPosition(360,270,0);
+
+                labelElements.setText("");
+                stage.draw();
+            }
+        };
+    }
+
     private ClickListener getBugListener() {
         return new ClickListener() {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                btnBug.setPosition(360,290,0);
+                btnBug.setPosition(180,170,0);
 
                 labelElements.setText("Bug: Loss blood of MeatBall.");
                 stage.addActor(labelElements);
@@ -363,7 +415,51 @@ public class HelpScreen implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                btnBug.setPosition(360,270,0);
+                btnBug.setPosition(180,150,0);
+
+                labelElements.setText("");
+                stage.draw();
+            }
+        };
+    }
+
+    public EventListener getLavaListener() {
+            return new ClickListener() {
+                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+
+                    btnLava.setPosition(270,170,0);
+
+                    labelElements.setText("Lava: Loss blood of MeatBall.");
+                    stage.addActor(labelElements);
+                    stage.draw();
+                }
+
+                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+
+                    btnLava.setPosition(270,150,0);
+
+                    labelElements.setText("");
+                    stage.draw();
+                }
+            };
+        }
+
+
+
+    public EventListener getWaterListener() {
+        return new ClickListener() {
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+
+                btnWater.setPosition(360,170,0);
+
+                labelElements.setText("Water: Loss blood of MeatBall.");
+                stage.addActor(labelElements);
+                stage.draw();
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+
+                btnWater.setPosition(360,150,0);
 
                 labelElements.setText("");
                 stage.draw();
