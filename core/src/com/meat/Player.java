@@ -202,6 +202,9 @@ public class Player {
                 System.out.println("CONGRATULATIONS");
                 meatGame.congrats();
                 break;
+            case 3:
+                System.out.println("Reducing 1 blood point!");
+                meatGame.reduceBlood();
         }
     }
 
@@ -215,6 +218,11 @@ public class Player {
         {
             if (s.contains(x, y))
                 return 1;
+        }
+        for (Shape2D s : meatGame.dies)
+        {
+            if (s.contains(x, y))
+                return 3;
         }
         return 0;
     }

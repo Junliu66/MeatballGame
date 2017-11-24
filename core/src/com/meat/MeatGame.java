@@ -50,6 +50,7 @@ public class MeatGame implements Screen {
     private static boolean RENDER_DEBUG = true;
     public ArrayList<Shape2D> holes;
     public ArrayList<Shape2D> goals;
+    public ArrayList<Shape2D> dies;
     private ShapeRenderer shapeRenderer;
     private Vector2 playerStart;
 
@@ -79,12 +80,13 @@ public class MeatGame implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
 
-        tiledMap = new TmxMapLoader().load("LevelTwo.tmx");
+        tiledMap = new TmxMapLoader().load("LevelOne.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
         world = new World(new Vector2(), true);
         holes = new ArrayList<Shape2D>();
         goals = new ArrayList<Shape2D>();
+        dies = new ArrayList<Shape2D>();
         pickups = new ArrayList<Pickup>();
         finishedPickups = new ArrayList<Pickup>();
         playerStart = new Vector2(0,0);
@@ -140,7 +142,6 @@ public class MeatGame implements Screen {
 
     @Override
     public void render(float dt) {
-//        Gdx.app.log("FPS", (1/dt)+"");
 
         doPhysicsStep(dt);
         player.update(this, dt);
@@ -174,8 +175,6 @@ public class MeatGame implements Screen {
 
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
-//        collisionMapRenderer.setView(camera);
-//        collisionMapRenderer.render();
 
         game.batch.begin();
         player.render(game.batch);
@@ -395,6 +394,35 @@ public class MeatGame implements Screen {
             } else if (obj.getName().equals("pepper")) {
                 pickups.add(new Pepper(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
             }
+            else if(obj.getName().equals("die")) {
+                if (obj instanceof RectangleMapObject) {
+                    Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                    dies.add(rect);
+                } else if (obj instanceof CircleMapObject) {
+                    Circle circle = new Circle();
+                    circle.radius = ((CircleMapObject) obj).getCircle().radius / 2f;
+                    circle.setPosition(((CircleMapObject) obj).getCircle().x, ((CircleMapObject) obj).getCircle().y);
+                    dies.add(circle);
+                } else if (obj instanceof EllipseMapObject) {
+                    Ellipse ellipse = ((EllipseMapObject) obj).getEllipse();
+                    ellipse.setPosition(ellipse.x + ellipse.width / 2f, ellipse.y + (ellipse.height / 2f));
+                    dies.add(ellipse);
+                } else if (obj instanceof PolygonMapObject) {
+                    Polygon polygon = ((PolygonMapObject) obj).getPolygon();
+                    polygon.setPosition(((PolygonMapObject) obj).getPolygon().getX(), ((PolygonMapObject) obj).getPolygon().getY());
+                    polygon.setRotation(((PolygonMapObject) obj).getPolygon().getRotation());
+                    dies.add(polygon);
+                } else if (obj instanceof PolylineMapObject) {
+                    Polygon polygon = new Polygon(((PolylineMapObject) obj).getPolyline().getVertices());
+                    polygon.setPosition(
+                            ((PolylineMapObject) obj).getPolyline().getX(),
+                            ((PolylineMapObject) obj).getPolyline().getY());
+                    polygon.setRotation(((PolylineMapObject) obj).getPolyline().getRotation());
+                    dies.add(polygon);
+                } else {
+                    Gdx.app.log("Shape not recognized", "" + obj.getClass().getName());
+                }
+            }
         }
     }
 
@@ -452,11 +480,21 @@ public class MeatGame implements Screen {
     }
 
     public void lose() {
-        currentBloodPoint = 0;
+        currentBloodPoint = TOTAL_BLOOD_POINTS;
         game.setScreen(new RestartScreen(game));
     }
+
     public void congrats() {
+        currentBloodPoint = TOTAL_BLOOD_POINTS;
         game.setScreen(new CongratsScreen(game));
+    }
+
+    public void reduceBlood() {
+        currentBloodPoint--;
+        if (currentBloodPoint <= 0) {
+            lose();
+        }
+        resetLevel();
     }
 
     public void resetLevel() {
