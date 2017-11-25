@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="v1.0.3-308-g1056357" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextobjectid="102">
+<map version="1.0" tiledversion="v1.0.3-308-g1056357" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextobjectid="115">
  <tileset firstgid="1" source="tabletop.tsx"/>
  <tileset firstgid="37" source="wallTile.tsx"/>
  <tileset firstgid="38" source="spaghetti.tsx"/>
@@ -339,17 +339,20 @@
    <polygon points="0,0 -20,3 -29,9 -34,23 -33,75 -34,86 -25,97 -20,104 252,105 266,77 257,65 258,56 267,50 257,30 268,17 260,-1 263,-10 253,-27 231,-32 215,-30 199,-34 183,-29 164,-35 146,-30 128,-33 110,-31 98,-20 92,-6 89,4 71,-1 37,-2 0,1"/>
   </object>
  </objectgroup>
- <objectgroup name="Object Layer 2">
+ <objectgroup name="Object Layer 2" locked="1">
   <object id="89" name="pepper" x="2110" y="1703">
-   <point/>
-  </object>
-  <object id="90" name="pepper" x="1471" y="1412">
    <point/>
   </object>
   <object id="99" name="pepper" x="694" y="603">
    <point/>
   </object>
-  <object id="100" name="pepper" x="436" y="1412">
+  <object id="110" name="garlic" x="1485" y="1403">
+   <point/>
+  </object>
+  <object id="112" name="garlic" x="799" y="2066">
+   <point/>
+  </object>
+  <object id="113" name="pepper" x="798" y="2179">
    <point/>
   </object>
  </objectgroup>
