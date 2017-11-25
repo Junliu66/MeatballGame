@@ -58,9 +58,7 @@ public class LevelSelectScreen implements Screen {
     int iconSelectedY = buttonYLvlOne;
 
 
-    public LevelSelectScreen(MainGame game) {
-        this.game = game;
-    }
+    public LevelSelectScreen(MainGame game) { this.game = game; }
 
     public void show() {
         stage = new Stage(new ScreenViewport());
