@@ -5,15 +5,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
 
@@ -33,6 +27,7 @@ public class Player {
     private static Pixmap bloodTrail = new Pixmap(800, 600, Pixmap.Format.RGBA8888);;
     private Pixmap blood;
     private Vector2 lastPos;
+    private ArrayList<PlayerModifier> modifers;
 
     /**
      *  @param spawnLoc The location the player spawns in the game.
@@ -45,6 +40,7 @@ public class Player {
         this.input = new Vector2();
         this.isPlayerOne = isPlayerOne;
         blood = new Pixmap(Gdx.files.internal("meat_splatter.png"));
+        modifers = new ArrayList<PlayerModifier>();
 
         textureOffsetX = 0;
         textureOffsetY = 0;
@@ -66,7 +62,7 @@ public class Player {
         circle.dispose();
     }
 
-    public void update(MeatGame game) {
+    public void update(MeatGame game, float dt) {
         checkCollisionMap(game);
         input = new Vector2();
         boolean up, down, left, right;
@@ -96,6 +92,12 @@ public class Player {
             input.x = 1;
 
         body.applyForceToCenter(input.scl(acceleration), true);
+
+        for (int i=0; i < modifers.size(); i++) {
+            if (modifers.get(i).update(dt) == PlayerModifier.Status.FINISHED) {
+                modifers.remove(i);
+            }
+        }
     }
 
     public void render(SpriteBatch batch)
@@ -183,7 +185,7 @@ public class Player {
 
     }
 
-    public void checkCollisionMap(MeatGame meatGame){
+    public void checkCollisionMap(MeatGame meatGame) {
         float x = body.getWorldCenter().x * TO_PIXELS;
         float y = body.getWorldCenter().y * TO_PIXELS;
 
@@ -198,8 +200,11 @@ public class Player {
                 break;
             case 2:
                 System.out.println("CONGRATULATIONS");
-                // // TODO add pop out box
+                meatGame.congrats();
                 break;
+            case 3:
+                System.out.println("Reducing 1 blood point!");
+                meatGame.reduceBlood();
         }
     }
 
@@ -213,6 +218,11 @@ public class Player {
         {
             if (s.contains(x, y))
                 return 1;
+        }
+        for (Shape2D s : meatGame.dies)
+        {
+            if (s.contains(x, y))
+                return 3;
         }
         return 0;
     }
@@ -230,5 +240,27 @@ public class Player {
 
     public void setVelocity(Vector2 velocity) {
         this.body.setLinearVelocity(velocity);
+    }
+
+    public float getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration(float acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public void addModifier(PlayerModifier modifier) {
+        modifers.add(modifier);
+    }
+
+    public void clearModifiers() {
+        for (PlayerModifier m : modifers)
+            m.finished();
+        modifers.clear();
+    }
+
+    public Vector2 getPixelPosition() {
+        return new Vector2(body.getPosition().x * TO_PIXELS, body.getPosition().y * TO_PIXELS);
     }
 }
