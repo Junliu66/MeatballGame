@@ -366,7 +366,7 @@ public class HelpScreen implements Screen {
 
                 btnPepperBomb.setPosition(270,290,0);
 
-                labelElements.setText("Pepper: Accelerate speed of MeatBall.");
+                labelElements.setText("Pepper: Accelerate MeatBall.");
                 stage.addActor(labelElements);
                 stage.draw();
             }
@@ -387,7 +387,7 @@ public class HelpScreen implements Screen {
 
                 btnGarlic.setPosition(360,290,0);
 
-                labelElements.setText("Garlic: Reduce the speed of MeatBall.");
+                labelElements.setText("Garlic: Decelerate of MeatBall.");
                 stage.addActor(labelElements);
                 stage.draw();
             }
@@ -408,7 +408,7 @@ public class HelpScreen implements Screen {
 
                 btnBug.setPosition(180,170,0);
 
-                labelElements.setText("Bug: Loss blood of MeatBall.");
+                labelElements.setText("Bug: Reduce health of MeatBall.");
                 stage.addActor(labelElements);
                 stage.draw();
             }
@@ -429,7 +429,7 @@ public class HelpScreen implements Screen {
 
                     btnLava.setPosition(270,170,0);
 
-                    labelElements.setText("Lava: Loss blood of MeatBall.");
+                    labelElements.setText("Lava: Reduce health of MeatBall.");
                     stage.addActor(labelElements);
                     stage.draw();
                 }
@@ -452,7 +452,7 @@ public class HelpScreen implements Screen {
 
                 btnWater.setPosition(360,170,0);
 
-                labelElements.setText("Water: Loss blood of MeatBall.");
+                labelElements.setText("Water: Reduce health of MeatBall.");
                 stage.addActor(labelElements);
                 stage.draw();
             }
