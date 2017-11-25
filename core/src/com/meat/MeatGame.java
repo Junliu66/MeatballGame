@@ -53,6 +53,7 @@ public class MeatGame implements Screen {
     public ArrayList<Shape2D> dies;
     private ShapeRenderer shapeRenderer;
     private Vector2 playerStart;
+    private String lvlString;
 
     private ArrayList<Enemy> enemies;
     private ArrayList<Pickup> pickups;
@@ -62,8 +63,9 @@ public class MeatGame implements Screen {
 
     private static final int TOTAL_BLOOD_POINTS = 5;
     private int currentBloodPoint;
-    public MeatGame(final MainGame game) {
+    public MeatGame(final MainGame game, String lvlName) {
         this.game = game;
+        this.lvlString = lvlName;
         // TODO currentBloodPoint-- if hit any blood-losing object
         currentBloodPoint = TOTAL_BLOOD_POINTS;
         shapeRenderer = new ShapeRenderer();
@@ -80,7 +82,7 @@ public class MeatGame implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
 
-        tiledMap = new TmxMapLoader().load("LevelOne.tmx");
+        tiledMap = new TmxMapLoader().load(lvlName);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
         world = new World(new Vector2(), true);
@@ -481,7 +483,7 @@ public class MeatGame implements Screen {
 
     public void lose() {
         currentBloodPoint = TOTAL_BLOOD_POINTS;
-        game.setScreen(new RestartScreen(game));
+        game.setScreen(new RestartScreen(game, lvlString));
     }
 
     public void congrats() {

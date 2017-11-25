@@ -24,13 +24,15 @@ public class RestartScreen implements Screen {
     private Button mainMenu;
     private Button levelSelection;
     private Label gm;
+    private String lvlString;
     private Label score;//TODO
     private final Stage stage;
     private Texture texture;
 
 
-    public  RestartScreen(MainGame game) {
+    public  RestartScreen(MainGame game, String lvlName) {
         this.game = game;
+        this.lvlString = lvlName;
         stage = new Stage(new ScreenViewport(), game.batch);
     }
 
@@ -80,8 +82,8 @@ public class RestartScreen implements Screen {
         return new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(game.meatGame);
-                game.meatGame.resetLevel();
+                game.setScreen(new LevelSelectScreen(game));
+
             }
         };
     }
@@ -91,8 +93,8 @@ public class RestartScreen implements Screen {
         return new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(game.meatGame);
-                game.meatGame.resetLevel();
+                //game.setScreen(game.meatGame);
+                game.setScreen(new MeatGame(game, lvlString));
             }
         };
     }

@@ -156,8 +156,7 @@ public class MainMenu implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 
                 stage.draw();
-                game.meatGame = new MeatGame(game);
-                game.setScreen(game.meatGame);
+                game.setScreen(new LevelSelectScreen(game));
 
             }
         };
