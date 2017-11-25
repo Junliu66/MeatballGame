@@ -37,10 +37,12 @@ public class CongratsScreen implements Screen {
     private Label congrats;
     private final Stage stage;
     private Texture texture;
+    private String lvlString;
 
 
-    public  CongratsScreen(MainGame game) {
+    public  CongratsScreen(MainGame game, String lvlName) {
         this.game = game;
+        this.lvlString = lvlName;
         stage = new Stage(new ScreenViewport(), game.batch);
     }
 
@@ -80,11 +82,21 @@ public class CongratsScreen implements Screen {
 
     //TODO: fix it to connect next level
     private ClickListener getNextLevel() {
-        return new ClickListener(){
+        return new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(game.meatGame);
-                game.meatGame.resetLevel();
+                switch (lvlString) {
+                    case "LevelOne.tmx":
+                        game.setScreen(new MeatGame(game, "LevelTwo.tmx"));
+                        break;
+                    case "LevelTwo.tmx":
+                        game.setScreen(new MeatGame(game, "LevelOne.tmx"));
+                        break;
+                    default:
+                        game.setScreen(new LevelSelectScreen(game));
+                        break;
+
+                }
             }
         };
     }
@@ -94,8 +106,7 @@ public class CongratsScreen implements Screen {
         return new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(game.meatGame);
-                game.meatGame.resetLevel();
+
             }
         };
     }

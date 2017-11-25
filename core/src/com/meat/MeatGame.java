@@ -488,7 +488,7 @@ public class MeatGame implements Screen {
 
     public void congrats() {
         currentBloodPoint = TOTAL_BLOOD_POINTS;
-        game.setScreen(new CongratsScreen(game));
+        game.setScreen(new CongratsScreen(game, lvlString));
     }
 
     public void reduceBlood() {

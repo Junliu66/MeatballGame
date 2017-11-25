@@ -215,7 +215,7 @@ public class LevelSelectScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 
                 stage.draw();
-                game.setScreen(new MeatGame(game, "LevelOne.Tmx"));
+                game.setScreen(new MeatGame(game, "LevelOne.tmx"));
 
             }
         };
