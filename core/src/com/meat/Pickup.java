@@ -21,6 +21,7 @@ public abstract class Pickup extends Sprite {
         this.player = player;
         this.origY = y;
         this.setPosition(x, y);
+        this.setSize(30,30);
     }
 
     public Status render(SpriteBatch batch, float dt)

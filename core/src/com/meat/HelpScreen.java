@@ -21,18 +21,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
  */
 public class HelpScreen implements Screen {
 
+    MainGame game;
     Stage stage;
-    Button btnBack;
-    Button btnLeft;
-    Button btnRight;
-    Button btnUp;
-    Button btnDown;
-    Button btnTomato;
-    Button btnPepperBomb;
-    Button btnBug;
-    Button btnGarlic;
-    Button btnLava;
-    Button btnWater;
+    Button btnBack, btnLeft, btnRight, btnUp, btnDown, btnTomato, btnPepperBomb, btnBug,
+            btnGarlic, btnLava, btnWater;
     Texture myTexture;
     TextureRegion myTextureRegion;
     TextureRegionDrawable myTexRegionDrawable;
@@ -40,12 +32,12 @@ public class HelpScreen implements Screen {
     Label labelArrow;
     Label labelElements;
     Skin labelSkin;
+    Image imgBack, imgLeft, imgRight, imgUp, imgDown, imgTomato, imgPepperBomb, imgBug,
+            imgGarlic, imgLava, imgWater;
 
     public HelpScreen(MainGame game) {
         this.game = game;
     }
-
-    private MainGame game;
 
     @Override
     public void show() {
@@ -54,39 +46,49 @@ public class HelpScreen implements Screen {
         labelArrow = new Label("", labelSkin);
         labelElements = new Label("", labelSkin);
         labelArrow.setPosition(500,400);
-        labelElements.setPosition(400,300);
+        labelElements.setPosition(400,200);
         labelArrow.setFontScale(1.5f);
         labelElements.setFontScale(1.2f);
 
         stage = new Stage(new ScreenViewport());
         texture = new Texture("helpScreen.png");
         Image image = new Image(texture);
-        stage.addActor(image);
+
 
         myTexture = new Texture(Gdx.files.internal("btnBack.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnBack = new ImageButton(myTexRegionDrawable);
+        btnBack.setColor(0, 0, 0, 0);
+        imgBack = new Image(myTexture);
 
         myTexture = new Texture(Gdx.files.internal("btnLeft.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnLeft = new ImageButton(myTexRegionDrawable);
+        btnLeft.setColor(0, 0, 0, 0);
+        imgLeft = new Image(myTexture);
 
         myTexture = new Texture(Gdx.files.internal("btnRight.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnRight = new ImageButton(myTexRegionDrawable);
+        btnRight.setColor(0, 0, 0, 0);
+        imgRight = new Image(myTexture);
 
         myTexture = new Texture(Gdx.files.internal("btnUp.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnUp = new ImageButton(myTexRegionDrawable);
+        btnUp.setColor(0, 0, 0, 0);
+        imgUp = new Image(myTexture);
 
         myTexture = new Texture(Gdx.files.internal("btnDown.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnDown = new ImageButton(myTexRegionDrawable);
+        btnDown.setColor(0, 0, 0, 0);
+        imgDown = new Image(myTexture);
 
         myTexture = new Texture(Gdx.files.internal("tomato.png"));
         myTextureRegion = new TextureRegion(myTexture);
@@ -94,6 +96,9 @@ public class HelpScreen implements Screen {
         myTexRegionDrawable.setMinHeight(60);
         myTexRegionDrawable.setMinWidth(60);
         btnTomato = new ImageButton(myTexRegionDrawable);
+        btnTomato.setColor(0, 0, 0, 0);
+        imgTomato = new Image(myTexture);
+        imgTomato.setSize(60,60);
 
         myTexture = new Texture(Gdx.files.internal("pepperbomb.png"));
         myTextureRegion = new TextureRegion(myTexture);
@@ -101,6 +106,9 @@ public class HelpScreen implements Screen {
         myTexRegionDrawable.setMinHeight(60);
         myTexRegionDrawable.setMinWidth(60);
         btnPepperBomb = new ImageButton(myTexRegionDrawable);
+        btnPepperBomb.setColor(0, 0, 0, 0);
+        imgPepperBomb = new Image(myTexture);
+        imgPepperBomb.setSize(60,60);
 
         myTexture = new Texture(Gdx.files.internal("garlicSlow.png"));
         myTextureRegion = new TextureRegion(myTexture);
@@ -108,6 +116,9 @@ public class HelpScreen implements Screen {
         myTexRegionDrawable.setMinHeight(60);
         myTexRegionDrawable.setMinWidth(60);
         btnGarlic = new ImageButton(myTexRegionDrawable);
+        btnGarlic.setColor(0, 0, 0, 0);
+        imgGarlic = new Image(myTexture);
+        imgGarlic.setSize(60,60);
 
         myTexture = new Texture(Gdx.files.internal("bug.png"));
         myTextureRegion = new TextureRegion(myTexture);
@@ -115,6 +126,9 @@ public class HelpScreen implements Screen {
         myTexRegionDrawable.setMinHeight(60);
         myTexRegionDrawable.setMinWidth(60);
         btnBug = new ImageButton(myTexRegionDrawable);
+        btnBug.setColor(0, 0, 0, 0);
+        imgBug = new Image(myTexture);
+        imgBug.setSize(60,60);
 
         myTexture = new Texture(Gdx.files.internal("lava.png"));
         myTextureRegion = new TextureRegion(myTexture);
@@ -122,6 +136,9 @@ public class HelpScreen implements Screen {
         myTexRegionDrawable.setMinHeight(60);
         myTexRegionDrawable.setMinWidth(60);
         btnLava = new ImageButton(myTexRegionDrawable);
+        btnLava.setColor(0, 0, 0, 0);
+        imgLava = new Image(myTexture);
+        imgLava.setSize(60,60);
 
         myTexture = new Texture(Gdx.files.internal("water.png"));
         myTextureRegion = new TextureRegion(myTexture);
@@ -129,7 +146,9 @@ public class HelpScreen implements Screen {
         myTexRegionDrawable.setMinHeight(60);
         myTexRegionDrawable.setMinWidth(60);
         btnWater = new ImageButton(myTexRegionDrawable);
-
+        btnWater.setColor(0, 0, 0, 0);
+        imgWater = new Image(myTexture);
+        imgWater.setSize(60,60);
 
         btnBack.addListener(getBackListener());
         btnLeft.addListener(getLeftListener());
@@ -138,11 +157,22 @@ public class HelpScreen implements Screen {
         btnDown.addListener(getDownListener());
         btnTomato.addListener(getTomatoListener());
         btnPepperBomb.addListener(getPepperBombListener());
-
         btnGarlic.addListener(getGarlicSlowListener());
         btnLava.addListener(getLavaListener());
         btnWater.addListener(getWaterListener());
         btnBug.addListener(getBugListener());
+
+        imgBack.setPosition(400, 80, 0);
+        imgLeft.setPosition(180, 400, 0);
+        imgRight.setPosition(340, 400,0);
+        imgUp.setPosition(260, 480,0);
+        imgDown.setPosition(260, 400,0);
+        imgTomato.setPosition(180,270,0);
+        imgPepperBomb.setPosition(270,270,0);
+        imgGarlic.setPosition(360,270,0);
+        imgBug.setPosition(180,150,0);
+        imgLava.setPosition(270,150,0);
+        imgWater.setPosition(360,150,0);
 
         btnBack.setPosition(400, 80, 0);
         btnLeft.setPosition(180, 400, 0);
@@ -155,6 +185,20 @@ public class HelpScreen implements Screen {
         btnBug.setPosition(180,150,0);
         btnLava.setPosition(270,150,0);
         btnWater.setPosition(360,150,0);
+
+        stage.addActor(image);
+        stage.addActor(imgBack);
+        stage.addActor(imgLeft);
+        stage.addActor(imgRight);
+        stage.addActor(imgUp);
+        stage.addActor(imgDown);
+        stage.addActor(imgTomato);
+        stage.addActor(imgPepperBomb);
+        stage.addActor(imgGarlic);
+        stage.addActor(imgBug);
+        stage.addActor(imgLava);
+        stage.addActor(imgWater);
+
 
         stage.addActor(btnBack);
         stage.addActor(btnLeft);
@@ -173,8 +217,8 @@ public class HelpScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        //Gdx.gl.glClearColor(1, 0, 0, 1);
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Gdx.graphics.getDeltaTime());
 
         stage.draw();
@@ -209,17 +253,17 @@ public class HelpScreen implements Screen {
         return new ClickListener(){
 
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                btnBack.setHeight(60);
-                btnBack.setWidth(60);
-                btnBack.setPosition(400,100,0);
+                imgBack.setHeight(30);
+                imgBack.setWidth(70);
+                imgBack.setPosition(400,80,0);
 
                 stage.draw();
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                btnBack.setHeight(100);
-                btnBack.setWidth(100);
-                btnBack.setPosition(400,80,0);
+                imgBack.setHeight(34);
+                imgBack.setWidth(76);
+                imgBack.setPosition(400,80,0);
 
                 stage.draw();
             }
@@ -236,9 +280,9 @@ public class HelpScreen implements Screen {
         return new ClickListener() {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                btnLeft.setHeight(70);
-                btnLeft.setWidth(70);
-                btnLeft.setPosition(180,400,0);
+                imgLeft.setHeight(72);
+                imgLeft.setWidth(72);
+                imgLeft.setPosition(180,400,0);
 
                 labelArrow.setText("Go Left");
                 stage.addActor(labelArrow);
@@ -248,9 +292,9 @@ public class HelpScreen implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                btnLeft.setHeight(100);
-                btnLeft.setWidth(100);
-                btnLeft.setPosition(180,400,0);
+                imgLeft.setHeight(79);
+                imgLeft.setWidth(79);
+                imgLeft.setPosition(180,400,0);
 
                 labelArrow.setText("");
                 stage.addActor(labelArrow);
@@ -264,9 +308,9 @@ public class HelpScreen implements Screen {
         return new ClickListener() {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                btnRight.setHeight(70);
-                btnRight.setWidth(70);
-                btnRight.setPosition(340,400,0);
+                imgRight.setHeight(72);
+                imgRight.setWidth(72);
+                imgRight.setPosition(340,400,0);
 
                 labelArrow.setText("Go Right");
                 stage.addActor(labelArrow);
@@ -276,9 +320,9 @@ public class HelpScreen implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                btnRight.setHeight(100);
-                btnRight.setWidth(100);
-                btnRight.setPosition(340,400,0);
+                imgRight.setHeight(79);
+                imgRight.setWidth(79);
+                imgRight.setPosition(340,400,0);
 
                 labelArrow.setText("");
 
@@ -291,9 +335,9 @@ public class HelpScreen implements Screen {
         return new ClickListener() {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                btnUp.setHeight(70);
-                btnUp.setWidth(70);
-                btnUp.setPosition(260,480,0);
+                imgUp.setHeight(72);
+                imgUp.setWidth(72);
+                imgUp.setPosition(260,480,0);
 
                 labelArrow.setText("Go Up");
                 stage.addActor(labelArrow);
@@ -303,9 +347,9 @@ public class HelpScreen implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                btnUp.setHeight(100);
-                btnUp.setWidth(100);
-                btnUp.setPosition(260,480,0);
+                imgUp.setHeight(79);
+                imgUp.setWidth(79);
+                imgUp.setPosition(260,480,0);
 
                 labelArrow.setText("");
 
@@ -318,9 +362,9 @@ public class HelpScreen implements Screen {
         return new ClickListener() {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                btnDown.setHeight(70);
-                btnDown.setWidth(70);
-                btnDown.setPosition(260,400,0);
+                imgDown.setHeight(72);
+                imgDown.setWidth(72);
+                imgDown.setPosition(260,400,0);
 
                 labelArrow.setText("Go Down");
                 stage.addActor(labelArrow);
@@ -329,9 +373,9 @@ public class HelpScreen implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                btnDown.setHeight(100);
-                btnDown.setWidth(100);
-                btnDown.setPosition(260,400,0);
+                imgDown.setHeight(79);
+                imgDown.setWidth(79);
+                imgDown.setPosition(260,400,0);
 
                 labelArrow.setText("");
                 stage.draw();
@@ -343,7 +387,7 @@ public class HelpScreen implements Screen {
         return new ClickListener() {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                btnTomato.setPosition(180,290,0);
+                imgTomato.setPosition(180,290,0);
 
                 labelElements.setText("Tomato: Rewards for the score.");
                 stage.addActor(labelElements);
@@ -352,7 +396,7 @@ public class HelpScreen implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                btnTomato.setPosition(180,270,0);
+                imgTomato.setPosition(180,270,0);
 
                 labelElements.setText("");
                 stage.draw();
@@ -364,7 +408,7 @@ public class HelpScreen implements Screen {
         return new ClickListener() {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                btnPepperBomb.setPosition(270,290,0);
+                imgPepperBomb.setPosition(270,290,0);
 
                 labelElements.setText("Pepper: Accelerate MeatBall.");
                 stage.addActor(labelElements);
@@ -373,7 +417,7 @@ public class HelpScreen implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                btnPepperBomb.setPosition(270,270,0);
+                imgPepperBomb.setPosition(270,270,0);
 
                 labelElements.setText("");
                 stage.draw();
@@ -385,7 +429,7 @@ public class HelpScreen implements Screen {
         return new ClickListener() {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                btnGarlic.setPosition(360,290,0);
+                imgGarlic.setPosition(360,290,0);
 
                 labelElements.setText("Garlic: Decelerate of MeatBall.");
                 stage.addActor(labelElements);
@@ -394,7 +438,7 @@ public class HelpScreen implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                btnGarlic.setPosition(360,270,0);
+                imgGarlic.setPosition(360,270,0);
 
                 labelElements.setText("");
                 stage.draw();
@@ -406,7 +450,7 @@ public class HelpScreen implements Screen {
         return new ClickListener() {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                btnBug.setPosition(180,170,0);
+                imgBug.setPosition(180,170,0);
 
                 labelElements.setText("Bug: Reduce health of MeatBall.");
                 stage.addActor(labelElements);
@@ -415,7 +459,7 @@ public class HelpScreen implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                btnBug.setPosition(180,150,0);
+                imgBug.setPosition(180,150,0);
 
                 labelElements.setText("");
                 stage.draw();
@@ -427,7 +471,7 @@ public class HelpScreen implements Screen {
             return new ClickListener() {
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                    btnLava.setPosition(270,170,0);
+                    imgLava.setPosition(270,170,0);
 
                     labelElements.setText("Lava: Reduce health of MeatBall.");
                     stage.addActor(labelElements);
@@ -436,7 +480,7 @@ public class HelpScreen implements Screen {
 
                 public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                    btnLava.setPosition(270,150,0);
+                    imgLava.setPosition(270,150,0);
 
                     labelElements.setText("");
                     stage.draw();
@@ -450,7 +494,7 @@ public class HelpScreen implements Screen {
         return new ClickListener() {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                btnWater.setPosition(360,170,0);
+                imgWater.setPosition(360,170,0);
 
                 labelElements.setText("Water: Reduce health of MeatBall.");
                 stage.addActor(labelElements);
@@ -459,7 +503,7 @@ public class HelpScreen implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                btnWater.setPosition(360,150,0);
+                imgWater.setPosition(360,150,0);
 
                 labelElements.setText("");
                 stage.draw();

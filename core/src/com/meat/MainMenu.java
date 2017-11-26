@@ -63,7 +63,6 @@ public class MainMenu implements Screen {
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnPlay = new ImageButton(myTexRegionDrawable);
         btnPlay.setColor(0, 0, 0, 0);
-        myTexture = new Texture(Gdx.files.internal("btnPlay.png"));
         imgPlay = new Image(myTexture);
 
         myTexture = new Texture(Gdx.files.internal("btnHelp.png"));
@@ -71,17 +70,13 @@ public class MainMenu implements Screen {
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnHelp = new ImageButton(myTexRegionDrawable);
         btnHelp.setColor(0, 0, 0, 0);
-        myTexture = new Texture(Gdx.files.internal("btnHelp.png"));
         imgHelp = new Image(myTexture);
 
-        //Skin buttonSkin = new Skin();
-        //btnSettings = new TextButton("Controls", buttonSkin);
         myTexture = new Texture(Gdx.files.internal("btnSettings.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnSettings = new ImageButton(myTexRegionDrawable);
         btnSettings.setColor(0, 0, 0, 0);
-        myTexture = new Texture(Gdx.files.internal("btnSettings.png"));
         imgSettings = new Image(myTexture);
 
         myTexture = new Texture(Gdx.files.internal("btnExit.png"));
@@ -89,7 +84,6 @@ public class MainMenu implements Screen {
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnExit = new ImageButton(myTexRegionDrawable);
         btnExit.setColor(0, 0, 0, 0);
-        myTexture = new Texture(Gdx.files.internal("btnExit.png"));
         imgExit = new Image(myTexture);
 
         btnPlay.addListener(getPlayListener());

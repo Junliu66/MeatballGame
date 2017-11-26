@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
 
@@ -50,6 +51,12 @@ public class ControlMenu extends Stage implements Screen {
     TextButton currentClicked;
 
     float buttonWidth = 100f;
+    Button btnBack;
+    Texture myTexture;
+    TextureRegion myTextureRegion;
+    TextureRegionDrawable myTexRegionDrawable;
+    Stage stage;
+    Image imgBack;
 
     TextButton playerUp;
     TextButton playerDown;
@@ -62,6 +69,8 @@ public class ControlMenu extends Stage implements Screen {
         this.game = game;
         menuText = new ArrayList<Label>();
         textFields = new ArrayList<TextButton>();
+
+        stage = new Stage(new ScreenViewport());
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, viewportWidth, viewportHeight);
@@ -120,10 +129,27 @@ public class ControlMenu extends Stage implements Screen {
         }
 
 
+        myTexture = new Texture(Gdx.files.internal("btnBack.png"));
+        myTextureRegion = new TextureRegion(myTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        btnBack = new ImageButton(myTexRegionDrawable);
+        btnBack.setColor(0, 0, 0, 0);
+        myTexture = new Texture(Gdx.files.internal("btnBack.png"));
+        imgBack = new Image(myTexture);
+        btnBack.addListener(getBackListener());
+        imgBack.setPosition(400, 80, 0);
+        btnBack.setPosition(400, 80, 0);
+
         this.addActor(displayTable);
         displayTable.setFillParent(true);
+
+        this.addActor(imgBack);
+        this.addActor(btnBack);
+
         Texture background = new Texture(Gdx.files.internal("helpScreen.png"));
         displayTable.setBackground(new TextureRegionDrawable(new TextureRegion(background)));
+
+        Gdx.input.setInputProcessor(this);
     }
 
 
@@ -141,10 +167,9 @@ public class ControlMenu extends Stage implements Screen {
 
     public void render(float delta){
         camera.update();
-        //Gdx.gl.glClearColor(1, 0, 0, 1);
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //draw a box that is smaller than the splash screen and centered, then draw the screen
-        //or have the screen draw everything
+        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        this.act(Gdx.graphics.getDeltaTime());
         this.draw();
         //displayTable.setVisible(true);
     }
@@ -159,6 +184,33 @@ public class ControlMenu extends Stage implements Screen {
 
     public void dispose(){
 
+    }
+
+    private ClickListener getBackListener() {
+        return new ClickListener(){
+
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                imgBack.setHeight(30);
+                imgBack.setWidth(70);
+                imgBack.setPosition(400,80,0);
+
+                stage.draw();
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                imgBack.setHeight(34);
+                imgBack.setWidth(76);
+                imgBack.setPosition(400,80,0);
+
+                stage.draw();
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                game.setScreen(new MainMenu(game));
+            }
+        };
     }
 
     public ClickListener getChangeControlListener(){

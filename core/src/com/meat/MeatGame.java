@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -60,12 +61,18 @@ public class MeatGame implements Screen {
     private ArrayList<Pickup> pickups;
     private ArrayList<Pickup> finishedPickups;
     private int currentBloodPoint;
+    private Button btnPause;
+    private Image imgPause;
+    Stage pauseStage;
+
     public MeatGame(final MainGame game, String lvlName) {
         this.game = game;
         this.lvlString = lvlName;
         // TODO currentBloodPoint-- if hit any blood-losing object
         currentBloodPoint = TOTAL_BLOOD_POINTS;
         shapeRenderer = new ShapeRenderer();
+
+        pauseStage = new Stage(new ScreenViewport(), game.batch);
 
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -135,7 +142,6 @@ public class MeatGame implements Screen {
 
         //Gdx.input.setInputProcessor(this);
         debugRenderer = new Box2DDebugRenderer();
-
     }
 
 
@@ -190,6 +196,21 @@ public class MeatGame implements Screen {
 
         debugRenderer.render(world, box2DCamera.combined);
         displayBloodPoints();
+        pauseButton();
+
+    }
+
+    private void pauseButton() {
+        //Stage pauseStage = new Stage(new ScreenViewport(), game.batch);
+        Texture myTexture = new Texture(Gdx.files.internal("btnPause0.png"));
+        TextureRegion myTextureRegion = new TextureRegion(myTexture);
+        TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        myTexRegionDrawable.setMinHeight(80);
+        myTexRegionDrawable.setMinWidth(80);
+        btnPause = new ImageButton(myTexRegionDrawable);
+        btnPause.setPosition(680,510);
+        pauseStage.addActor(btnPause);
+        pauseStage.draw();
 
     }
 
@@ -198,20 +219,24 @@ public class MeatGame implements Screen {
         Texture myTexture = new Texture(Gdx.files.internal("blod.png"));
         TextureRegion myTextureRegion = new TextureRegion(myTexture);
         TextureRegionDrawable blood = new TextureRegionDrawable(myTextureRegion);
+        blood.setMinHeight(40);
+        blood.setMinWidth(40);
 
         Texture emptyblodTex = new Texture(Gdx.files.internal("emptyblod.png"));
         TextureRegion emptyblodTexRegion = new TextureRegion(emptyblodTex);
         TextureRegionDrawable emptyBood = new TextureRegionDrawable(emptyblodTexRegion);
+        emptyBood.setMinHeight(40);
+        emptyBood.setMinWidth(40);
 
-        int curXPosition = 15;
+        int curXPosition = 20;
         for (int i = 0; i < currentBloodPoint; i++) {
             Button button = new ImageButton(blood);
-            button.setPosition(15 * i + curXPosition, 30, 0);
+            button.setPosition(30 * i + curXPosition, 30, 0);
             bpStage.addActor(button);
         }
         for (int i = currentBloodPoint; i < TOTAL_BLOOD_POINTS; i++) {
             Button button = new ImageButton(emptyBood);
-            button.setPosition(15 * i + curXPosition, 30, 0);
+            button.setPosition(30 * i + curXPosition, 30, 0);
             bpStage.addActor(button);
         }
         bpStage.draw();

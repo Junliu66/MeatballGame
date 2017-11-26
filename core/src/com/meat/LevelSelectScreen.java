@@ -50,12 +50,14 @@ public class LevelSelectScreen implements Screen {
     int buttonYLvlFive = 215;
     int buttonXLvlSix = 600;
     int buttonYLvlSix = 215;
-    int buttonXBack = 100;
+    int buttonXBack = 400;
     int buttonYBack = 30;
 
     boolean lvlSelected = false;
     int iconSelectedX = buttonXLvlOne;
     int iconSelectedY = buttonYLvlOne;
+
+    Button btnPause;
 
 
     public LevelSelectScreen(MainGame game) { this.game = game; }
@@ -107,6 +109,16 @@ public class LevelSelectScreen implements Screen {
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnBack = new ImageButton(myTexRegionDrawable);
 
+        myTexture = new Texture(Gdx.files.internal("btnPause0.png"));
+        myTextureRegion = new TextureRegion(myTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        myTexRegionDrawable.setMinHeight(80);
+        myTexRegionDrawable.setMinWidth(80);
+        btnPause = new ImageButton(myTexRegionDrawable);
+        btnPause.setColor(0, 0, 0, 0);
+        btnPause.setPosition(680,510);
+
+
         btnLvlOne.addListener(getLvlOneListener());
         btnLvlTwo.addListener(getLvlTwoListener());
         btnLvlThree.addListener(getLvlThreeListener());
@@ -114,6 +126,7 @@ public class LevelSelectScreen implements Screen {
         btnLvlFive.addListener(getLvlFiveListener());
         btnLvlSix.addListener(getLvlSixListener());
         btnBack.addListener(getBackListener());
+        //btnPause.addListener(getPauseListener());
 
         btnLvlOne.setPosition(buttonXLvlOne, buttonYLvlOne, 0);
         btnLvlTwo.setPosition(buttonXLvlTwo, buttonYLvlTwo, 0);
@@ -144,6 +157,7 @@ public class LevelSelectScreen implements Screen {
         stage.addActor(lblLvlFour);
         stage.addActor(lblLvlFive);
         stage.addActor(lblLvlSix);
+        stage.addActor(btnPause);
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -372,6 +386,33 @@ public class LevelSelectScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 
                 stage.draw();
+                game.setScreen(new MainMenu(game));
+            }
+        };
+    }
+
+    ClickListener getPauseListener() {
+        return new ClickListener(){
+
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                btnPause.setHeight(50);
+                btnPause.setWidth(50);
+                btnPause.setPosition(680,510,0);
+
+                stage.draw();
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                btnPause.setHeight(80);
+                btnPause.setWidth(80);
+                btnPause.setPosition(680,510,0);
+
+                stage.draw();
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
                 game.setScreen(new MainMenu(game));
             }
         };
