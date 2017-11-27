@@ -24,9 +24,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.meat.Objects.Obstacle;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MeatGame implements Screen {
@@ -42,10 +45,13 @@ public class MeatGame implements Screen {
     final MainGame game;
     public ArrayList<Shape2D> holes;
     public ArrayList<Shape2D> goals;
-    public ArrayList<Shape2D> dies;
+
+    private Map<String, Obstacle> obstacles = null;
+
     TiledMap tiledMap;//, collisionMap;
     TiledMapRenderer tiledMapRenderer;//, collisionMapRenderer;
     TiledMapTileLayer collisionLayer;
+    Stage pauseStage;
     //    private SpriteBatch batch;
     private Player player;
     private OrthographicCamera camera;
@@ -56,6 +62,7 @@ public class MeatGame implements Screen {
     private Box2DDebugRenderer debugRenderer;
     private ShapeRenderer shapeRenderer;
     private Vector2 playerStart;
+
     private String lvlString;
     private ArrayList<Enemy> enemies;
     private ArrayList<Pickup> pickups;
@@ -63,7 +70,6 @@ public class MeatGame implements Screen {
     private int currentBloodPoint;
     private Button btnPause;
     private Image imgPause;
-    Stage pauseStage;
 
     public MeatGame(final MainGame game, String lvlName) {
         this.game = game;
@@ -92,7 +98,7 @@ public class MeatGame implements Screen {
         world = new World(new Vector2(), true);
         holes = new ArrayList<Shape2D>();
         goals = new ArrayList<Shape2D>();
-        dies = new ArrayList<Shape2D>();
+        obstacles = new HashMap<>();
         pickups = new ArrayList<Pickup>();
         finishedPickups = new ArrayList<Pickup>();
         playerStart = new Vector2(0, 0);
@@ -208,7 +214,7 @@ public class MeatGame implements Screen {
         myTexRegionDrawable.setMinHeight(80);
         myTexRegionDrawable.setMinWidth(80);
         btnPause = new ImageButton(myTexRegionDrawable);
-        btnPause.setPosition(680,510);
+        btnPause.setPosition(680, 510);
         pauseStage.addActor(btnPause);
         pauseStage.draw();
 
@@ -410,33 +416,63 @@ public class MeatGame implements Screen {
                 } else {
                     Gdx.app.log("Shape not recognized", "" + obj.getClass().getName());
                 }
-            } else if (obj.getName().equals("die")) {
+            } else if (obj.getName().startsWith("obstacle")) {
+                Shape2D shape = null;
                 if (obj instanceof RectangleMapObject) {
                     Rectangle rect = ((RectangleMapObject) obj).getRectangle();
-                    dies.add(rect);
+                    shape = rect;
                 } else if (obj instanceof CircleMapObject) {
                     Circle circle = new Circle();
                     circle.radius = ((CircleMapObject) obj).getCircle().radius / 2f;
                     circle.setPosition(((CircleMapObject) obj).getCircle().x, ((CircleMapObject) obj).getCircle().y);
-                    dies.add(circle);
+                    shape = circle;
                 } else if (obj instanceof EllipseMapObject) {
                     Ellipse ellipse = ((EllipseMapObject) obj).getEllipse();
                     ellipse.setPosition(ellipse.x + ellipse.width / 2f, ellipse.y + (ellipse.height / 2f));
-                    dies.add(ellipse);
+                    shape = ellipse;
                 } else if (obj instanceof PolygonMapObject) {
                     Polygon polygon = ((PolygonMapObject) obj).getPolygon();
                     polygon.setPosition(((PolygonMapObject) obj).getPolygon().getX(), ((PolygonMapObject) obj).getPolygon().getY());
                     polygon.setRotation(((PolygonMapObject) obj).getPolygon().getRotation());
-                    dies.add(polygon);
+                    shape= polygon;
                 } else if (obj instanceof PolylineMapObject) {
                     Polygon polygon = new Polygon(((PolylineMapObject) obj).getPolyline().getVertices());
                     polygon.setPosition(
                             ((PolylineMapObject) obj).getPolyline().getX(),
                             ((PolylineMapObject) obj).getPolyline().getY());
                     polygon.setRotation(((PolylineMapObject) obj).getPolyline().getRotation());
-                    dies.add(polygon);
+                    shape = polygon;
                 } else {
                     Gdx.app.log("Shape not recognized", "" + obj.getClass().getName());
+                }
+                if (shape!= null) {
+                    String obstacleKey = obj.getName().split("_")[1];
+                    ArrayList<Shape2D> obstacleArea = new ArrayList<>();
+                    if (obstacles.containsKey(obstacleKey)) {
+                        obstacles.get(obstacleKey).getObstacleArea().add(shape);
+                    } else {
+                        ArrayList<Shape2D> shapes = new ArrayList<>();
+                        shapes.add(shape);
+                        // default restart point is the same as game restart point if no restart point is
+                        // set for this particular obstacle.
+                        Obstacle obstacle = new Obstacle(playerStart, shapes);
+                        obstacles.put(obstacleKey, obstacle);
+                    }
+                }
+            } else if (obj.getName().startsWith("restart")) {
+                if (obj instanceof RectangleMapObject) {
+                    Vector2 restart = new Vector2(((RectangleMapObject) obj).getRectangle().x / TO_PIXELS, ((RectangleMapObject) obj).getRectangle().y / TO_PIXELS);
+                    String[] parts = obj.getName().split("_");
+                    String obstacleKey = parts[1];
+                    if (obstacles.containsKey(obstacleKey)) {
+                        obstacles.get(obstacleKey).setRestartPoint(restart);
+                    } else {
+                        ArrayList<Shape2D> shapes = new ArrayList<>();
+                        // default restart point is the same as game restart point if no restart point is
+                        // set for this particular obstacle.
+                        Obstacle obstacle = new Obstacle(restart, shapes);
+                        obstacles.put(obstacleKey, obstacle);
+                    }
                 }
             } else if (obj.getName().equals("pepper")) {
                 pickups.add(new Pepper(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
@@ -497,12 +533,13 @@ public class MeatGame implements Screen {
         game.setScreen(new CongratsScreen(game, lvlString));
     }
 
-    public void reduceBlood() {
+    public void reduceBlood(Vector2 restart) {
         currentBloodPoint--;
         if (currentBloodPoint <= 0) {
             lose();
         }
-        resetLevel();
+        player.setPosition(restart);
+        player.setVelocity(new Vector2(0, 0));
     }
 
     public void resetLevel() {
@@ -515,5 +552,9 @@ public class MeatGame implements Screen {
                 pickups.remove(i);
             }
         }
+    }
+
+    public Map<String, Obstacle> getObstacles() {
+        return obstacles;
     }
 }

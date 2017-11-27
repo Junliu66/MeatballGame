@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.meat.Objects.Obstacle;
 
 import java.util.ArrayList;
 
@@ -202,10 +203,25 @@ public class Player {
                 System.out.println("CONGRATULATIONS");
                 meatGame.congrats();
                 break;
-            case 3:
-                System.out.println("Reducing 1 blood point!");
-                meatGame.reduceBlood();
         }
+
+        Vector2 restart = checkObstacle(meatGame, x, y);
+        if (restart != null ) {
+            meatGame.reduceBlood(restart);
+        }
+    }
+
+    private Vector2 checkObstacle(MeatGame meatGame, float x, float y) {
+        for (Obstacle ob : meatGame.getObstacles().values())
+        {
+            for (Shape2D s : ob.getObstacleArea()) {
+                if (s.contains(x, y)) {
+                    return ob.getRestartPoint();
+                }
+
+            }
+        }
+        return null;
     }
 
     public int isCellBlocked(MeatGame meatGame, float x, float y) {
@@ -219,11 +235,7 @@ public class Player {
             if (s.contains(x, y))
                 return 1;
         }
-        for (Shape2D s : meatGame.dies)
-        {
-            if (s.contains(x, y))
-                return 3;
-        }
+
         return 0;
     }
 

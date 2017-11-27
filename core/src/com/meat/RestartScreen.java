@@ -77,7 +77,7 @@ public class RestartScreen implements Screen {
             }
         };
     }
-    // TODO
+
     private EventListener getLevelSelectionListener() {
         return new ClickListener(){
             @Override
