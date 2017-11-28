@@ -197,10 +197,11 @@ public class MeatGame implements Screen {
 
         game.batch.end();
 
-        if (RENDER_DEBUG)
+        if (RENDER_DEBUG) {
             renderDebug();
+            debugRenderer.render(world, box2DCamera.combined);
+        }
 
-        debugRenderer.render(world, box2DCamera.combined);
         displayBloodPoints();
         pauseButton();
 
@@ -533,12 +534,11 @@ public class MeatGame implements Screen {
         game.setScreen(new CongratsScreen(game, lvlString));
     }
 
-    public void reduceBlood(Vector2 restart) {
+    public void reduceBlood() {
         currentBloodPoint--;
         if (currentBloodPoint <= 0) {
             lose();
         }
-        player.setPosition(restart);
         player.setVelocity(new Vector2(0, 0));
     }
 

@@ -24,7 +24,7 @@ public class MainGame extends Game
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont();
-        this.setScreen(new SplashScreen(this));
+        this.setScreen(new MeatGame(this, "LevelOne.tmx"));
     }
 
     public void render() {

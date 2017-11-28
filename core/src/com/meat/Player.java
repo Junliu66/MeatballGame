@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.meat.Objects.Invincibility;
 import com.meat.Objects.Obstacle;
 
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ public class Player {
     private Pixmap blood;
     private Vector2 lastPos;
     private ArrayList<PlayerModifier> modifers;
+    private boolean invincible = false;
+    private float invincibleCounter;
 
     /**
      *  @param spawnLoc The location the player spawns in the game.
@@ -40,6 +43,7 @@ public class Player {
         this.acceleration = acceleration;
         this.input = new Vector2();
         this.isPlayerOne = isPlayerOne;
+        invincibleCounter = 0f;
         blood = new Pixmap(Gdx.files.internal("meat_splatter.png"));
         modifers = new ArrayList<PlayerModifier>();
 
@@ -64,6 +68,9 @@ public class Player {
     }
 
     public void update(MeatGame game, float dt) {
+        if (invincible)
+            invincibleCounter += dt;
+
         checkCollisionMap(game);
         input = new Vector2();
         boolean up, down, left, right;
@@ -102,6 +109,20 @@ public class Player {
     }
 
     public void render(SpriteBatch batch)
+    {
+        if (invincible) {
+            if (invincibleCounter < 10) {
+                draw(batch);
+            } else if (invincibleCounter < 20) {
+            } else {
+                invincibleCounter = 0f;
+            }
+        } else
+            draw(batch);
+
+    }
+
+    public void draw(SpriteBatch batch)
     {
         int y = Math.round(1.25f * TO_PIXELS * body.getPosition().y % 64f);
         int x = -Math.round(1.25f * TO_PIXELS * body.getPosition().x % 64f);
@@ -205,23 +226,23 @@ public class Player {
                 break;
         }
 
-        Vector2 restart = checkObstacle(meatGame, x, y);
-        if (restart != null ) {
-            meatGame.reduceBlood(restart);
-        }
+        checkObstacle(meatGame, x, y);
     }
 
-    private Vector2 checkObstacle(MeatGame meatGame, float x, float y) {
+    private void checkObstacle(MeatGame meatGame, float x, float y) {
         for (Obstacle ob : meatGame.getObstacles().values())
         {
             for (Shape2D s : ob.getObstacleArea()) {
                 if (s.contains(x, y)) {
-                    return ob.getRestartPoint();
+                    if (!invincible)
+                        meatGame.reduceBlood();
+                    modifers.add(new Invincibility(3, this));
+                    body.setLinearVelocity(body.getLinearVelocity().nor().scl(-Math.max(body.getLinearVelocity().len(), 1.4f)));
+//                    setPosition( getPosition().sub(body.getLinearVelocity().nor().scl(-1f)));
                 }
 
             }
         }
-        return null;
     }
 
     public int isCellBlocked(MeatGame meatGame, float x, float y) {
@@ -274,5 +295,10 @@ public class Player {
 
     public Vector2 getPixelPosition() {
         return new Vector2(body.getPosition().x * TO_PIXELS, body.getPosition().y * TO_PIXELS);
+    }
+
+    public void setInvincible(boolean invincible) {
+        this.invincible = invincible;
+        invincibleCounter = 0f;
     }
 }
