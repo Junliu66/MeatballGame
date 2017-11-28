@@ -104,7 +104,7 @@ public class MeatGame implements Screen {
         Float downDist = new Float(1.0f);
         Pair<Vector2, Float> downPair = new Pair(downVector, downDist);
         testPath.add(downPair);
-
+        /**
         FixedPathEnemy newEnemy = new FixedPathEnemy(
                 new Vector2(playerStart.x, playerStart.y),
                 world,
@@ -112,7 +112,14 @@ public class MeatGame implements Screen {
                 player,
                 testPath
         );
-        enemies.add(newEnemy);
+        //enemies.add(newEnemy);
+         **/
+
+        //PlayerChasingEnemy
+        PlayerChasingEnemy chasingEnemy = new PlayerChasingEnemy(new Vector2(playerStart.x + 5.5f, playerStart.y - 3.0f),
+                world, 1.0f, player, 3.0f, 5.0f );
+
+        enemies.add(chasingEnemy);
         //***** End testing Enemy ****
 
         //Gdx.input.setInputProcessor(this);
@@ -233,6 +240,7 @@ public class MeatGame implements Screen {
         wallDef.type = BodyDef.BodyType.StaticBody;
         wallDef.position.set(0, 0);
         Body wall = world.createBody(wallDef);
+        wall.setUserData("wall");
 
         Gdx.app.log("num objects", "" + objectLayer.getObjects().getCount());
         for (MapObject obj : objectLayer.getObjects())

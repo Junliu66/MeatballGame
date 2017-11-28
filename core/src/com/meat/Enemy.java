@@ -11,6 +11,7 @@ public abstract class Enemy {
     float speed;
     boolean isAggressive;
     Player playerRef;
+    World worldRef;
 
     public Enemy(){
         body = null;
@@ -36,6 +37,7 @@ public abstract class Enemy {
 
         isAggressive = false;
         playerRef = player;
+        worldRef = world;
     }
 
     public abstract void update();
