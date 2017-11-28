@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -17,44 +18,67 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.meat.Objects.Obstacle;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MeatGame implements Screen {
+    private static final int TOTAL_BLOOD_POINTS = 5;
+    public static float TO_PIXELS = 50f;
+    public static float lerp = 5.0f;
+    private static float TIME_STEP = 1 / 60f;
+    private static int VELOCITY_ITERATIONS = 6;
+    private static int POSITION_ITERATIONS = 2;
+    private static int DESIRED_RENDER_WIDTH = 800;
+    private static int DESIRED_RENDER_HEIGHT = 600;
+    private static boolean RENDER_DEBUG = true;
+    final MainGame game;
+    public ArrayList<Shape2D> holes;
+    public ArrayList<Shape2D> goals;
+
+    private Map<String, Obstacle> obstacles = null;
+
     TiledMap tiledMap;//, collisionMap;
     TiledMapRenderer tiledMapRenderer;//, collisionMapRenderer;
     TiledMapTileLayer collisionLayer;
-//    private SpriteBatch batch;
+    Stage pauseStage;
+    //    private SpriteBatch batch;
     private Player player;
     private OrthographicCamera camera;
     private OrthographicCamera box2DCamera;
     private World world;
     private float accumulator;
-    private static float TIME_STEP = 1 / 60f;
-    private static int VELOCITY_ITERATIONS = 6;
-    private static int POSITION_ITERATIONS = 2;
     private Texture background;
     private Box2DDebugRenderer debugRenderer;
-    public static float TO_PIXELS = 50f;
-    final MainGame game;
-    private static int DESIRED_RENDER_WIDTH = 800;
-    private static int DESIRED_RENDER_HEIGHT = 600;
-    private static boolean RENDER_DEBUG = true;
-    public ArrayList<Shape2D> holes;
-    public ArrayList<Shape2D> goals;
     private ShapeRenderer shapeRenderer;
     private Vector2 playerStart;
 
+    private String lvlString;
     private ArrayList<Enemy> enemies;
+    private ArrayList<Pickup> pickups;
+    private ArrayList<Pickup> finishedPickups;
+    private int currentBloodPoint;
+    private Button btnPause;
+    private Image imgPause;
 
-    public static float lerp = 5.0f;
-
-    public MeatGame(final MainGame game) {
+    public MeatGame(final MainGame game, String lvlName) {
         this.game = game;
-
+        this.lvlString = lvlName;
+        // TODO currentBloodPoint-- if hit any blood-losing object
+        currentBloodPoint = TOTAL_BLOOD_POINTS;
         shapeRenderer = new ShapeRenderer();
+
+        pauseStage = new Stage(new ScreenViewport(), game.batch);
 
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -68,17 +92,24 @@ public class MeatGame implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, w, h);
 
-        tiledMap = new TmxMapLoader().load("LevelTwo.tmx");
+        tiledMap = new TmxMapLoader().load(lvlName);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
         world = new World(new Vector2(), true);
         holes = new ArrayList<Shape2D>();
         goals = new ArrayList<Shape2D>();
-        playerStart = new Vector2(0,0);
+        obstacles = new HashMap<>();
+        pickups = new ArrayList<Pickup>();
+        finishedPickups = new ArrayList<Pickup>();
+        playerStart = new Vector2(0, 0);
+        player = new Player(new Vector2(playerStart.x, playerStart.y), collisionLayer, 24f, world, true);
 
-        MapLayer objectLayer = tiledMap.getLayers().get("Object Layer 1");
-        parseTiledObjects(objectLayer);
-        player = new Player(new Vector2(playerStart.x, playerStart.y), collisionLayer, 24, world, true);
+        // parse Tiled objects
+        for (MapLayer layer : tiledMap.getLayers())
+            if (layer instanceof MapLayer && layer.getObjects().getCount() > 0)
+                parseTiledObjects(layer);
+
+        player.setPosition(playerStart);
 
         enemies = new ArrayList<Enemy>();
 
@@ -106,7 +137,7 @@ public class MeatGame implements Screen {
         testPath.add(downPair);
         /**
         FixedPathEnemy newEnemy = new FixedPathEnemy(
-                new Vector2(playerStart.x, playerStart.y),
+                new Vector2(playerStart.x + 2, playerStart.y + 1),
                 world,
                 1.0f,
                 player,
@@ -124,26 +155,21 @@ public class MeatGame implements Screen {
 
         //Gdx.input.setInputProcessor(this);
         debugRenderer = new Box2DDebugRenderer();
-
-//        batch = new SpriteBatch();
-
-
     }
 
 
     @Override
     public void render(float dt) {
-//        Gdx.app.log("FPS", (1/dt)+"");
 
         doPhysicsStep(dt);
-        player.update(this);
-        for(int i=0; i < enemies.size(); i++){
+        player.update(this, dt);
+        for (int i = 0; i < enemies.size(); i++) {
             Enemy currEnemy = enemies.get(i);
             currEnemy.update();
         }
 
-        Vector3 position = camera.position;
-        Vector3 box2dposition = box2DCamera.position;
+        Vector2 position = new Vector2(camera.position.x, camera.position.y);
+        Vector2 box2dposition = new Vector2(box2DCamera.position.x, box2DCamera.position.y);
         Vector2 player_pos = player.getPosition().scl(TO_PIXELS);
 
         position.x += (player_pos.x - position.x) * lerp * dt;
@@ -152,8 +178,8 @@ public class MeatGame implements Screen {
         box2dposition.x += (player.getPosition().x - box2dposition.x) * lerp * dt;
         box2dposition.y += (player.getPosition().y - box2dposition.y) * lerp * dt;
 
-        camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
-        box2DCamera.position.set(player.getPosition(), 0);
+        camera.position.set(position, 0);
+        box2DCamera.position.set(box2dposition, 0);
         camera.update();
         box2DCamera.update();
 
@@ -167,17 +193,66 @@ public class MeatGame implements Screen {
 
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
-//        collisionMapRenderer.setView(camera);
-//        collisionMapRenderer.render();
 
         game.batch.begin();
         player.render(game.batch);
+        for (int i = 0; i < pickups.size(); i++)
+            if (pickups.get(i).render(game.batch, dt) == Pickup.Status.FINISHED) {
+                finishedPickups.add(pickups.get(i));
+                pickups.remove(i);
+            }
+
         game.batch.end();
 
         if (RENDER_DEBUG)
             renderDebug();
 
         debugRenderer.render(world, box2DCamera.combined);
+        displayBloodPoints();
+        pauseButton();
+
+    }
+
+    private void pauseButton() {
+        //Stage pauseStage = new Stage(new ScreenViewport(), game.batch);
+        Texture myTexture = new Texture(Gdx.files.internal("btnPause0.png"));
+        TextureRegion myTextureRegion = new TextureRegion(myTexture);
+        TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        myTexRegionDrawable.setMinHeight(80);
+        myTexRegionDrawable.setMinWidth(80);
+        btnPause = new ImageButton(myTexRegionDrawable);
+        btnPause.setPosition(680, 510);
+        pauseStage.addActor(btnPause);
+        pauseStage.draw();
+
+    }
+
+    private void displayBloodPoints() {
+        Stage bpStage = new Stage(new ScreenViewport(), game.batch);
+        Texture myTexture = new Texture(Gdx.files.internal("blod.png"));
+        TextureRegion myTextureRegion = new TextureRegion(myTexture);
+        TextureRegionDrawable blood = new TextureRegionDrawable(myTextureRegion);
+        blood.setMinHeight(40);
+        blood.setMinWidth(40);
+
+        Texture emptyblodTex = new Texture(Gdx.files.internal("emptyblod.png"));
+        TextureRegion emptyblodTexRegion = new TextureRegion(emptyblodTex);
+        TextureRegionDrawable emptyBood = new TextureRegionDrawable(emptyblodTexRegion);
+        emptyBood.setMinHeight(40);
+        emptyBood.setMinWidth(40);
+
+        int curXPosition = 20;
+        for (int i = 0; i < currentBloodPoint; i++) {
+            Button button = new ImageButton(blood);
+            button.setPosition(30 * i + curXPosition, 30, 0);
+            bpStage.addActor(button);
+        }
+        for (int i = currentBloodPoint; i < TOTAL_BLOOD_POINTS; i++) {
+            Button button = new ImageButton(emptyBood);
+            button.setPosition(30 * i + curXPosition, 30, 0);
+            bpStage.addActor(button);
+        }
+        bpStage.draw();
     }
 
     private void doPhysicsStep(float deltaTime) {
@@ -201,16 +276,16 @@ public class MeatGame implements Screen {
         // scales to fixed viewport width
         int newHeight = DESIRED_RENDER_HEIGHT;
         int newWidth = DESIRED_RENDER_WIDTH;
-        if (((double) width)/DESIRED_RENDER_WIDTH < ((double) height)/DESIRED_RENDER_HEIGHT)
+        if (((double) width) / DESIRED_RENDER_WIDTH < ((double) height) / DESIRED_RENDER_HEIGHT)
             newHeight = (int) (height * (((double) DESIRED_RENDER_WIDTH) / ((double) width)));
         else
             newWidth = (int) (width * (((double) DESIRED_RENDER_HEIGHT) / ((double) height)));
 
         camera.setToOrtho(false, newWidth, newHeight);
-        box2DCamera.setToOrtho(false, newWidth/TO_PIXELS, newHeight/TO_PIXELS);
+        box2DCamera.setToOrtho(false, newWidth / TO_PIXELS, newHeight / TO_PIXELS);
         camera.position.set(player.getPosition().scl(TO_PIXELS), 0);
         camera.update();
-        box2DCamera.position.set(player.getPosition(),0);
+        box2DCamera.position.set(player.getPosition(), 0);
         box2DCamera.update();
     }
 
@@ -243,44 +318,39 @@ public class MeatGame implements Screen {
         wall.setUserData("wall");
 
         Gdx.app.log("num objects", "" + objectLayer.getObjects().getCount());
-        for (MapObject obj : objectLayer.getObjects())
-        {
-            if (obj.getName() == null)
-            {
+        for (MapObject obj : objectLayer.getObjects()) {
+            if (obj.getName() == null) {
                 Gdx.app.log("Un-named Object", obj.toString());
-            }
-            else if (obj.getName().equals("start"))
-            {
-                if (obj instanceof RectangleMapObject)
-                {
+            } else if (obj.getName().equals("start")) {
+                if (obj instanceof RectangleMapObject) {
                     playerStart = new Vector2(((RectangleMapObject) obj).getRectangle().x / TO_PIXELS, ((RectangleMapObject) obj).getRectangle().y / TO_PIXELS);
                 }
             } else if (obj.getName().equals("wall")) {
                 if (obj instanceof RectangleMapObject) {
                     PolygonShape poly = new PolygonShape();
-                    poly.setAsBox((((RectangleMapObject) obj).getRectangle().width/2) / TO_PIXELS, (((RectangleMapObject) obj).getRectangle().height/2) / TO_PIXELS,
-                            new Vector2((((RectangleMapObject) obj).getRectangle().x + ((RectangleMapObject) obj).getRectangle().width/2) / TO_PIXELS,
-                                    (((RectangleMapObject) obj).getRectangle().y + ((RectangleMapObject) obj).getRectangle().height/2) / TO_PIXELS), 0f);
+                    poly.setAsBox((((RectangleMapObject) obj).getRectangle().width / 2) / TO_PIXELS, (((RectangleMapObject) obj).getRectangle().height / 2) / TO_PIXELS,
+                            new Vector2((((RectangleMapObject) obj).getRectangle().x + ((RectangleMapObject) obj).getRectangle().width / 2) / TO_PIXELS,
+                                    (((RectangleMapObject) obj).getRectangle().y + ((RectangleMapObject) obj).getRectangle().height / 2) / TO_PIXELS), 0f);
                     FixtureDef fixtureDef = new FixtureDef();
                     fixtureDef.shape = poly;
                     wall.createFixture(fixtureDef);
                     poly.dispose();
                 } else if (obj instanceof CircleMapObject) {
                     CircleShape circle = new CircleShape();
-                    circle.setRadius((((CircleMapObject) obj).getCircle().radius/2) / TO_PIXELS);
+                    circle.setRadius((((CircleMapObject) obj).getCircle().radius / 2) / TO_PIXELS);
                     circle.setPosition(new Vector2(
-                            (((CircleMapObject) obj).getCircle().x + ((CircleMapObject) obj).getCircle().radius/2) / TO_PIXELS,
-                            (((CircleMapObject) obj).getCircle().y + ((CircleMapObject) obj).getCircle().radius/2) / TO_PIXELS ));
+                            (((CircleMapObject) obj).getCircle().x + ((CircleMapObject) obj).getCircle().radius / 2) / TO_PIXELS,
+                            (((CircleMapObject) obj).getCircle().y + ((CircleMapObject) obj).getCircle().radius / 2) / TO_PIXELS));
                     FixtureDef fixtureDef = new FixtureDef();
                     fixtureDef.shape = circle;
                     wall.createFixture(fixtureDef);
                     circle.dispose();
                 } else if (obj instanceof EllipseMapObject) {
                     CircleShape circle = new CircleShape();
-                    circle.setRadius((((EllipseMapObject) obj).getEllipse().width/2) / TO_PIXELS);
+                    circle.setRadius((((EllipseMapObject) obj).getEllipse().width / 2) / TO_PIXELS);
                     circle.setPosition(new Vector2(
-                            (((EllipseMapObject) obj).getEllipse().x + ((EllipseMapObject) obj).getEllipse().width/2) / TO_PIXELS,
-                            (((EllipseMapObject) obj).getEllipse().y + ((EllipseMapObject) obj).getEllipse().width/2) / TO_PIXELS) );
+                            (((EllipseMapObject) obj).getEllipse().x + ((EllipseMapObject) obj).getEllipse().width / 2) / TO_PIXELS,
+                            (((EllipseMapObject) obj).getEllipse().y + ((EllipseMapObject) obj).getEllipse().width / 2) / TO_PIXELS));
                     FixtureDef fixtureDef = new FixtureDef();
                     fixtureDef.shape = circle;
                     wall.createFixture(fixtureDef);
@@ -289,7 +359,7 @@ public class MeatGame implements Screen {
                     PolygonShape polygon = makePolygonShape(world, ((PolygonMapObject) obj).getPolygon());
                     BodyDef bodyDef = new BodyDef();
                     bodyDef.type = BodyDef.BodyType.StaticBody;
-                    bodyDef.position.set(((PolygonMapObject) obj).getPolygon().getX()/TO_PIXELS, ((PolygonMapObject) obj).getPolygon().getY()/TO_PIXELS);
+                    bodyDef.position.set(((PolygonMapObject) obj).getPolygon().getX() / TO_PIXELS, ((PolygonMapObject) obj).getPolygon().getY() / TO_PIXELS);
                     Body body = world.createBody(bodyDef);
                     FixtureDef fixtureDef = new FixtureDef();
                     fixtureDef.shape = polygon;
@@ -309,7 +379,7 @@ public class MeatGame implements Screen {
                     holes.add(circle);
                 } else if (obj instanceof EllipseMapObject) {
                     Ellipse ellipse = ((EllipseMapObject) obj).getEllipse();
-                    ellipse.setPosition(ellipse.x + ellipse.width/2f, ellipse.y + (ellipse.height/2f));
+                    ellipse.setPosition(ellipse.x + ellipse.width / 2f, ellipse.y + (ellipse.height / 2f));
                     holes.add(ellipse);
                 } else if (obj instanceof PolygonMapObject) {
                     Polygon polygon = ((PolygonMapObject) obj).getPolygon();
@@ -317,7 +387,7 @@ public class MeatGame implements Screen {
                     polygon.setRotation(((PolygonMapObject) obj).getPolygon().getRotation());
                     holes.add(polygon);
                 } else if (obj instanceof PolylineMapObject) {
-                    Polygon polygon = new Polygon( ((PolylineMapObject) obj).getPolyline().getVertices() );
+                    Polygon polygon = new Polygon(((PolylineMapObject) obj).getPolyline().getVertices());
                     polygon.setPosition(
                             ((PolylineMapObject) obj).getPolyline().getX(),
                             ((PolylineMapObject) obj).getPolyline().getY());
@@ -337,7 +407,7 @@ public class MeatGame implements Screen {
                     goals.add(circle);
                 } else if (obj instanceof EllipseMapObject) {
                     Ellipse ellipse = ((EllipseMapObject) obj).getEllipse();
-                    ellipse.setPosition(ellipse.x + ellipse.width/2f, ellipse.y + (ellipse.height/2f));
+                    ellipse.setPosition(ellipse.x + ellipse.width / 2f, ellipse.y + (ellipse.height / 2f));
                     goals.add(ellipse);
                 } else if (obj instanceof PolygonMapObject) {
                     Polygon polygon = ((PolygonMapObject) obj).getPolygon();
@@ -345,7 +415,7 @@ public class MeatGame implements Screen {
                     polygon.setRotation(((PolygonMapObject) obj).getPolygon().getRotation());
                     goals.add(polygon);
                 } else if (obj instanceof PolylineMapObject) {
-                    Polygon polygon = new Polygon( ((PolylineMapObject) obj).getPolyline().getVertices() );
+                    Polygon polygon = new Polygon(((PolylineMapObject) obj).getPolyline().getVertices());
                     polygon.setPosition(
                             ((PolylineMapObject) obj).getPolyline().getX(),
                             ((PolylineMapObject) obj).getPolyline().getY());
@@ -354,6 +424,70 @@ public class MeatGame implements Screen {
                 } else {
                     Gdx.app.log("Shape not recognized", "" + obj.getClass().getName());
                 }
+            } else if (obj.getName().startsWith("obstacle")) {
+                Shape2D shape = null;
+                if (obj instanceof RectangleMapObject) {
+                    Rectangle rect = ((RectangleMapObject) obj).getRectangle();
+                    shape = rect;
+                } else if (obj instanceof CircleMapObject) {
+                    Circle circle = new Circle();
+                    circle.radius = ((CircleMapObject) obj).getCircle().radius / 2f;
+                    circle.setPosition(((CircleMapObject) obj).getCircle().x, ((CircleMapObject) obj).getCircle().y);
+                    shape = circle;
+                } else if (obj instanceof EllipseMapObject) {
+                    Ellipse ellipse = ((EllipseMapObject) obj).getEllipse();
+                    ellipse.setPosition(ellipse.x + ellipse.width / 2f, ellipse.y + (ellipse.height / 2f));
+                    shape = ellipse;
+                } else if (obj instanceof PolygonMapObject) {
+                    Polygon polygon = ((PolygonMapObject) obj).getPolygon();
+                    polygon.setPosition(((PolygonMapObject) obj).getPolygon().getX(), ((PolygonMapObject) obj).getPolygon().getY());
+                    polygon.setRotation(((PolygonMapObject) obj).getPolygon().getRotation());
+                    shape= polygon;
+                } else if (obj instanceof PolylineMapObject) {
+                    Polygon polygon = new Polygon(((PolylineMapObject) obj).getPolyline().getVertices());
+                    polygon.setPosition(
+                            ((PolylineMapObject) obj).getPolyline().getX(),
+                            ((PolylineMapObject) obj).getPolyline().getY());
+                    polygon.setRotation(((PolylineMapObject) obj).getPolyline().getRotation());
+                    shape = polygon;
+                } else {
+                    Gdx.app.log("Shape not recognized", "" + obj.getClass().getName());
+                }
+                if (shape!= null) {
+                    String obstacleKey = obj.getName().split("_")[1];
+                    ArrayList<Shape2D> obstacleArea = new ArrayList<>();
+                    if (obstacles.containsKey(obstacleKey)) {
+                        obstacles.get(obstacleKey).getObstacleArea().add(shape);
+                    } else {
+                        ArrayList<Shape2D> shapes = new ArrayList<>();
+                        shapes.add(shape);
+                        // default restart point is the same as game restart point if no restart point is
+                        // set for this particular obstacle.
+                        Obstacle obstacle = new Obstacle(playerStart, shapes);
+                        obstacles.put(obstacleKey, obstacle);
+                    }
+                }
+            } else if (obj.getName().startsWith("restart")) {
+                if (obj instanceof RectangleMapObject) {
+                    Vector2 restart = new Vector2(((RectangleMapObject) obj).getRectangle().x / TO_PIXELS, ((RectangleMapObject) obj).getRectangle().y / TO_PIXELS);
+                    String[] parts = obj.getName().split("_");
+                    String obstacleKey = parts[1];
+                    if (obstacles.containsKey(obstacleKey)) {
+                        obstacles.get(obstacleKey).setRestartPoint(restart);
+                    } else {
+                        ArrayList<Shape2D> shapes = new ArrayList<>();
+                        // default restart point is the same as game restart point if no restart point is
+                        // set for this particular obstacle.
+                        Obstacle obstacle = new Obstacle(restart, shapes);
+                        obstacles.put(obstacleKey, obstacle);
+                    }
+                }
+            } else if (obj.getName().equals("pepper")) {
+                pickups.add(new Pepper(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
+            } else if (obj.getName().equals("garlic")) {
+                pickups.add(new Garlic(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
+            } else if (obj.getName().equals("tomato")) {
+                pickups.add(new Tomato(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
             }
         }
     }
@@ -365,7 +499,7 @@ public class MeatGame implements Screen {
         float[] worldVertices = new float[vertices.length];
 
         for (int i = 0; i < vertices.length; ++i) {
-            worldVertices[i] = vertices[i] / TO_PIXELS ;
+            worldVertices[i] = vertices[i] / TO_PIXELS;
         }
 
         polygonShape.set(worldVertices);
@@ -374,37 +508,25 @@ public class MeatGame implements Screen {
     }
 
 
-    private void renderDebug()
-    {
+    private void renderDebug() {
         shapeRenderer.setProjectionMatrix(camera.combined);
         renderShape2Ds(goals, Color.CYAN);
         renderShape2Ds(holes, Color.RED);
     }
 
-    private void renderShape2Ds(ArrayList<Shape2D> shapes, Color color)
-    {
+    private void renderShape2Ds(ArrayList<Shape2D> shapes, Color color) {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(color);
-        for (Shape2D s : shapes)
-        {
-            if (s instanceof Rectangle)
-            {
+        for (Shape2D s : shapes) {
+            if (s instanceof Rectangle) {
                 shapeRenderer.rect(((Rectangle) s).getX(), ((Rectangle) s).getY(), ((Rectangle) s).width, ((Rectangle) s).height);
-            }
-            else if (s instanceof Circle)
-            {
-                shapeRenderer.circle(((Circle) s).x - ((Circle) s).radius/2, ((Circle) s).y - ((Circle) s).radius/2, ((Circle) s).radius);
-            }
-            else if (s instanceof Ellipse)
-            {
-                shapeRenderer.ellipse(((Ellipse) s).x - ((Ellipse) s).width/2, ((Ellipse) s).y - ((Ellipse) s).height/2, ((Ellipse) s).width, ((Ellipse) s).height);
-            }
-            else if (s instanceof Polygon)
-            {
+            } else if (s instanceof Circle) {
+                shapeRenderer.circle(((Circle) s).x - ((Circle) s).radius / 2, ((Circle) s).y - ((Circle) s).radius / 2, ((Circle) s).radius);
+            } else if (s instanceof Ellipse) {
+                shapeRenderer.ellipse(((Ellipse) s).x - ((Ellipse) s).width / 2, ((Ellipse) s).y - ((Ellipse) s).height / 2, ((Ellipse) s).width, ((Ellipse) s).height);
+            } else if (s instanceof Polygon) {
                 shapeRenderer.polygon(((Polygon) s).getTransformedVertices());
-            }
-            else if (s instanceof Polyline)
-            {
+            } else if (s instanceof Polyline) {
                 shapeRenderer.polygon(((Polyline) s).getTransformedVertices());
             }
         }
@@ -412,11 +534,37 @@ public class MeatGame implements Screen {
     }
 
     public void lose() {
-        game.setScreen(new RestartScreen(game));
+        currentBloodPoint = TOTAL_BLOOD_POINTS;
+        game.setScreen(new RestartScreen(game, lvlString));
+    }
+
+    public void congrats() {
+        currentBloodPoint = TOTAL_BLOOD_POINTS;
+        game.setScreen(new CongratsScreen(game, lvlString));
+    }
+
+    public void reduceBlood(Vector2 restart) {
+        currentBloodPoint--;
+        if (currentBloodPoint <= 0) {
+            lose();
+        }
+        player.setPosition(restart);
+        player.setVelocity(new Vector2(0, 0));
     }
 
     public void resetLevel() {
+        player.clearModifiers();
         player.setPosition(playerStart);
-        player.setVelocity(new Vector2(0,0));
+        player.setVelocity(new Vector2(0, 0));
+        if (finishedPickups.size() > 0) {
+            for (int i = 0; i < finishedPickups.size(); i++) {
+                pickups.add(finishedPickups.get(i));
+                pickups.remove(i);
+            }
+        }
+    }
+
+    public Map<String, Obstacle> getObstacles() {
+        return obstacles;
     }
 }

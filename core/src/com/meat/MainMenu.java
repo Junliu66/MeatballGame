@@ -4,10 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -30,6 +27,11 @@ public class MainMenu implements Screen {
     Button btnHelp;
     Button btnSettings;
     Button btnExit;
+    Image imgPlay;
+    Image imgHelp;
+    Image imgSettings;
+    Image imgExit;
+
     Texture texture;
     private Texture myTexture;
     private TextureRegion myTextureRegion;
@@ -55,33 +57,44 @@ public class MainMenu implements Screen {
         Image image= new Image(texture);
         image.setSize(800,600);
 
+
         myTexture = new Texture(Gdx.files.internal("btnPlay.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnPlay = new ImageButton(myTexRegionDrawable);
+        btnPlay.setColor(0, 0, 0, 0);
+        imgPlay = new Image(myTexture);
 
         myTexture = new Texture(Gdx.files.internal("btnHelp.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnHelp = new ImageButton(myTexRegionDrawable);
+        btnHelp.setColor(0, 0, 0, 0);
+        imgHelp = new Image(myTexture);
 
-
-        //Skin buttonSkin = new Skin();
-        //btnSettings = new TextButton("Controls", buttonSkin);
         myTexture = new Texture(Gdx.files.internal("btnSettings.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnSettings = new ImageButton(myTexRegionDrawable);
+        btnSettings.setColor(0, 0, 0, 0);
+        imgSettings = new Image(myTexture);
 
         myTexture = new Texture(Gdx.files.internal("btnExit.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnExit = new ImageButton(myTexRegionDrawable);
+        btnExit.setColor(0, 0, 0, 0);
+        imgExit = new Image(myTexture);
 
         btnPlay.addListener(getPlayListener());
         btnHelp.addListener(getHelpListener());
         btnSettings.addListener(getSettingsListener());
         btnExit.addListener(getExitListener());
+
+        imgPlay.setPosition(buttonXPlay, buttonYPlay, 0);
+        imgHelp.setPosition(buttonXHelp, buttonYHelp, 0);
+        imgSettings.setPosition(buttonXSettings, buttonYSettings, 0);
+        imgExit.setPosition(buttonXExit, buttonYExit, 0);
 
         btnPlay.setPosition(buttonXPlay, buttonYPlay, 0);
         btnHelp.setPosition(buttonXHelp, buttonYHelp, 0);
@@ -89,6 +102,10 @@ public class MainMenu implements Screen {
         btnExit.setPosition(buttonXExit, buttonYExit, 0);
 
         stage.addActor(image);
+        stage.addActor(imgPlay);
+        stage.addActor(imgHelp);
+        stage.addActor(imgSettings);
+        stage.addActor(imgExit);
         stage.addActor(btnPlay);
         stage.addActor(btnHelp);
         stage.addActor(btnSettings);
@@ -138,17 +155,17 @@ public class MainMenu implements Screen {
     private ClickListener getPlayListener(){
         return new ClickListener(){
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                btnPlay.setHeight(120);
-                btnPlay.setWidth(120);
-                btnPlay.setPosition(buttonXPlay,buttonYPlay,0);
+                imgPlay.setHeight(59);
+                imgPlay.setWidth(119);
+                imgPlay.setPosition(buttonXPlay,buttonYPlay,0);
 
                 stage.draw();
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                btnPlay.setHeight(140);
-                btnPlay.setWidth(140);
-                btnPlay.setPosition(buttonXPlay,buttonYPlay,0);
+                imgPlay.setHeight(65);
+                imgPlay.setWidth(132);
+                imgPlay.setPosition(buttonXPlay,buttonYPlay,0);
 
                 stage.draw();
             }
@@ -156,8 +173,7 @@ public class MainMenu implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 
                 stage.draw();
-                game.meatGame = new MeatGame(game);
-                game.setScreen(game.meatGame);
+                game.setScreen(new LevelSelectScreen(game));
 
             }
         };
@@ -166,17 +182,17 @@ public class MainMenu implements Screen {
     private ClickListener getHelpListener(){
         return new ClickListener(){
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                btnHelp.setHeight(70);
-                btnHelp.setWidth(70);
-                btnHelp.setPosition(buttonXHelp,buttonYHelp,0);
+                imgHelp.setHeight(32);
+                imgHelp.setWidth(81);
+                imgHelp.setPosition(buttonXHelp,buttonYHelp,0);
 
                 stage.draw();
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                btnHelp.setHeight(100);
-                btnHelp.setWidth(100);
-                btnHelp.setPosition(buttonXHelp,buttonYHelp,0);
+                imgHelp.setHeight(36);
+                imgHelp.setWidth(90);
+                imgHelp.setPosition(buttonXHelp,buttonYHelp,0);
 
                 stage.draw();
             }
@@ -192,17 +208,17 @@ public class MainMenu implements Screen {
     private ClickListener getSettingsListener(){
         return new ClickListener(){
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                btnSettings.setHeight(120);
-                btnSettings.setWidth(120);
-                btnSettings.setPosition(buttonXSettings,buttonYSettings,0);
+                imgSettings.setHeight(36);
+                imgSettings.setWidth(130);
+                imgSettings.setPosition(buttonXSettings,buttonYSettings,0);
 
                 stage.draw();
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                btnSettings.setHeight(150);
-                btnSettings.setWidth(150);
-                btnSettings.setPosition(buttonXSettings,buttonYSettings,0);
+                imgSettings.setHeight(41);
+                imgSettings.setWidth(145);
+                imgSettings.setPosition(buttonXSettings,buttonYSettings,0);
 
                 stage.draw();
             }
@@ -216,17 +232,17 @@ public class MainMenu implements Screen {
     private ClickListener getExitListener(){
         return new ClickListener(){
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                btnExit.setHeight(70);
-                btnExit.setWidth(70);
-                btnExit.setPosition(buttonXExit,buttonYExit,0);
+                imgExit.setHeight(30);
+                imgExit.setWidth(79);
+                imgExit.setPosition(buttonXExit,buttonYExit,0);
 
                 stage.draw();
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                btnExit.setHeight(100);
-                btnExit.setWidth(100);
-                btnExit.setPosition(buttonXExit,buttonYExit,0);
+                imgExit.setHeight(33);
+                imgExit.setWidth(88);
+                imgExit.setPosition(buttonXExit,buttonYExit,0);
 
                 stage.draw();
             }

@@ -4,7 +4,7 @@
  <terraintypes>
   <terrain name="goal" tile="8"/>
   <terrain name="floor" tile="8"/>
-  <terrain name="table" tile="0"/>
+  <terrain name="table" tile="8"/>
  </terraintypes>
  <tile id="0" terrain="0,0,0,0"/>
  <tile id="1" terrain="0,0,0,0"/>
@@ -27,19 +27,19 @@
  <tile id="18" terrain="1,1,1,1"/>
  <tile id="19" terrain="1,1,1,1"/>
  <tile id="20" terrain="1,1,1,1"/>
- <tile id="21" terrain="1,1,2,2"/>
+ <tile id="21" terrain="1,1,1,2"/>
  <tile id="22" terrain="1,1,2,2"/>
- <tile id="23" terrain="1,1,2,2"/>
+ <tile id="23" terrain="1,1,2,1"/>
  <tile id="24" terrain="2,2,2,1"/>
  <tile id="25" terrain="2,2,1,2"/>
  <tile id="26" terrain="1,1,1,1"/>
- <tile id="27" terrain="2,2,2,2"/>
+ <tile id="27" terrain="1,2,1,2"/>
  <tile id="28" terrain="2,2,2,2"/>
- <tile id="29" terrain="2,2,2,2"/>
+ <tile id="29" terrain="2,1,2,1"/>
  <tile id="30" terrain="2,1,2,2"/>
  <tile id="31" terrain="1,2,2,2"/>
  <tile id="32" terrain="1,1,1,1"/>
- <tile id="33" terrain="2,2,1,1"/>
+ <tile id="33" terrain="1,2,1,1"/>
  <tile id="34" terrain="2,2,1,1"/>
- <tile id="35" terrain="2,2,1,1"/>
+ <tile id="35" terrain="2,1,1,1"/>
 </tileset>
