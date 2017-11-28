@@ -6,9 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Garlic extends Pickup {
 
-    private static float SPEED_BOOST = 0;
-    private static float BOOST_TIME = 5;
-
     public Garlic(float x, float y, Player player) {
         super(new Texture("garlicSlow.png"), x, y, player);
     }
@@ -20,6 +17,6 @@ public class Garlic extends Pickup {
     @Override
     public void effect() {
         Gdx.app.log("got", "Garlic");
-        player.addModifier(new SpeedUp(5, player, 2.5f));
+        player.addModifier(new SpeedUp(7, player, 0.5f));
     }
 }
