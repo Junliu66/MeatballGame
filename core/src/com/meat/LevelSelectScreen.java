@@ -119,6 +119,7 @@ public class LevelSelectScreen implements Screen {
         btnPause.setPosition(680,510);
 
 
+
         btnLvlOne.addListener(getLvlOneListener());
         btnLvlTwo.addListener(getLvlTwoListener());
         btnLvlThree.addListener(getLvlThreeListener());
@@ -126,7 +127,6 @@ public class LevelSelectScreen implements Screen {
         btnLvlFive.addListener(getLvlFiveListener());
         btnLvlSix.addListener(getLvlSixListener());
         btnBack.addListener(getBackListener());
-        //btnPause.addListener(getPauseListener());
 
         btnLvlOne.setPosition(buttonXLvlOne, buttonYLvlOne, 0);
         btnLvlTwo.setPosition(buttonXLvlTwo, buttonYLvlTwo, 0);
@@ -158,8 +158,94 @@ public class LevelSelectScreen implements Screen {
         stage.addActor(lblLvlFive);
         stage.addActor(lblLvlSix);
         stage.addActor(btnPause);
+        texture = new Texture("pepperbomb.png");
+        Image emptyTrophy = new Image(texture);
+        texture = new Texture("tomato.png");
+        Image filledTrophy = new Image(texture);
+
+        drawTrophies(emptyTrophy, filledTrophy);
 
         Gdx.input.setInputProcessor(stage);
+    }
+
+    private void drawTrophies(Image emptyTrophy, Image filledTrophy) {
+        int[] levelXPos =  {buttonXLvlOne, buttonXLvlTwo, buttonXLvlThree, buttonXLvlFour, buttonXLvlFive, buttonXLvlSix};
+        int[] levelYPos =  {buttonYLvlOne, buttonYLvlTwo, buttonYLvlThree, buttonYLvlFour, buttonYLvlFive, buttonYLvlSix};
+
+        Image[] emptyTrophies = new Image[18];
+        Image[] filledTrophies = new Image[18];
+
+        for (int i = 0; i < emptyTrophies.length; i++)
+        {
+            texture = new Texture("trophy_no.png");
+            emptyTrophies[i] = new Image(texture);
+            if (i % 3 == 0)
+            {
+                System.out.println("hello");
+                texture = new Texture("trophy_bronze.png");
+                filledTrophies[i] = new Image(texture);
+            }
+            else if (i % 3 == 1)
+            {
+                texture = new Texture("trophy_sliver.png");
+                filledTrophies[i] = new Image(texture);
+            }
+            else
+            {
+                texture = new Texture("trophy_gold.png");
+                filledTrophies[i] = new Image(texture);
+            }
+        }
+        int k = 0;
+        for (int i = 0; i < levelXPos.length; i++){
+            switch (game.lvlTrophies[i]){
+                case 0:
+                    emptyTrophies[k].setPosition(levelXPos[i] - 50 - 16, levelYPos[i] - 75);
+                    stage.addActor(emptyTrophies[k]);
+                    k++;
+                    emptyTrophies[k].setPosition(levelXPos[i] - 16, levelYPos[i] - 75);
+                    stage.addActor(emptyTrophies[k]);
+                    k++;
+                    emptyTrophies[k].setPosition(levelXPos[i] + 50 - 16, levelYPos[i] - 75);
+                    stage.addActor(emptyTrophies[k]);
+                    k++;
+                    break;
+                case 1:
+                    filledTrophies[k].setPosition(levelXPos[i] - 50 - 16, levelYPos[i] - 75);
+                    stage.addActor(filledTrophies[k]);
+                    k++;
+                    emptyTrophies[k].setPosition(levelXPos[i] - 16, levelYPos[i] - 75);
+                    stage.addActor(emptyTrophies[k]);
+                    k++;
+                    emptyTrophies[k].setPosition(levelXPos[i] + 50 - 16, levelYPos[i] - 75);
+                    stage.addActor(emptyTrophies[k]);
+                    k++;
+                    break;
+                case 2:
+                    filledTrophies[k].setPosition(levelXPos[i] - 50 - 16, levelYPos[i] - 75);
+                    stage.addActor(filledTrophies[k]);
+                    k++;
+                    filledTrophies[k].setPosition(levelXPos[i] - 16, levelYPos[i] - 75);
+                    stage.addActor(filledTrophies[k]);
+                    k++;
+                    emptyTrophies[k].setPosition(levelXPos[i] + 50 - 16, levelYPos[i] - 75);
+                    stage.addActor(emptyTrophies[k]);
+                    k++;
+                    break;
+                case 3:
+                    filledTrophies[k].setPosition(levelXPos[i] - 50 - 16, levelYPos[i] - 75);
+                    stage.addActor(filledTrophies[k]);
+                    k++;
+                    filledTrophies[k].setPosition(levelXPos[i] - 16, levelYPos[i] - 75);
+                    stage.addActor(filledTrophies[k]);
+                    k++;
+                    filledTrophies[k].setPosition(levelXPos[i] + 50 - 16, levelYPos[i] - 75);
+                    stage.addActor(filledTrophies[k]);
+                    k++;
+
+            }
+        }
+
     }
 
     @Override
