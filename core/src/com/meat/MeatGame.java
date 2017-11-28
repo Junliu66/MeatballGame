@@ -478,6 +478,8 @@ public class MeatGame implements Screen {
                 pickups.add(new Pepper(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
             } else if (obj.getName().equals("garlic")) {
                 pickups.add(new Garlic(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
+            } else if (obj.getName().equals("tomato")) {
+                pickups.add(new Tomato(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
             }
         }
     }
