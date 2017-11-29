@@ -17,6 +17,6 @@ public class Garlic extends Pickup {
     @Override
     public void effect() {
         Gdx.app.log("got", "Garlic");
-        player.addModifier(new SpeedUp(5, player, 0.5f));
+        player.addModifier(new SpeedUp(7, player, 0.5f));
     }
 }

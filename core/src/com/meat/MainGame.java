@@ -17,7 +17,7 @@ public class MainGame extends Game
     public SpriteBatch batch;
     public BitmapFont font;
     int totalScore, numTrophies;
-    int lvlTrophies[] = {0, 0, 0, 0, 0, 0};
+    int lvlTrophies[] = {2, 1, 3, 2, 0, 0};
 
     public MeatGame meatGame = null;
 
