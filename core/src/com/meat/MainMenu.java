@@ -42,15 +42,15 @@ public class MainMenu implements Screen {
     private TextureRegionDrawable myTexRegionDrawable;
 
     int buttonXPlay = 400;
-    int buttonXHelp = 250;
+    int buttonXHelp = 260;
     int buttonXSettings = 400;
-    int buttonXExit = 550;
+    int buttonXExit = 540;
     int buttonYHelp = 30;
     int buttonYSettings = 30;
     int buttonYExit = 30;
-    int buttonYPlay = 110;
+    int buttonYPlay = 85;
     int buttonXSave = 260;
-    int buttonXLoad = 565;
+    int buttonXLoad = 545;
     int buttonYSave = 100;
     int buttonYLoad = 100;
 
@@ -86,6 +86,7 @@ public class MainMenu implements Screen {
         btnSettings = new ImageButton(myTexRegionDrawable);
         btnSettings.setColor(0, 0, 0, 0);
         imgSettings = new Image(myTexture);
+        //imgSettings.setSize(70,40);
 
         myTexture = new Texture(Gdx.files.internal("btnExit.png"));
         myTextureRegion = new TextureRegion(myTexture);
@@ -240,16 +241,16 @@ public class MainMenu implements Screen {
     private ClickListener getSettingsListener(){
         return new ClickListener(){
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                imgSettings.setHeight(36);
-                imgSettings.setWidth(130);
+                imgSettings.setHeight(28);
+                imgSettings.setWidth(120);
                 imgSettings.setPosition(buttonXSettings,buttonYSettings,0);
 
                 stage.draw();
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                imgSettings.setHeight(41);
-                imgSettings.setWidth(145);
+                imgSettings.setHeight(32);
+                imgSettings.setWidth(128);
                 imgSettings.setPosition(buttonXSettings,buttonYSettings,0);
 
                 stage.draw();
