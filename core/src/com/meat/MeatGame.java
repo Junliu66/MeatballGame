@@ -43,7 +43,6 @@ public class MeatGame implements Screen {
     private static int DESIRED_RENDER_HEIGHT = 600;
     private static boolean RENDER_DEBUG = true;
     final MainGame game;
-    private final Texture pauseTexture;
     public ArrayList<Shape2D> holes;
     public ArrayList<Shape2D> goals;
 
@@ -215,7 +214,8 @@ public class MeatGame implements Screen {
 
     private void pauseButton() {
         //Stage pauseStage = new Stage(new ScreenViewport(), game.batch);
-        TextureRegion myTextureRegion = new TextureRegion(pauseTexture);
+        Texture myTexture = new Texture(Gdx.files.internal("btnPause0.png"));
+        TextureRegion myTextureRegion = new TextureRegion(myTexture);
         TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         myTexRegionDrawable.setMinHeight(80);
         myTexRegionDrawable.setMinWidth(80);
@@ -223,6 +223,7 @@ public class MeatGame implements Screen {
         btnPause.setPosition(680, 510);
         pauseStage.addActor(btnPause);
         pauseStage.draw();
+        myTexture.dispose();
     }
 
     private void displayBloodPoints() {
@@ -251,6 +252,8 @@ public class MeatGame implements Screen {
             bpStage.addActor(button);
         }
         bpStage.draw();
+        myTexture.dispose();
+        emptyblodTex.dispose();
     }
 
     private void doPhysicsStep(float deltaTime) {
@@ -507,7 +510,7 @@ public class MeatGame implements Screen {
         return polygonShape;
     }
 
-    
+
     private void renderDebug() {
         Gdx.gl.glLineWidth(1);
         shapeRenderer.setProjectionMatrix(camera.combined);
