@@ -25,10 +25,10 @@ public class Player {
     private int textureOffsetX;
     private int textureOffsetY;
     private boolean isPlayerOne;
-    private static Pixmap bloodTrail = new Pixmap(800, 600, Pixmap.Format.RGBA8888);;
-    private Pixmap blood;
-    private Vector2 lastPos;
     private ArrayList<PlayerModifier> modifers;
+    private boolean invincible = false;
+    private float invincibleCounter;
+    private Pixmap origMeatPixmap;
 
     /**
      *  @param spawnLoc The location the player spawns in the game.
@@ -36,13 +36,14 @@ public class Player {
      * @param acceleration How fast the player accelerates.
      */
     public Player(Vector2 spawnLoc, TiledMapTileLayer collisionLayer, float acceleration, World world, boolean isPlayerOne) {
-        this.meatTexture = new Texture("meatball_texture.png");
+        this.meatTexture = new Texture(32, 32, Pixmap.Format.RGBA8888);
         this.acceleration = acceleration;
         this.input = new Vector2();
         this.isPlayerOne = isPlayerOne;
-        blood = new Pixmap(Gdx.files.internal("meat_splatter.png"));
+        invincibleCounter = 0f;
         modifers = new ArrayList<PlayerModifier>();
 
+        origMeatPixmap = new Pixmap(Gdx.files.internal("meatball_texture.png"));
         textureOffsetX = 0;
         textureOffsetY = 0;
         BodyDef playerDef = new BodyDef();
@@ -59,11 +60,13 @@ public class Player {
         fixtureDef.friction = 0.0f;
         fixtureDef.density = 15f;
         body.createFixture(fixtureDef);
-        lastPos = new Vector2(body.getPosition().x, body.getPosition().y);
         circle.dispose();
     }
 
     public void update(MeatGame game, float dt) {
+        if (invincible)
+            invincibleCounter += dt;
+
         checkCollisionMap(game);
         input = new Vector2();
         boolean up, down, left, right;
@@ -103,6 +106,20 @@ public class Player {
 
     public void render(SpriteBatch batch)
     {
+        if (invincible) {
+            if (invincibleCounter < (1/8f)) {
+                draw(batch);
+            } else if (invincibleCounter < (1/4f)) {
+            } else {
+                invincibleCounter = 0f;
+            }
+        } else
+            draw(batch);
+
+    }
+
+    public void draw(SpriteBatch batch)
+    {
         int y = Math.round(1.25f * TO_PIXELS * body.getPosition().y % 64f);
         int x = -Math.round(1.25f * TO_PIXELS * body.getPosition().x % 64f);
         if (x < 0) {
@@ -111,25 +128,10 @@ public class Player {
         if (y < 0) {
             y += 64;
         }
-        Pixmap p = roundPixmap(new Pixmap(Gdx.files.internal("meatball_texture.png")), x+textureOffsetX, y+textureOffsetY, 16);
-        meatTexture = new Texture(p);
-
-        if (!isPlayerOne)
-            batch.setColor(Color.GRAY);
-        if (lastPos.dst(body.getPosition()) > 0.2) {
-            Pixmap bloodRotated = rotatePixmap(blood, (float) ( (Math.atan2(body.getLinearVelocity().x, body.getLinearVelocity().y) + 0) / (2*Math.PI) ) * 360f + 90f);
-            bloodTrail.drawPixmap(bloodRotated, (int) (body.getPosition().x * TO_PIXELS - 8), (int) (600 - body.getPosition().y * TO_PIXELS - 8));
-            bloodRotated.dispose();
-            lastPos = new Vector2(body.getPosition().x, body.getPosition().y);
-        }
-
-        Texture bT = new Texture(bloodTrail);
-        if (isPlayerOne)
-            batch.draw(bT, 0, 0);
+        Pixmap p = roundPixmap(origMeatPixmap, x+textureOffsetX, y+textureOffsetY, 16);
+        meatTexture.draw(p, 0, 0);
         batch.draw(meatTexture, body.getPosition().x * TO_PIXELS - 16, body.getPosition().y * TO_PIXELS - 16);
-        if (!isPlayerOne)
-            batch.setColor(Color.WHITE);
-        bT.dispose();
+        p.dispose();
     }
 
     public Vector2 getPosition() {return body.getPosition();}
@@ -161,31 +163,6 @@ public class Player {
         return round;
     }
 
-    public Pixmap rotatePixmap (Pixmap src, float angle){
-        final int width = src.getWidth();
-        final int height = src.getHeight();
-        Pixmap rotated = new Pixmap(width, height, src.getFormat());
-
-        final double radians = Math.toRadians(angle), cos = Math.cos(radians), sin = Math.sin(radians);
-
-
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                final int
-                        centerx = width/2, centery = height / 2,
-                        m = x - centerx,
-                        n = y - centery,
-                        j = ((int) (m * cos + n * sin)) + centerx,
-                        k = ((int) (n * cos - m * sin)) + centery;
-                if (j >= 0 && j < width && k >= 0 && k < height){
-                    rotated.drawPixel(x, y, src.getPixel(k, j));
-                }
-            }
-        }
-        return rotated;
-
-    }
-
     public void checkCollisionMap(MeatGame meatGame) {
         float x = body.getWorldCenter().x * TO_PIXELS;
         float y = body.getWorldCenter().y * TO_PIXELS;
@@ -205,23 +182,23 @@ public class Player {
                 break;
         }
 
-        Vector2 restart = checkObstacle(meatGame, x, y);
-        if (restart != null ) {
-            meatGame.reduceBlood(restart);
-        }
+        checkObstacle(meatGame, x, y);
     }
 
-    private Vector2 checkObstacle(MeatGame meatGame, float x, float y) {
+    private void checkObstacle(MeatGame meatGame, float x, float y) {
         for (Obstacle ob : meatGame.getObstacles().values())
         {
             for (Shape2D s : ob.getObstacleArea()) {
                 if (s.contains(x, y)) {
-                    return ob.getRestartPoint();
+                    if (!invincible) {
+                        body.setLinearVelocity(body.getLinearVelocity().scl(-1f));
+                        meatGame.reduceBlood();
+                        modifers.add(new Invincibility(3, this));
+                    }
                 }
 
             }
         }
-        return null;
     }
 
     public int isCellBlocked(MeatGame meatGame, float x, float y) {
@@ -242,8 +219,6 @@ public class Player {
     public void dispose()
     {
         meatTexture.dispose();
-        blood.dispose();
-        bloodTrail.dispose();
     }
 
     public void setPosition(Vector2 position) {
@@ -274,5 +249,10 @@ public class Player {
 
     public Vector2 getPixelPosition() {
         return new Vector2(body.getPosition().x * TO_PIXELS, body.getPosition().y * TO_PIXELS);
+    }
+
+    public void setInvincible(boolean invincible) {
+        this.invincible = invincible;
+        invincibleCounter = 0f;
     }
 }

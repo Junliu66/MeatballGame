@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import static com.badlogic.gdx.graphics.g3d.particles.ParticleChannels.Color;
 
-public class RestartScreen implements Screen {
+public class GameOverScreen implements Screen {
     private MainGame game;
     private Button restart;
     private Button mainMenu;
@@ -30,7 +30,7 @@ public class RestartScreen implements Screen {
     private Texture texture;
 
 
-    public  RestartScreen(MainGame game, String lvlName) {
+    public GameOverScreen(MainGame game, String lvlName) {
         this.game = game;
         this.lvlString = lvlName;
         stage = new Stage(new ScreenViewport(), game.batch);
