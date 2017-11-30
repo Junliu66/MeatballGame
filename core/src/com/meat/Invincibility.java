@@ -1,4 +1,4 @@
-package com.meat.Objects;
+package com.meat;
 
 import com.meat.Player;
 import com.meat.PlayerModifier;
