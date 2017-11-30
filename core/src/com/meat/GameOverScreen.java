@@ -73,6 +73,7 @@ public class GameOverScreen implements Screen {
         return new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
+                stage.clear();
                 game.setScreen(new MainMenu(game));
             }
         };
@@ -82,6 +83,7 @@ public class GameOverScreen implements Screen {
         return new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                stage.clear();
                 game.setScreen(new LevelSelectScreen(game));
 
             }
@@ -94,6 +96,7 @@ public class GameOverScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //game.setScreen(game.meatGame);
+                stage.clear();
                 game.setScreen(new MeatGame(game, lvlString));
             }
         };

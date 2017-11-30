@@ -315,8 +315,8 @@ public class LevelSelectScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 
                 stage.draw();
+                stage.clear();
                 game.setScreen(new MeatGame(game, "LevelOne.tmx"));
-
             }
         };
     }
@@ -344,6 +344,7 @@ public class LevelSelectScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 
                 stage.draw();
+                stage.clear();
                 game.setScreen(new MeatGame(game, "LevelTwo.tmx"));
             }
         };
@@ -369,6 +370,7 @@ public class LevelSelectScreen implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                stage.clear();
                 game.setScreen(new ControlMenu(game));
             }
         };
@@ -474,6 +476,7 @@ public class LevelSelectScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 
                 stage.draw();
+                stage.clear();
                 game.setScreen(new MainMenu(game));
             }
         };
@@ -500,7 +503,7 @@ public class LevelSelectScreen implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                stage.clear();
                 game.setScreen(new MainMenu(game));
             }
         };

@@ -206,6 +206,7 @@ public class MainMenu implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 
                 stage.draw();
+                stage.clear();
                 game.setScreen(new LevelSelectScreen(game));
 
             }
@@ -233,6 +234,7 @@ public class MainMenu implements Screen {
             public void clicked(InputEvent event, float x, float y) {
 
                 stage.draw();
+                stage.clear();
                 game.setScreen(new HelpScreen(game));
             }
         };
@@ -257,6 +259,7 @@ public class MainMenu implements Screen {
             }
             @Override
             public void clicked(InputEvent event, float x, float y){
+                stage.clear();
                 game.setScreen(new ControlMenu(game));
             }
         };

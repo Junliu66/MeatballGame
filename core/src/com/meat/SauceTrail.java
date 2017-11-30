@@ -13,8 +13,8 @@ import static com.meat.MeatGame.TO_PIXELS;
 
 public class SauceTrail {
 
-    private static int SECTION_WIDTH = 1024;
-    private static int SECTION_HEIGHT = 1024;
+    private static int SECTION_WIDTH = 800;
+    private static int SECTION_HEIGHT = 800;
     private static int MAX_NUM_SECTIONS = 9;
 
     private ArrayList<Texture> sections;
@@ -62,9 +62,9 @@ public class SauceTrail {
                 newY = lastInside.y + lastInside.height;
             else if (pos.y < lastInside.y)
                 newY = lastInside.y - lastInside.height;
+            int furthest = 0;
             if (sections.size() >= MAX_NUM_SECTIONS) {
                 float furthestDist = 0;
-                int furthest = 0;
                 for (int i = 0; i < sections.size(); i++)
                     if (coords.get(i).getCenter(new Vector2()).dst(pos) > furthestDist) {
                         furthest = i;
@@ -74,8 +74,9 @@ public class SauceTrail {
                 sections.remove(furthest);
                 coords.remove(furthest);
             }
-            sections.add(new Texture(SECTION_WIDTH, SECTION_HEIGHT, Pixmap.Format.RGBA8888));
-            coords.add(new Rectangle(newX, newY, SECTION_WIDTH, SECTION_HEIGHT));
+            currentTexture = sections.get(furthest);
+            sections.add(furthest, new Texture(SECTION_WIDTH, SECTION_HEIGHT, Pixmap.Format.RGBA8888));
+            coords.add(furthest, new Rectangle(newX, newY, SECTION_WIDTH, SECTION_HEIGHT));
         }
 
         if (lastPos.dst(pos) > 5 && currentTexture != null) {
