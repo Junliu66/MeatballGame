@@ -37,18 +37,6 @@ public class PlayerChasingEnemy extends Enemy {
         maxRadiusSquare = maxRadius * maxRadius;
 
 
-        //defining the possible directions that an enemy can check
-        directions = new ArrayList<Vector2>();
-        directions.add(new Vector2(1, 0));
-        directions.add(new Vector2(0, 1));
-        directions.add(new Vector2(-1, 0));
-        directions.add(new Vector2(0, -1));
-        directions.add(new Vector2(1,1).nor());
-        directions.add(new Vector2(1, -1).nor());
-        directions.add(new Vector2(-1, 1).nor());
-        directions.add(new Vector2(-1, -1).nor());
-
-
         currentStartPoint = body.getPosition().cpy();
     }
 
@@ -56,6 +44,7 @@ public class PlayerChasingEnemy extends Enemy {
         if(isAggressive){
             if(hasLostPlayer()){
                 isAggressive = false;
+                body.setLinearVelocity(0.0f, 0.0f);
             }
             else{
                 //move toward player

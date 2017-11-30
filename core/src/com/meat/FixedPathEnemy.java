@@ -1,10 +1,13 @@
 package com.meat;
 
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
+
 
 public class FixedPathEnemy extends Enemy {
 
@@ -33,7 +36,16 @@ public class FixedPathEnemy extends Enemy {
 
     }
 
+    public FixedPathEnemy(World world, float speed, Player player, PolygonMapObject path){
+        super(new Vector2(), world, speed, player);
+        Polygon polygon = path.getPolygon();
+        float[] vertices = polygon.getTransformedVertices();
+        Vector2 initialPos = new Vector2(vertices[0]/MeatGame.TO_PIXELS, vertices[1]/ MeatGame.TO_PIXELS);
+        body.getPosition().set(initialPos);
+    }
+
     public void update(){
+        /*
         Vector2 currentPosition = body.getPosition();
 
         float currentDistance = (float)(Math.pow(currentPosition.x - lastStartPoint.x,2) +
@@ -41,6 +53,7 @@ public class FixedPathEnemy extends Enemy {
         if (currentDistance >= distSquare){
             setNextTrajectory();
         }
+        */
     }
 
     public void setNextTrajectory(){
@@ -54,6 +67,8 @@ public class FixedPathEnemy extends Enemy {
     }
 
 
+    public void setPath(){
 
+    }
 
 }
