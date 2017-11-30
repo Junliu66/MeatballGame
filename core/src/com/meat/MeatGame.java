@@ -205,7 +205,7 @@ public class MeatGame implements Screen {
             debugRenderer.render(world, box2DCamera.combined);
         }
 
-//        displayBloodPoints();
+        displayBloodPoints();
         pauseButton();
 
     }
@@ -549,7 +549,6 @@ public class MeatGame implements Screen {
         if (currentBloodPoint <= 0) {
             lose();
         }
-        player.setVelocity(new Vector2(0, 0));
     }
 
     public void resetLevel() {

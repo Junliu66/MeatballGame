@@ -70,6 +70,7 @@ public class SauceTrail {
                         furthest = i;
                         furthestDist = coords.get(i).getCenter(new Vector2()).dst(pos);
                     }
+                sections.get(furthest).dispose();
                 sections.remove(furthest);
                 coords.remove(furthest);
             }

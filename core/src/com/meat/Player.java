@@ -107,9 +107,9 @@ public class Player {
     public void render(SpriteBatch batch)
     {
         if (invincible) {
-            if (invincibleCounter < 10) {
+            if (invincibleCounter < (1/8f)) {
                 draw(batch);
-            } else if (invincibleCounter < 20) {
+            } else if (invincibleCounter < (1/4f)) {
             } else {
                 invincibleCounter = 0f;
             }
@@ -190,11 +190,11 @@ public class Player {
         {
             for (Shape2D s : ob.getObstacleArea()) {
                 if (s.contains(x, y)) {
-                    if (!invincible)
+                    if (!invincible) {
+                        body.setLinearVelocity(body.getLinearVelocity().scl(-1f));
                         meatGame.reduceBlood();
-                    modifers.add(new Invincibility(3, this));
-                    body.setLinearVelocity(body.getLinearVelocity().nor().scl(-Math.max(body.getLinearVelocity().len(), 1.4f)));
-//                    setPosition( getPosition().sub(body.getLinearVelocity().nor().scl(-1f)));
+                        modifers.add(new Invincibility(3, this));
+                    }
                 }
 
             }
