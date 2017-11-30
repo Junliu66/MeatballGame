@@ -685,7 +685,7 @@
   <object id="480" name="path_enemy" x="1116" y="558">
    <properties>
     <property name="clockwise" type="bool" value="true"/>
-    <property name="speed" type="float" value="0"/>
+    <property name="speed" type="float" value="1"/>
    </properties>
    <polygon points="0,0 240,6 240,94 2,82"/>
   </object>
