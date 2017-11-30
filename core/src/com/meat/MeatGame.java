@@ -147,8 +147,6 @@ public class MeatGame implements Screen {
 
         sauceTrail = new SauceTrail(player);
 
-        pauseTexture = new Texture(Gdx.files.internal("btnPause0.png"));
-
         //Gdx.input.setInputProcessor(this);
         debugRenderer = new Box2DDebugRenderer();
     }
@@ -308,7 +306,6 @@ public class MeatGame implements Screen {
     @Override
     public void dispose() {
         player.dispose();
-        pauseTexture.dispose();
         sauceTrail.dispose();
         background.dispose();
     }

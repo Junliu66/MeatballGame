@@ -79,9 +79,9 @@ public class SauceTrail {
 
         if (lastPos.dst(pos) > 5 && currentTexture != null) {
             Pixmap bloodRotated = rotatePixmap(blood, (float) ( (Math.atan2(player.body.getLinearVelocity().x, player.body.getLinearVelocity().y) + 0) / (2*Math.PI) ) * 360f + 90f);
-            Gdx.app.log("Player pos", ""+pos);
-            Gdx.app.log("lastinside", ""+lastInside.toString());
-            Gdx.app.log("Draw pos", "x: " + (int) (pos.x - lastInside.x) + "\ty: " + (int) (SECTION_HEIGHT + lastInside.y - pos.y));
+//            Gdx.app.log("Player pos", ""+pos);
+//            Gdx.app.log("lastinside", ""+lastInside.toString());
+//            Gdx.app.log("Draw pos", "x: " + (int) (pos.x - lastInside.x) + "\ty: " + (int) (SECTION_HEIGHT + lastInside.y - pos.y));
             currentTexture.draw(bloodRotated, (int) (pos.x - lastInside.x), (int) (SECTION_HEIGHT + lastInside.y - pos.y))   ;
             bloodRotated.dispose();
             lastPos = pos;
