@@ -61,7 +61,7 @@ public class FixedPathEnemy extends Enemy {
             lastY = nextY;
         }
         float nextX = initialPos.x;
-        float nextY = initialPos.x;
+        float nextY = initialPos.y;
 
         float xDiff = nextX - lastX;
         float yDiff = nextY - lastY;
