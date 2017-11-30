@@ -217,7 +217,7 @@ public class MeatGame implements Screen {
         btnPause.setPosition(680, 510);
         pauseStage.addActor(btnPause);
         pauseStage.draw();
-
+        myTexture.dispose();
     }
 
     private void displayBloodPoints() {
@@ -246,6 +246,8 @@ public class MeatGame implements Screen {
             bpStage.addActor(button);
         }
         bpStage.draw();
+        myTexture.dispose();
+        emptyblodTex.dispose();
     }
 
     private void doPhysicsStep(float deltaTime) {
