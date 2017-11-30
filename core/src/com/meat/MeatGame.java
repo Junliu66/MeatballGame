@@ -20,7 +20,6 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -536,7 +535,7 @@ public class MeatGame implements Screen {
 
     public void lose() {
         currentBloodPoint = TOTAL_BLOOD_POINTS;
-        game.setScreen(new RestartScreen(game, lvlString));
+        game.setScreen(new GameOverScreen(game, lvlString));
     }
 
     public void congrats() {
