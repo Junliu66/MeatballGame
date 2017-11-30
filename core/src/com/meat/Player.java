@@ -30,6 +30,10 @@ public class Player {
     private float invincibleCounter;
     private Pixmap origMeatPixmap;
 
+    public final int GOAL = 2;
+    public final int HOLE = 1;
+    public final int WALL = 3;
+
     /**
      *  @param spawnLoc The location the player spawns in the game.
      * @param collisionLayer
@@ -172,11 +176,11 @@ public class Player {
         collisionWithMap = isCellBlocked(meatGame, x, y);
 
         switch (collisionWithMap) {
-            case 1:
+            case HOLE:
                 System.out.println("YOU LOSE!");
                 meatGame.lose();
                 break;
-            case 2:
+            case GOAL:
                 System.out.println("CONGRATULATIONS");
                 meatGame.congrats();
                 break;
@@ -205,12 +209,12 @@ public class Player {
         for (Shape2D s : meatGame.goals)
         {
             if (s.contains(x, y))
-                return 2;
+                return GOAL;
         }
         for (Shape2D s : meatGame.holes)
         {
             if (s.contains(x, y))
-                return 1;
+                return HOLE;
         }
 
         return 0;
