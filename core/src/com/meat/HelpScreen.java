@@ -46,7 +46,7 @@ public class HelpScreen implements Screen {
         labelArrow = new Label("", labelSkin);
         labelElements = new Label("", labelSkin);
         labelArrow.setPosition(500,400);
-        labelElements.setPosition(400,200);
+        labelElements.setPosition(420,210);
         labelArrow.setFontScale(1.5f);
         labelElements.setFontScale(1.2f);
 

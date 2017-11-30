@@ -21,7 +21,6 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -50,11 +49,10 @@ public class MeatGame implements Screen {
 
     private Map<String, Obstacle> obstacles = null;
 
-    TiledMap tiledMap;//, collisionMap;
-    TiledMapRenderer tiledMapRenderer;//, collisionMapRenderer;
-    TiledMapTileLayer collisionLayer;
-    Stage pauseStage;
-    //    private SpriteBatch batch;
+    private TiledMap tiledMap;
+    private TiledMapRenderer tiledMapRenderer;
+    private TiledMapTileLayer collisionLayer;
+    private Stage pauseStage;
     private Player player;
     private OrthographicCamera camera;
     private OrthographicCamera box2DCamera;
@@ -64,6 +62,7 @@ public class MeatGame implements Screen {
     private Box2DDebugRenderer debugRenderer;
     private ShapeRenderer shapeRenderer;
     private Vector2 playerStart;
+    private SauceTrail sauceTrail;
 
     private String lvlString;
     private ArrayList<Enemy> enemies;
@@ -71,7 +70,6 @@ public class MeatGame implements Screen {
     private ArrayList<Pickup> finishedPickups;
     private int currentBloodPoint;
     private Button btnPause;
-    private Image imgPause;
 
     public MeatGame(final MainGame game, String lvlName) {
         this.game = game;
@@ -155,6 +153,8 @@ public class MeatGame implements Screen {
         //enemies.add(chasingEnemy);
         //***** End testing Enemy ****
 
+        sauceTrail = new SauceTrail(player);
+
         //Gdx.input.setInputProcessor(this);
         debugRenderer = new Box2DDebugRenderer();
     }
@@ -169,6 +169,7 @@ public class MeatGame implements Screen {
             Enemy currEnemy = enemies.get(i);
             currEnemy.update();
         }
+        sauceTrail.update(dt);
 
         Vector2 position = new Vector2(camera.position.x, camera.position.y);
         Vector2 box2dposition = new Vector2(box2DCamera.position.x, box2DCamera.position.y);
@@ -197,19 +198,21 @@ public class MeatGame implements Screen {
         tiledMapRenderer.render();
 
         game.batch.begin();
+        sauceTrail.draw(game.batch);
         player.render(game.batch);
-        for (int i = 0; i < pickups.size(); i++)
+        for (int i = 0; i < pickups.size(); i++) {
             if (pickups.get(i).render(game.batch, dt) == Pickup.Status.FINISHED) {
                 finishedPickups.add(pickups.get(i));
                 pickups.remove(i);
             }
-
+        }
         game.batch.end();
 
-        if (RENDER_DEBUG)
+        if (RENDER_DEBUG) {
             renderDebug();
+            debugRenderer.render(world, box2DCamera.combined);
+        }
 
-        debugRenderer.render(world, box2DCamera.combined);
         displayBloodPoints();
         pauseButton();
 
@@ -227,7 +230,7 @@ public class MeatGame implements Screen {
         btnPause.setPosition(680, 510);
         pauseStage.addActor(btnPause);
         pauseStage.draw();
-
+        myTexture.dispose();
     }
 
     private void displayBloodPoints() {
@@ -256,6 +259,8 @@ public class MeatGame implements Screen {
             bpStage.addActor(button);
         }
         bpStage.draw();
+        myTexture.dispose();
+        emptyblodTex.dispose();
     }
 
     private void doPhysicsStep(float deltaTime) {
@@ -310,6 +315,8 @@ public class MeatGame implements Screen {
     @Override
     public void dispose() {
         player.dispose();
+        sauceTrail.dispose();
+        background.dispose();
     }
 
 
@@ -540,6 +547,7 @@ public class MeatGame implements Screen {
 
 
     private void renderDebug() {
+        Gdx.gl.glLineWidth(1);
         shapeRenderer.setProjectionMatrix(camera.combined);
         renderShape2Ds(goals, Color.CYAN);
         renderShape2Ds(holes, Color.RED);
@@ -566,7 +574,7 @@ public class MeatGame implements Screen {
 
     public void lose() {
         currentBloodPoint = TOTAL_BLOOD_POINTS;
-        game.setScreen(new RestartScreen(game, lvlString));
+        game.setScreen(new GameOverScreen(game, lvlString));
     }
 
     public void congrats() {
@@ -574,13 +582,11 @@ public class MeatGame implements Screen {
         game.setScreen(new CongratsScreen(game, lvlString));
     }
 
-    public void reduceBlood(Vector2 restart) {
+    public void reduceBlood() {
         currentBloodPoint--;
         if (currentBloodPoint <= 0) {
             lose();
         }
-        player.setPosition(restart);
-        player.setVelocity(new Vector2(0, 0));
     }
 
     public void resetLevel() {

@@ -101,11 +101,12 @@ public class CongratsScreen implements Screen {
         };
     }
 
-    // TODO: link to level selection
+
     private EventListener getLevelSelectionListener() {
         return new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new LevelSelectScreen(game));
 
             }
         };

@@ -27,10 +27,14 @@ public class MainMenu implements Screen {
     Button btnHelp;
     Button btnSettings;
     Button btnExit;
+    Button btnSave;
+    Button btnLoad;
     Image imgPlay;
     Image imgHelp;
     Image imgSettings;
     Image imgExit;
+    Image imgSave;
+    Image imgLoad;
 
     Texture texture;
     private Texture myTexture;
@@ -38,13 +42,17 @@ public class MainMenu implements Screen {
     private TextureRegionDrawable myTexRegionDrawable;
 
     int buttonXPlay = 400;
-    int buttonXHelp = 250;
+    int buttonXHelp = 260;
     int buttonXSettings = 400;
-    int buttonXExit = 550;
+    int buttonXExit = 540;
     int buttonYHelp = 30;
     int buttonYSettings = 30;
     int buttonYExit = 30;
-    int buttonYPlay = 100;
+    int buttonYPlay = 85;
+    int buttonXSave = 260;
+    int buttonXLoad = 545;
+    int buttonYSave = 100;
+    int buttonYLoad = 100;
 
 
     public MainMenu(MainGame game){
@@ -78,6 +86,7 @@ public class MainMenu implements Screen {
         btnSettings = new ImageButton(myTexRegionDrawable);
         btnSettings.setColor(0, 0, 0, 0);
         imgSettings = new Image(myTexture);
+        //imgSettings.setSize(70,40);
 
         myTexture = new Texture(Gdx.files.internal("btnExit.png"));
         myTextureRegion = new TextureRegion(myTexture);
@@ -86,30 +95,58 @@ public class MainMenu implements Screen {
         btnExit.setColor(0, 0, 0, 0);
         imgExit = new Image(myTexture);
 
+        myTexture = new Texture(Gdx.files.internal("btnSave.png"));
+        myTextureRegion = new TextureRegion(myTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        btnSave = new ImageButton(myTexRegionDrawable);
+        btnSave.setColor(0, 0, 0, 0);
+        imgSave = new Image(myTexture);
+
+        myTexture = new Texture(Gdx.files.internal("btnLoad.png"));
+        myTextureRegion = new TextureRegion(myTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        btnLoad = new ImageButton(myTexRegionDrawable);
+        btnLoad.setColor(0, 0, 0, 0);
+        imgLoad = new Image(myTexture);
+
+
+
         btnPlay.addListener(getPlayListener());
         btnHelp.addListener(getHelpListener());
         btnSettings.addListener(getSettingsListener());
         btnExit.addListener(getExitListener());
+        btnSave.addListener(getSaveListener());
+        btnLoad.addListener(getLoadListener());
+
 
         imgPlay.setPosition(buttonXPlay, buttonYPlay, 0);
         imgHelp.setPosition(buttonXHelp, buttonYHelp, 0);
         imgSettings.setPosition(buttonXSettings, buttonYSettings, 0);
         imgExit.setPosition(buttonXExit, buttonYExit, 0);
+        imgSave.setPosition(buttonXSave, buttonYSave, 0);
+        imgLoad.setPosition(buttonXLoad, buttonYLoad, 0);
 
         btnPlay.setPosition(buttonXPlay, buttonYPlay, 0);
         btnHelp.setPosition(buttonXHelp, buttonYHelp, 0);
         btnSettings.setPosition(buttonXSettings, buttonYSettings, 0);
         btnExit.setPosition(buttonXExit, buttonYExit, 0);
+        btnSave.setPosition(buttonXSave, buttonYSave, 0);
+        btnLoad.setPosition(buttonXLoad, buttonYLoad, 0);
 
         stage.addActor(image);
         stage.addActor(imgPlay);
         stage.addActor(imgHelp);
         stage.addActor(imgSettings);
         stage.addActor(imgExit);
+        stage.addActor(imgSave);
+        stage.addActor(imgLoad);
+
         stage.addActor(btnPlay);
         stage.addActor(btnHelp);
         stage.addActor(btnSettings);
         stage.addActor(btnExit);
+        stage.addActor(btnSave);
+        stage.addActor(btnLoad);
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -120,11 +157,7 @@ public class MainMenu implements Screen {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Gdx.graphics.getDeltaTime());
-        //batch.begin();
-        //batch.draw(texture, 0, 0);
-        //stage.act();
         stage.draw();
-        //batch.end();
     }
 
     @Override
@@ -155,16 +188,16 @@ public class MainMenu implements Screen {
     private ClickListener getPlayListener(){
         return new ClickListener(){
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                imgPlay.setHeight(59);
-                imgPlay.setWidth(119);
+                imgPlay.setHeight(62);
+                imgPlay.setWidth(124);
                 imgPlay.setPosition(buttonXPlay,buttonYPlay,0);
 
                 stage.draw();
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                imgPlay.setHeight(65);
-                imgPlay.setWidth(132);
+                imgPlay.setHeight(72);
+                imgPlay.setWidth(143);
                 imgPlay.setPosition(buttonXPlay,buttonYPlay,0);
 
                 stage.draw();
@@ -208,16 +241,16 @@ public class MainMenu implements Screen {
     private ClickListener getSettingsListener(){
         return new ClickListener(){
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                imgSettings.setHeight(36);
-                imgSettings.setWidth(130);
+                imgSettings.setHeight(28);
+                imgSettings.setWidth(120);
                 imgSettings.setPosition(buttonXSettings,buttonYSettings,0);
 
                 stage.draw();
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                imgSettings.setHeight(41);
-                imgSettings.setWidth(145);
+                imgSettings.setHeight(32);
+                imgSettings.setWidth(128);
                 imgSettings.setPosition(buttonXSettings,buttonYSettings,0);
 
                 stage.draw();
@@ -232,16 +265,16 @@ public class MainMenu implements Screen {
     private ClickListener getExitListener(){
         return new ClickListener(){
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                imgExit.setHeight(30);
-                imgExit.setWidth(79);
+                imgExit.setHeight(25);
+                imgExit.setWidth(72);
                 imgExit.setPosition(buttonXExit,buttonYExit,0);
 
                 stage.draw();
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                imgExit.setHeight(33);
-                imgExit.setWidth(88);
+                imgExit.setHeight(28);
+                imgExit.setWidth(82);
                 imgExit.setPosition(buttonXExit,buttonYExit,0);
 
                 stage.draw();
@@ -252,6 +285,54 @@ public class MainMenu implements Screen {
                 stage.draw();
                 Gdx.app.exit();
             }
+        };
+    }
+
+    private ClickListener getSaveListener() {
+        return new ClickListener() {
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                imgSave.setHeight(27);
+                imgSave.setWidth(71);
+                imgSave.setPosition(buttonXSave, buttonYSave,0);
+
+                stage.draw();
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                imgSave.setHeight(32);
+                imgSave.setWidth(76);
+                imgSave.setPosition(buttonXSave, buttonYSave,0);
+
+                stage.draw();
+            }
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+
+        };
+    }
+
+    private ClickListener getLoadListener() {
+        return new ClickListener() {
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                imgLoad.setHeight(26);
+                imgLoad.setWidth(70);
+                imgLoad.setPosition(buttonXLoad, buttonYLoad,0);
+
+                stage.draw();
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                imgLoad.setHeight(32);
+                imgLoad.setWidth(74);
+                imgLoad.setPosition(buttonXLoad, buttonYLoad,0);
+
+                stage.draw();
+            }
+            public void clicked(InputEvent event, float x, float y) {
+
+            }
+
         };
     }
 

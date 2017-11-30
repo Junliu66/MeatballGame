@@ -290,6 +290,8 @@ public class LevelSelectScreen implements Screen {
 
     @Override
     public void dispose() {
+        myTexture.dispose();
+        texture.dispose();
         batch.dispose();
     }
 
