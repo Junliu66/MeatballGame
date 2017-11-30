@@ -43,16 +43,16 @@ public class MeatGame implements Screen {
     private static int DESIRED_RENDER_HEIGHT = 600;
     private static boolean RENDER_DEBUG = true;
     final MainGame game;
+    private final Texture pauseTexture;
     public ArrayList<Shape2D> holes;
     public ArrayList<Shape2D> goals;
 
     private Map<String, Obstacle> obstacles = null;
 
-    TiledMap tiledMap;//, collisionMap;
-    TiledMapRenderer tiledMapRenderer;//, collisionMapRenderer;
-    TiledMapTileLayer collisionLayer;
-    Stage pauseStage;
-    //    private SpriteBatch batch;
+    private TiledMap tiledMap;
+    private TiledMapRenderer tiledMapRenderer;
+    private TiledMapTileLayer collisionLayer;
+    private Stage pauseStage;
     private Player player;
     private OrthographicCamera camera;
     private OrthographicCamera box2DCamera;
@@ -62,6 +62,7 @@ public class MeatGame implements Screen {
     private Box2DDebugRenderer debugRenderer;
     private ShapeRenderer shapeRenderer;
     private Vector2 playerStart;
+    private SauceTrail sauceTrail;
 
     private String lvlString;
     private ArrayList<Enemy> enemies;
@@ -69,7 +70,6 @@ public class MeatGame implements Screen {
     private ArrayList<Pickup> finishedPickups;
     private int currentBloodPoint;
     private Button btnPause;
-    private Image imgPause;
 
     public MeatGame(final MainGame game, String lvlName) {
         this.game = game;
@@ -146,6 +146,10 @@ public class MeatGame implements Screen {
         enemies.add(newEnemy);
         //***** End testing Enemy ****
 
+        sauceTrail = new SauceTrail(player);
+
+        pauseTexture = new Texture(Gdx.files.internal("btnPause0.png"));
+
         //Gdx.input.setInputProcessor(this);
         debugRenderer = new Box2DDebugRenderer();
     }
@@ -160,6 +164,7 @@ public class MeatGame implements Screen {
             Enemy currEnemy = enemies.get(i);
             currEnemy.update();
         }
+        sauceTrail.update(dt);
 
         Vector2 position = new Vector2(camera.position.x, camera.position.y);
         Vector2 box2dposition = new Vector2(box2DCamera.position.x, box2DCamera.position.y);
@@ -188,13 +193,14 @@ public class MeatGame implements Screen {
         tiledMapRenderer.render();
 
         game.batch.begin();
+        sauceTrail.draw(game.batch);
         player.render(game.batch);
-        for (int i = 0; i < pickups.size(); i++)
+        for (int i = 0; i < pickups.size(); i++) {
             if (pickups.get(i).render(game.batch, dt) == Pickup.Status.FINISHED) {
                 finishedPickups.add(pickups.get(i));
                 pickups.remove(i);
             }
-
+        }
         game.batch.end();
 
         if (RENDER_DEBUG) {
@@ -202,15 +208,14 @@ public class MeatGame implements Screen {
             debugRenderer.render(world, box2DCamera.combined);
         }
 
-        displayBloodPoints();
+//        displayBloodPoints();
         pauseButton();
 
     }
 
     private void pauseButton() {
         //Stage pauseStage = new Stage(new ScreenViewport(), game.batch);
-        Texture myTexture = new Texture(Gdx.files.internal("btnPause0.png"));
-        TextureRegion myTextureRegion = new TextureRegion(myTexture);
+        TextureRegion myTextureRegion = new TextureRegion(pauseTexture);
         TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         myTexRegionDrawable.setMinHeight(80);
         myTexRegionDrawable.setMinWidth(80);
@@ -218,7 +223,6 @@ public class MeatGame implements Screen {
         btnPause.setPosition(680, 510);
         pauseStage.addActor(btnPause);
         pauseStage.draw();
-
     }
 
     private void displayBloodPoints() {
@@ -301,6 +305,9 @@ public class MeatGame implements Screen {
     @Override
     public void dispose() {
         player.dispose();
+        pauseTexture.dispose();
+        sauceTrail.dispose();
+        background.dispose();
     }
 
 
@@ -500,8 +507,9 @@ public class MeatGame implements Screen {
         return polygonShape;
     }
 
-
+    
     private void renderDebug() {
+        Gdx.gl.glLineWidth(1);
         shapeRenderer.setProjectionMatrix(camera.combined);
         renderShape2Ds(goals, Color.CYAN);
         renderShape2Ds(holes, Color.RED);
