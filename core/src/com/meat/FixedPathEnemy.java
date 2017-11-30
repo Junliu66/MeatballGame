@@ -36,16 +36,60 @@ public class FixedPathEnemy extends Enemy {
 
     }
 
-    public FixedPathEnemy(World world, float speed, Player player, PolygonMapObject path){
-        super(new Vector2(), world, speed, player);
-        Polygon polygon = path.getPolygon();
+    public FixedPathEnemy(World world, float speed, Player player, PolygonMapObject newPath){
+        Polygon polygon = newPath.getPolygon();
+        float lastX, lastY;
+
         float[] vertices = polygon.getTransformedVertices();
-        Vector2 initialPos = new Vector2(vertices[0]/MeatGame.TO_PIXELS, vertices[1]/ MeatGame.TO_PIXELS);
-        body.getPosition().set(initialPos);
+        lastX = vertices[0]/MeatGame.TO_PIXELS;
+        lastY = vertices[1]/MeatGame.TO_PIXELS;
+        Vector2 initialPos = new Vector2(lastX, lastY);
+        path = new ArrayList<Pair<Vector2, Float>>();
+
+        for(int i = 2; i < (vertices.length - 1); i+=2){
+            float nextX = vertices[i] / MeatGame.TO_PIXELS;
+            float nextY = vertices[i+1] / MeatGame.TO_PIXELS;
+
+            float xDiff = nextX - lastX;
+            float yDiff = nextY - lastY;
+            Vector2 trajectory = new Vector2(xDiff, yDiff);
+            float length = (float) Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+
+            Pair<Vector2, Float> nextPair = new Pair<Vector2, Float>(trajectory.nor(),length);
+            path.add(nextPair);
+            lastX = nextX;
+            lastY = nextY;
+        }
+        float nextX = initialPos.x;
+        float nextY = initialPos.x;
+
+        float xDiff = nextX - lastX;
+        float yDiff = nextY - lastY;
+        Vector2 trajectory = new Vector2(xDiff, yDiff);
+        float length = (float) Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+
+        Pair<Vector2, Float> nextPair = new Pair<Vector2, Float>(trajectory.nor(),length);
+        path.add(nextPair);
+
+
+        this.speed = speed;
+        isAggressive = false;
+        playerRef = player;
+        worldRef = world;
+
+        createBody(initialPos);
+
+        currentIndex = -1;
+        if (path.size() >= 1){
+            setNextTrajectory();
+        }
+        else{
+            //do some error stuff
+        }
     }
 
     public void update(){
-        /*
+
         Vector2 currentPosition = body.getPosition();
 
         float currentDistance = (float)(Math.pow(currentPosition.x - lastStartPoint.x,2) +
@@ -53,7 +97,7 @@ public class FixedPathEnemy extends Enemy {
         if (currentDistance >= distSquare){
             setNextTrajectory();
         }
-        */
+
     }
 
     public void setNextTrajectory(){
