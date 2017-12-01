@@ -287,7 +287,9 @@ public class MainMenu implements Screen {
                 stage.draw();
             }
             @Override
-            public void clicked(InputEvent event, float x, float y){
+            public void clicked(InputEvent event, float x, float y) {
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
                 stage.clear();
                 game.setScreen(new ControlMenu(game));
             }
