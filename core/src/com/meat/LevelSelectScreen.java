@@ -2,7 +2,6 @@ package com.meat;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -298,26 +297,17 @@ public class LevelSelectScreen implements Screen {
 
     private ClickListener getLvlOneListener() {
         return new ClickListener() {
-            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                 stage.draw();
                 lvlSelected = true;
                 iconSelectedX = buttonXLvlOne;
                 iconSelectedY = buttonYLvlOne;
-
-                if (!playing) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
-                    sound.play(1F);
-                    playing = true;
-                }
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-
                 stage.draw();
-                playing = false;
                 lvlSelected = false;
             }
 
@@ -333,13 +323,9 @@ public class LevelSelectScreen implements Screen {
 
     private ClickListener getLvlTwoListener() {
         return new ClickListener() {
-            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (!playing) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
-                    sound.play(1F);
-                    playing = true;
-                }
+
+
                 stage.draw();
                 lvlSelected = true;
                 iconSelectedX = buttonXLvlTwo;
@@ -348,9 +334,9 @@ public class LevelSelectScreen implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
+
                 stage.draw();
                 lvlSelected = false;
-                playing = false;
 
             }
 
@@ -365,14 +351,8 @@ public class LevelSelectScreen implements Screen {
 
     private ClickListener getLvlThreeListener() {
         return new ClickListener() {
-            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                if (!playing) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
-                    sound.play(1F);
-                    playing = true;
-                }
                 stage.draw();
                 lvlSelected = true;
                 iconSelectedX = buttonXLvlThree;
@@ -384,28 +364,20 @@ public class LevelSelectScreen implements Screen {
 
                 stage.draw();
                 lvlSelected = false;
-                playing = false;
 
             }
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                stage.draw();
-                game.setScreen(new MeatGame(game, "LevelThree.tmx"));
+                game.setScreen(new ControlMenu(game));
             }
         };
     }
 
     private ClickListener getLvlFourListener() {
         return new ClickListener() {
-            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                if (!playing) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
-                    sound.play(1F);
-                    playing = true;
-                }
                 stage.draw();
                 lvlSelected = true;
                 iconSelectedX = buttonXLvlFour;
@@ -417,7 +389,6 @@ public class LevelSelectScreen implements Screen {
 
                 stage.draw();
                 lvlSelected = false;
-                playing = false;
 
             }
 
@@ -432,14 +403,8 @@ public class LevelSelectScreen implements Screen {
 
     private ClickListener getLvlFiveListener() {
         return new ClickListener() {
-            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                if (!playing) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
-                    sound.play(1F);
-                    playing = true;
-                }
                 stage.draw();
                 lvlSelected = true;
                 iconSelectedX = buttonXLvlFive;
@@ -451,7 +416,6 @@ public class LevelSelectScreen implements Screen {
 
                 stage.draw();
                 lvlSelected = false;
-                playing = false;
 
             }
 
@@ -466,14 +430,8 @@ public class LevelSelectScreen implements Screen {
 
     private ClickListener getLvlSixListener() {
         return new ClickListener() {
-            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                if (!playing) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
-                    sound.play(1F);
-                    playing = true;
-                }
                 stage.draw();
                 lvlSelected = true;
                 iconSelectedX = buttonXLvlSix;
@@ -485,7 +443,6 @@ public class LevelSelectScreen implements Screen {
 
                 stage.draw();
                 lvlSelected = false;
-                playing = false;
 
             }
 
@@ -500,14 +457,8 @@ public class LevelSelectScreen implements Screen {
 
     private ClickListener getBackListener() {
         return new ClickListener() {
-            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                if (!playing) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
-                    sound.play(1F);
-                    playing = true;
-                }
                 stage.draw();
             }
 
@@ -516,16 +467,40 @@ public class LevelSelectScreen implements Screen {
 
                 stage.draw();
                 lvlSelected = false;
-                playing = false;
 
             }
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
-                sound.play(1F);
                 stage.draw();
+                game.setScreen(new MainMenu(game));
+            }
+        };
+    }
+
+    ClickListener getPauseListener() {
+        return new ClickListener(){
+
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                btnPause.setHeight(50);
+                btnPause.setWidth(50);
+                btnPause.setPosition(680,510,0);
+
+                stage.draw();
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                btnPause.setHeight(80);
+                btnPause.setWidth(80);
+                btnPause.setPosition(680,510,0);
+
+                stage.draw();
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
                 game.setScreen(new MainMenu(game));
             }
         };

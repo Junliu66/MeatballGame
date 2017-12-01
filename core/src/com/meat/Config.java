@@ -9,7 +9,7 @@ public class Config {
     static int player1Down = Input.Keys.DOWN;
     static int player1Left = Input.Keys.LEFT;
     static int player1Right = Input.Keys.RIGHT;
-
+    static int pause = Input.Keys.P;
 
     //Player 2, default W A S D-
     static int player2Up = Input.Keys.W;

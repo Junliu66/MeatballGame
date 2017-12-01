@@ -187,7 +187,6 @@ public class MainMenu implements Screen {
     }
 
     private ClickListener getPlayListener(){
-
         return new ClickListener(){
             boolean playing = false;
 
@@ -220,6 +219,7 @@ public class MainMenu implements Screen {
                 Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
                 sound.play(1F);
                 stage.draw();
+                stage.clear();
                 game.setScreen(new LevelSelectScreen(game));
 
             }
@@ -256,6 +256,7 @@ public class MainMenu implements Screen {
                 sound.play(1F);
 
                 stage.draw();
+                stage.clear();
                 game.setScreen(new HelpScreen(game));
             }
         };
@@ -286,9 +287,10 @@ public class MainMenu implements Screen {
                 stage.draw();
             }
             @Override
-            public void clicked(InputEvent event, float x, float y){
+            public void clicked(InputEvent event, float x, float y) {
                 Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
                 sound.play(1F);
+                stage.clear();
                 game.setScreen(new ControlMenu(game));
             }
         };

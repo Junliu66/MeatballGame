@@ -1,11 +1,8 @@
 package com.meat;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Pickup extends Sprite {
@@ -24,19 +21,23 @@ public abstract class Pickup extends Sprite {
         this.setSize(30,30);
     }
 
-    public Status render(SpriteBatch batch, float dt)
+    public Status update(float dt)
     {
         hoverTimer += 4*dt;
         if (hoverTimer >= 2*Math.PI)
             hoverTimer = 0;
         setY(origY + getHeight()/4 * (float) Math.sin(hoverTimer) - getHeight()/8);
-        this.draw(batch);
         float distToPlayer = getCenter().dst(player.getPixelPosition());
         if (distToPlayer <= (16+getWidth()/2)) {
             effect();
             return Status.FINISHED;
         }
         return Status.RUNNING;
+    }
+
+    public void draw(SpriteBatch batch)
+    {
+        super.draw(batch);
     }
 
     public abstract void effect();

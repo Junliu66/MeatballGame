@@ -29,7 +29,7 @@ allprojects {
         aiVersion = '1.8.0'
     }
     apply plugin: "java"
-    sourceCompatibility: 1.8
+    sourceCompatibility=1.8
     repositories {
         mavenLocal()
         mavenCentral()
