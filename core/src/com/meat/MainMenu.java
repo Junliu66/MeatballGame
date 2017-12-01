@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -187,24 +188,36 @@ public class MainMenu implements Screen {
 
     private ClickListener getPlayListener(){
         return new ClickListener(){
+            boolean playing = false;
+
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 imgPlay.setHeight(62);
                 imgPlay.setWidth(124);
                 imgPlay.setPosition(buttonXPlay,buttonYPlay,0);
 
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("button.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
+
                 stage.draw();
+
             }
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 imgPlay.setHeight(72);
                 imgPlay.setWidth(143);
                 imgPlay.setPosition(buttonXPlay,buttonYPlay,0);
+                playing = false;
 
                 stage.draw();
             }
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
                 stage.draw();
                 stage.clear();
                 game.setScreen(new LevelSelectScreen(game));
@@ -215,11 +228,17 @@ public class MainMenu implements Screen {
 
     private ClickListener getHelpListener(){
         return new ClickListener(){
+            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 imgHelp.setHeight(32);
                 imgHelp.setWidth(81);
                 imgHelp.setPosition(buttonXHelp,buttonYHelp,0);
 
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("button.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
                 stage.draw();
             }
 
@@ -228,10 +247,13 @@ public class MainMenu implements Screen {
                 imgHelp.setWidth(90);
                 imgHelp.setPosition(buttonXHelp,buttonYHelp,0);
 
+                playing = false;
                 stage.draw();
             }
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
 
                 stage.draw();
                 stage.clear();
@@ -242,10 +264,16 @@ public class MainMenu implements Screen {
 
     private ClickListener getSettingsListener(){
         return new ClickListener(){
+            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 imgSettings.setHeight(28);
                 imgSettings.setWidth(120);
                 imgSettings.setPosition(buttonXSettings,buttonYSettings,0);
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("button.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
 
                 stage.draw();
             }
@@ -255,6 +283,7 @@ public class MainMenu implements Screen {
                 imgSettings.setWidth(128);
                 imgSettings.setPosition(buttonXSettings,buttonYSettings,0);
 
+                playing = false;
                 stage.draw();
             }
             @Override
@@ -267,10 +296,16 @@ public class MainMenu implements Screen {
 
     private ClickListener getExitListener(){
         return new ClickListener(){
+            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 imgExit.setHeight(25);
                 imgExit.setWidth(72);
                 imgExit.setPosition(buttonXExit,buttonYExit,0);
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("button.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
 
                 stage.draw();
             }
@@ -280,11 +315,14 @@ public class MainMenu implements Screen {
                 imgExit.setWidth(82);
                 imgExit.setPosition(buttonXExit,buttonYExit,0);
 
+                playing = false;
                 stage.draw();
             }
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
                 stage.draw();
                 Gdx.app.exit();
             }
@@ -293,11 +331,17 @@ public class MainMenu implements Screen {
 
     private ClickListener getSaveListener() {
         return new ClickListener() {
+            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 imgSave.setHeight(27);
                 imgSave.setWidth(71);
                 imgSave.setPosition(buttonXSave, buttonYSave,0);
 
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("button.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
                 stage.draw();
             }
 
@@ -306,10 +350,13 @@ public class MainMenu implements Screen {
                 imgSave.setWidth(76);
                 imgSave.setPosition(buttonXSave, buttonYSave,0);
 
+                playing = false;
                 stage.draw();
             }
             public void clicked(InputEvent event, float x, float y) {
 
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
             }
 
         };
@@ -317,11 +364,17 @@ public class MainMenu implements Screen {
 
     private ClickListener getLoadListener() {
         return new ClickListener() {
+            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 imgLoad.setHeight(26);
                 imgLoad.setWidth(70);
                 imgLoad.setPosition(buttonXLoad, buttonYLoad,0);
 
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("button.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
                 stage.draw();
             }
 
@@ -330,10 +383,13 @@ public class MainMenu implements Screen {
                 imgLoad.setWidth(74);
                 imgLoad.setPosition(buttonXLoad, buttonYLoad,0);
 
+                playing = false;
                 stage.draw();
             }
             public void clicked(InputEvent event, float x, float y) {
 
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
             }
 
         };
