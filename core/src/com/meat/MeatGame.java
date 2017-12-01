@@ -22,12 +22,10 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.meat.Objects.Obstacle;
 import javafx.util.Pair;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,6 +68,8 @@ public class MeatGame implements Screen {
     private ArrayList<Pickup> finishedPickups;
     private int currentBloodPoint;
     private Button btnPause;
+
+    private boolean paused;
 
     public MeatGame(final MainGame game, String lvlName) {
         this.game = game;
@@ -157,34 +157,57 @@ public class MeatGame implements Screen {
 
         //Gdx.input.setInputProcessor(this);
         debugRenderer = new Box2DDebugRenderer();
+
+        paused = false;
     }
 
 
     @Override
     public void render(float dt) {
 
-        doPhysicsStep(dt);
-        player.update(this, dt);
-        for (int i = 0; i < enemies.size(); i++) {
-            Enemy currEnemy = enemies.get(i);
-            currEnemy.update();
+        if (Gdx.input.isKeyJustPressed(Config.pause))
+        {
+            paused = !paused;
+            if (paused)
+                pause();
+            else
+                resume();
         }
-        sauceTrail.update(dt);
 
-        Vector2 position = new Vector2(camera.position.x, camera.position.y);
-        Vector2 box2dposition = new Vector2(box2DCamera.position.x, box2DCamera.position.y);
-        Vector2 player_pos = player.getPosition().scl(TO_PIXELS);
+        if (paused)
+        {
 
-        position.x += (player_pos.x - position.x) * lerp * dt;
-        position.y += (player_pos.y - position.y) * lerp * dt;
+        } else {
+            doPhysicsStep(dt);
+            player.update(this, dt);
+            for (int i = 0; i < enemies.size(); i++) {
+                Enemy currEnemy = enemies.get(i);
+                currEnemy.update();
+            }
+            sauceTrail.update(dt);
 
-        box2dposition.x += (player.getPosition().x - box2dposition.x) * lerp * dt;
-        box2dposition.y += (player.getPosition().y - box2dposition.y) * lerp * dt;
+            Vector2 position = new Vector2(camera.position.x, camera.position.y);
+            Vector2 box2dposition = new Vector2(box2DCamera.position.x, box2DCamera.position.y);
+            Vector2 player_pos = player.getPosition().scl(TO_PIXELS);
 
-        camera.position.set(position, 0);
-        box2DCamera.position.set(box2dposition, 0);
-        camera.update();
-        box2DCamera.update();
+            position.x += (player_pos.x - position.x) * lerp * dt;
+            position.y += (player_pos.y - position.y) * lerp * dt;
+
+            box2dposition.x += (player.getPosition().x - box2dposition.x) * lerp * dt;
+            box2dposition.y += (player.getPosition().y - box2dposition.y) * lerp * dt;
+
+            camera.position.set(position, 0);
+            box2DCamera.position.set(box2dposition, 0);
+            camera.update();
+            box2DCamera.update();
+
+            for (int i = 0; i < pickups.size(); i++) {
+                if (pickups.get(i).update(dt) == Pickup.Status.FINISHED) {
+                    finishedPickups.add(pickups.get(i));
+                    pickups.remove(i);
+                }
+            }
+        }
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -200,12 +223,8 @@ public class MeatGame implements Screen {
         game.batch.begin();
         sauceTrail.draw(game.batch);
         player.render(game.batch);
-        for (int i = 0; i < pickups.size(); i++) {
-            if (pickups.get(i).render(game.batch, dt) == Pickup.Status.FINISHED) {
-                finishedPickups.add(pickups.get(i));
-                pickups.remove(i);
-            }
-        }
+        for (Pickup p : pickups)
+            p.draw(game.batch);
         game.batch.end();
 
         if (RENDER_DEBUG) {
@@ -215,6 +234,7 @@ public class MeatGame implements Screen {
 
         displayBloodPoints();
         pauseButton();
+
 
 
     }
@@ -299,11 +319,12 @@ public class MeatGame implements Screen {
 
     @Override
     public void pause() {
-
+        // show the pause screen here
     }
 
     @Override
     public void resume() {
+        // hide the pause screen here
 
     }
 
@@ -547,7 +568,7 @@ public class MeatGame implements Screen {
 
 
     private void renderDebug() {
-        Gdx.gl.glLineWidth(1);
+        Gdx.gl.glLineWidth(2);
         shapeRenderer.setProjectionMatrix(camera.combined);
         renderShape2Ds(goals, Color.CYAN);
         renderShape2Ds(holes, Color.RED);

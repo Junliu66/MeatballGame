@@ -74,9 +74,8 @@ public class SauceTrail {
                 sections.remove(furthest);
                 coords.remove(furthest);
             }
-            currentTexture = sections.get(furthest);
-            sections.add(furthest, new Texture(SECTION_WIDTH, SECTION_HEIGHT, Pixmap.Format.RGBA8888));
-            coords.add(furthest, new Rectangle(newX, newY, SECTION_WIDTH, SECTION_HEIGHT));
+            sections.add(new Texture(SECTION_WIDTH, SECTION_HEIGHT, Pixmap.Format.RGBA8888));
+            coords.add(new Rectangle(newX, newY, SECTION_WIDTH, SECTION_HEIGHT));
         }
 
         if (lastPos.dst(pos) > 5 && currentTexture != null) {
