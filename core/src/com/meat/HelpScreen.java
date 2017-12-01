@@ -2,6 +2,7 @@ package com.meat;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -251,12 +252,18 @@ public class HelpScreen implements Screen {
 
     private ClickListener getBackListener() {
         return new ClickListener(){
+            boolean playing = false;
 
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 imgBack.setHeight(30);
                 imgBack.setWidth(70);
                 imgBack.setPosition(400,80,0);
 
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
                 stage.draw();
             }
 
@@ -265,12 +272,16 @@ public class HelpScreen implements Screen {
                 imgBack.setWidth(76);
                 imgBack.setPosition(400,80,0);
 
+                playing = false;
+
                 stage.draw();
             }
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
                 game.setScreen(new MainMenu(game));
             }
         };
@@ -278,12 +289,18 @@ public class HelpScreen implements Screen {
 
     private ClickListener getLeftListener() {
         return new ClickListener() {
+            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                 imgLeft.setHeight(72);
                 imgLeft.setWidth(72);
                 imgLeft.setPosition(180,400,0);
 
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
                 labelArrow.setText("Go Left");
                 stage.addActor(labelArrow);
 
@@ -296,6 +313,8 @@ public class HelpScreen implements Screen {
                 imgLeft.setWidth(79);
                 imgLeft.setPosition(180,400,0);
 
+                playing = false;
+
                 labelArrow.setText("");
                 stage.addActor(labelArrow);
 
@@ -306,12 +325,18 @@ public class HelpScreen implements Screen {
 
     private ClickListener getRightListener() {
         return new ClickListener() {
+            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                 imgRight.setHeight(72);
                 imgRight.setWidth(72);
                 imgRight.setPosition(340,400,0);
 
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
                 labelArrow.setText("Go Right");
                 stage.addActor(labelArrow);
 
@@ -323,6 +348,7 @@ public class HelpScreen implements Screen {
                 imgRight.setHeight(79);
                 imgRight.setWidth(79);
                 imgRight.setPosition(340,400,0);
+                playing = false;
 
                 labelArrow.setText("");
 
@@ -333,12 +359,18 @@ public class HelpScreen implements Screen {
 
     private ClickListener getUpListener() {
         return new ClickListener() {
+            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                 imgUp.setHeight(72);
                 imgUp.setWidth(72);
                 imgUp.setPosition(260,480,0);
 
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
                 labelArrow.setText("Go Up");
                 stage.addActor(labelArrow);
 
@@ -351,6 +383,8 @@ public class HelpScreen implements Screen {
                 imgUp.setWidth(79);
                 imgUp.setPosition(260,480,0);
 
+                playing = false;
+
                 labelArrow.setText("");
 
                 stage.draw();
@@ -360,12 +394,18 @@ public class HelpScreen implements Screen {
 
     private ClickListener getDownListener() {
         return new ClickListener() {
+            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                 imgDown.setHeight(72);
                 imgDown.setWidth(72);
                 imgDown.setPosition(260,400,0);
 
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
                 labelArrow.setText("Go Down");
                 stage.addActor(labelArrow);
                 stage.draw();
@@ -377,6 +417,8 @@ public class HelpScreen implements Screen {
                 imgDown.setWidth(79);
                 imgDown.setPosition(260,400,0);
 
+                playing = false;
+
                 labelArrow.setText("");
                 stage.draw();
             }
@@ -385,10 +427,16 @@ public class HelpScreen implements Screen {
 
     private ClickListener getTomatoListener() {
         return new ClickListener() {
+            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                 imgTomato.setPosition(180,290,0);
 
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
                 labelElements.setText("Tomato: Rewards for the score.");
                 stage.addActor(labelElements);
                 stage.draw();
@@ -398,6 +446,8 @@ public class HelpScreen implements Screen {
 
                 imgTomato.setPosition(180,270,0);
 
+                playing = false;
+
                 labelElements.setText("");
                 stage.draw();
             }
@@ -406,10 +456,16 @@ public class HelpScreen implements Screen {
 
     private ClickListener getPepperBombListener() {
         return new ClickListener() {
+            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                 imgPepperBomb.setPosition(270,290,0);
 
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
                 labelElements.setText("Pepper: Accelerate MeatBall.");
                 stage.addActor(labelElements);
                 stage.draw();
@@ -419,6 +475,8 @@ public class HelpScreen implements Screen {
 
                 imgPepperBomb.setPosition(270,270,0);
 
+                playing = false;
+
                 labelElements.setText("");
                 stage.draw();
             }
@@ -427,10 +485,16 @@ public class HelpScreen implements Screen {
 
     public EventListener getGarlicSlowListener() {
         return new ClickListener() {
+            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                 imgGarlic.setPosition(360,290,0);
 
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
                 labelElements.setText("Garlic: Decelerate of MeatBall.");
                 stage.addActor(labelElements);
                 stage.draw();
@@ -440,6 +504,8 @@ public class HelpScreen implements Screen {
 
                 imgGarlic.setPosition(360,270,0);
 
+                playing = false;
+
                 labelElements.setText("");
                 stage.draw();
             }
@@ -448,10 +514,16 @@ public class HelpScreen implements Screen {
 
     private ClickListener getBugListener() {
         return new ClickListener() {
+            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                 imgBug.setPosition(180,170,0);
 
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
                 labelElements.setText("Bug: Reduce health of MeatBall.");
                 stage.addActor(labelElements);
                 stage.draw();
@@ -461,6 +533,8 @@ public class HelpScreen implements Screen {
 
                 imgBug.setPosition(180,150,0);
 
+                playing = false;
+
                 labelElements.setText("");
                 stage.draw();
             }
@@ -469,10 +543,16 @@ public class HelpScreen implements Screen {
 
     public EventListener getLavaListener() {
             return new ClickListener() {
+                boolean playing = false;
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                     imgLava.setPosition(270,170,0);
 
+                    if (!playing) {
+                        Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
+                        sound.play(1F);
+                        playing = true;
+                    }
                     labelElements.setText("Lava: Reduce health of MeatBall.");
                     stage.addActor(labelElements);
                     stage.draw();
@@ -481,6 +561,8 @@ public class HelpScreen implements Screen {
                 public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
                     imgLava.setPosition(270,150,0);
+
+                    playing = false;
 
                     labelElements.setText("");
                     stage.draw();
@@ -492,10 +574,16 @@ public class HelpScreen implements Screen {
 
     public EventListener getWaterListener() {
         return new ClickListener() {
+            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                 imgWater.setPosition(360,170,0);
 
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
                 labelElements.setText("Water: Reduce health of MeatBall.");
                 stage.addActor(labelElements);
                 stage.draw();
@@ -504,6 +592,8 @@ public class HelpScreen implements Screen {
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
                 imgWater.setPosition(360,150,0);
+
+                playing = false;
 
                 labelElements.setText("");
                 stage.draw();
