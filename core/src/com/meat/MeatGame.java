@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.*;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.meat.Objects.Obstacle;
@@ -96,12 +98,12 @@ public class MeatGame implements Screen {
         world = new World(new Vector2(), true);
         holes = new ArrayList<Shape2D>();
         goals = new ArrayList<Shape2D>();
-        obstacles = new HashMap<>();
+        obstacles = new HashMap<String, Obstacle>();
         pickups = new ArrayList<Pickup>();
         finishedPickups = new ArrayList<Pickup>();
         playerStart = new Vector2(0, 0);
         player = new Player(new Vector2(playerStart.x, playerStart.y), collisionLayer, 24f, world, true);
-
+        enemies = new ArrayList<Enemy>();
         // parse Tiled objects
         for (MapLayer layer : tiledMap.getLayers())
             if (layer instanceof MapLayer && layer.getObjects().getCount() > 0)
@@ -109,7 +111,7 @@ public class MeatGame implements Screen {
 
         player.setPosition(playerStart);
 
-        enemies = new ArrayList<Enemy>();
+
 
         //*****Testing Enemy AI **** Comment out if needed
         ArrayList<Pair<Vector2, Float>> testPath = new ArrayList<Pair<Vector2, Float>>();
@@ -133,7 +135,7 @@ public class MeatGame implements Screen {
         Float downDist = new Float(1.0f);
         Pair<Vector2, Float> downPair = new Pair(downVector, downDist);
         testPath.add(downPair);
-
+        /**
         FixedPathEnemy newEnemy = new FixedPathEnemy(
                 new Vector2(playerStart.x + 2, playerStart.y + 1),
                 world,
@@ -141,7 +143,14 @@ public class MeatGame implements Screen {
                 player,
                 testPath
         );
-        enemies.add(newEnemy);
+        //enemies.add(newEnemy);
+         **/
+
+        //PlayerChasingEnemy
+        //PlayerChasingEnemy chasingEnemy = new PlayerChasingEnemy(new Vector2(playerStart.x + 5.5f, playerStart.y - 3.0f),
+                //world, 1.0f, player, 3.0f, 5.0f );
+
+        //enemies.add(chasingEnemy);
         //***** End testing Enemy ****
 
         sauceTrail = new SauceTrail(player);
@@ -206,6 +215,7 @@ public class MeatGame implements Screen {
 
         displayBloodPoints();
         pauseButton();
+
 
     }
 
@@ -315,9 +325,11 @@ public class MeatGame implements Screen {
         wallDef.type = BodyDef.BodyType.StaticBody;
         wallDef.position.set(0, 0);
         Body wall = world.createBody(wallDef);
+        wall.setUserData("wall");
 
         Gdx.app.log("num objects", "" + objectLayer.getObjects().getCount());
         for (MapObject obj : objectLayer.getObjects()) {
+            String objName = obj.getName();
             if (obj.getName() == null) {
                 Gdx.app.log("Un-named Object", obj.toString());
             } else if (obj.getName().equals("start")) {
@@ -454,11 +466,11 @@ public class MeatGame implements Screen {
                 }
                 if (shape!= null) {
                     String obstacleKey = obj.getName().split("_")[1];
-                    ArrayList<Shape2D> obstacleArea = new ArrayList<>();
+                    ArrayList<Shape2D> obstacleArea = new ArrayList<Shape2D>();
                     if (obstacles.containsKey(obstacleKey)) {
                         obstacles.get(obstacleKey).getObstacleArea().add(shape);
                     } else {
-                        ArrayList<Shape2D> shapes = new ArrayList<>();
+                        ArrayList<Shape2D> shapes = new ArrayList<Shape2D>();
                         shapes.add(shape);
                         // default restart point is the same as game restart point if no restart point is
                         // set for this particular obstacle.
@@ -474,7 +486,7 @@ public class MeatGame implements Screen {
                     if (obstacles.containsKey(obstacleKey)) {
                         obstacles.get(obstacleKey).setRestartPoint(restart);
                     } else {
-                        ArrayList<Shape2D> shapes = new ArrayList<>();
+                        ArrayList<Shape2D> shapes = new ArrayList<Shape2D>();
                         // default restart point is the same as game restart point if no restart point is
                         // set for this particular obstacle.
                         Obstacle obstacle = new Obstacle(restart, shapes);
@@ -487,6 +499,33 @@ public class MeatGame implements Screen {
                 pickups.add(new Garlic(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
             } else if (obj.getName().equals("tomato")) {
                 pickups.add(new Tomato(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
+            }
+
+            else if(objName.equals("chasing_enemy")){
+                EllipseMapObject objBody = (EllipseMapObject) obj;
+                float positionX = objBody.getEllipse().x / TO_PIXELS;
+                float positionY = objBody.getEllipse().y / TO_PIXELS;
+                Vector2 position = new Vector2(positionX, positionY);
+                MapProperties properties = obj.getProperties();
+                float minRadius = (float) properties.get("min_radius");
+                float maxRadius = (float) properties.get("max_radius");
+                float speed = (float) properties.get("speed");
+
+                PlayerChasingEnemy newEnemy = new PlayerChasingEnemy(
+                        position, world, speed, player, minRadius, maxRadius
+                );
+
+                enemies.add(newEnemy);
+            }
+
+            else if(objName.equals("path_enemy")){
+                PolygonMapObject objBody = (PolygonMapObject) obj;
+                MapProperties properties = obj.getProperties();
+                float speed = (float) properties.get("speed");
+
+                FixedPathEnemy newEnemy = new FixedPathEnemy(world, speed, player, objBody);
+
+                enemies.add(newEnemy);
             }
         }
     }

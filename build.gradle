@@ -1,6 +1,7 @@
 buildscript {
-    
 
+    apply plugin: "java"
+    sourceCompatibility: 1.8
     repositories {
         mavenLocal()
         mavenCentral()
@@ -27,7 +28,8 @@ allprojects {
         ashleyVersion = '1.7.0'
         aiVersion = '1.8.0'
     }
-
+    apply plugin: "java"
+    sourceCompatibility: 1.8
     repositories {
         mavenLocal()
         mavenCentral()
