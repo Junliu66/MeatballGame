@@ -1,6 +1,7 @@
 package com.meat;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -179,10 +180,14 @@ public class Player {
             case HOLE:
                 System.out.println("YOU LOSE!");
                 meatGame.lose();
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("hole.mp3"));
+                sound.play(1F);
                 break;
             case GOAL:
                 System.out.println("CONGRATULATIONS");
                 meatGame.congrats();
+                sound = Gdx.audio.newSound(Gdx.files.internal("winning.mp3"));
+                sound.play(1F);
                 break;
         }
 
@@ -198,6 +203,8 @@ public class Player {
                         body.setLinearVelocity(body.getLinearVelocity().scl(-1f));
                         meatGame.reduceBlood();
                         modifers.add(new Invincibility(3, this));
+                        Sound sound = Gdx.audio.newSound(Gdx.files.internal("collision.mp3"));
+                        sound.play(1F);
                     }
                 }
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="v1.0.3-308-g1056357" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextobjectid="149">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" nextobjectid="154">
  <tileset firstgid="1" source="tabletop.tsx"/>
  <tileset firstgid="37" source="wallTile.tsx"/>
  <tileset firstgid="38" source="spaghetti.tsx"/>
  <tileset firstgid="74" source="BaseMapElements.tsx"/>
- <layer name="Base" width="80" height="80" locked="1">
+ <layer name="Base" width="80" height="80">
   <data encoding="csv">
 27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,
 27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,37,37,37,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,19,20,21,21,27,27,27,27,
@@ -88,7 +88,7 @@
 27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27
 </data>
  </layer>
- <layer name="lava water" width="80" height="80" locked="1">
+ <layer name="lava water" width="80" height="80">
   <data encoding="csv">
 632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,
 632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,
@@ -172,7 +172,7 @@
 632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632,632
 </data>
  </layer>
- <layer name="decoration" width="80" height="80" locked="1">
+ <layer name="decoration" width="80" height="80">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -258,9 +258,7 @@
  </layer>
  <objectgroup name="Object Layer 1">
   <object id="3" name="wall" x="320" y="1984" width="1024" height="32"/>
-  <object id="4" name="start" x="384" y="2120">
-   <point/>
-  </object>
+  <object id="4" name="start" x="384" y="2120"/>
   <object id="5" name="hole" x="1552" y="432" width="32" height="32">
    <ellipse/>
   </object>
@@ -338,91 +336,35 @@
   <object id="98" name="obstacle_1" x="1358" y="585">
    <polygon points="0,0 -20,3 -29,9 -34,23 -33,75 -34,86 -25,97 -20,104 252,105 266,77 257,65 258,56 267,50 257,30 268,17 260,-1 263,-10 253,-27 231,-32 215,-30 199,-34 183,-29 164,-35 146,-30 128,-33 110,-31 98,-20 92,-6 89,4 71,-1 37,-2 0,1"/>
   </object>
-  <object id="115" name="restart_2" x="1230" y="1383">
-   <point/>
-  </object>
-  <object id="118" name="restart_1" x="1262" y="638">
-   <point/>
-  </object>
+  <object id="115" name="restart_2" x="1230" y="1383"/>
+  <object id="118" name="restart_1" x="1262" y="638"/>
  </objectgroup>
  <objectgroup name="Object Layer 2">
-  <object id="89" name="pepper" x="2110" y="1703">
-   <point/>
-  </object>
-  <object id="99" name="pepper" x="590" y="610">
-   <point/>
-  </object>
-  <object id="110" name="pepper" x="1471" y="1393">
-   <point/>
-  </object>
-  <object id="112" name="garlic" x="1057" y="2124">
-   <point/>
-  </object>
-  <object id="113" name="pepper" x="542" y="2122">
-   <point/>
-  </object>
-  <object id="119" name="tomato" x="704" y="2120">
-   <point/>
-  </object>
-  <object id="122" name="tomato" x="864" y="2119">
-   <point/>
-  </object>
-  <object id="123" name="tomato" x="1312" y="2120">
-   <point/>
-  </object>
-  <object id="124" name="tomato" x="1473" y="1983">
-   <point/>
-  </object>
-  <object id="125" name="tomato" x="639" y="1417">
-   <point/>
-  </object>
-  <object id="126" name="pepper" x="1599" y="2123">
-   <point/>
-  </object>
-  <object id="127" name="tomato" x="2112" y="2124">
-   <point/>
-  </object>
-  <object id="128" name="garlic" x="1200" y="1182">
-   <point/>
-  </object>
-  <object id="129" name="tomato" x="1198" y="988">
-   <point/>
-  </object>
-  <object id="130" name="tomato" x="1200" y="828">
-   <point/>
-  </object>
-  <object id="132" name="tomat" x="802" y="608">
-   <point/>
-  </object>
-  <object id="133" name="tomato" x="1201" y="577">
-   <point/>
-  </object>
-  <object id="134" name="tomato" x="1199" y="700">
-   <point/>
-  </object>
-  <object id="135" name="tomat" x="1010" y="607">
-   <point/>
-  </object>
-  <object id="136" name="tomato" x="447" y="1502">
-   <point/>
-  </object>
-  <object id="137" name="tomato" x="447" y="1343">
-   <point/>
-  </object>
-  <object id="138" name="tomato" x="831" y="1418">
-   <point/>
-  </object>
-  <object id="139" name="tomato" x="1791" y="2127">
-   <point/>
-  </object>
-  <object id="141" name="tomato" x="1470" y="1791">
-   <point/>
-  </object>
-  <object id="142" name="tomato" x="2112" y="1888">
-   <point/>
-  </object>
-  <object id="143" name="tomato" x="1470" y="1572">
-   <point/>
-  </object>
+  <object id="89" name="pepper" x="2110" y="1703"/>
+  <object id="99" name="pepper" x="590" y="610"/>
+  <object id="110" name="pepper" x="1471" y="1393"/>
+  <object id="112" name="garlic" x="1057" y="2124"/>
+  <object id="113" name="pepper" x="542" y="2122"/>
+  <object id="119" name="tomato" x="704" y="2120"/>
+  <object id="122" name="tomato" x="864" y="2119"/>
+  <object id="123" name="tomato" x="1312" y="2120"/>
+  <object id="124" name="tomato" x="1473" y="1983"/>
+  <object id="125" name="tomato" x="639" y="1417"/>
+  <object id="126" name="pepper" x="1599" y="2123"/>
+  <object id="127" name="tomato" x="2112" y="2124"/>
+  <object id="128" name="garlic" x="1200" y="1182"/>
+  <object id="129" name="tomato" x="1198" y="988"/>
+  <object id="130" name="tomato" x="1200" y="828"/>
+  <object id="132" name="tomat" x="802" y="608"/>
+  <object id="133" name="tomato" x="1201" y="577"/>
+  <object id="134" name="tomato" x="1199" y="700"/>
+  <object id="135" name="tomat" x="1010" y="607"/>
+  <object id="136" name="tomato" x="447" y="1502"/>
+  <object id="137" name="tomato" x="447" y="1343"/>
+  <object id="138" name="tomato" x="831" y="1418"/>
+  <object id="139" name="tomato" x="1791" y="2127"/>
+  <object id="141" name="tomato" x="1470" y="1791"/>
+  <object id="142" name="tomato" x="2112" y="1888"/>
+  <object id="143" name="tomato" x="1470" y="1572"/>
  </objectgroup>
 </map>

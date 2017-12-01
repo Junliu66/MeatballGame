@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -189,11 +190,17 @@ public class ControlMenu extends Stage implements Screen {
     private ClickListener getBackListener() {
         return new ClickListener(){
 
+            boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 imgBack.setHeight(30);
                 imgBack.setWidth(70);
                 imgBack.setPosition(400,80,0);
 
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
                 stage.draw();
             }
 
@@ -202,12 +209,15 @@ public class ControlMenu extends Stage implements Screen {
                 imgBack.setWidth(76);
                 imgBack.setPosition(400,80,0);
 
+                playing = false;
                 stage.draw();
             }
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
                 game.setScreen(new MainMenu(game));
             }
         };

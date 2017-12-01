@@ -2,6 +2,7 @@ package com.meat;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -85,13 +86,17 @@ public class CongratsScreen implements Screen {
         return new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
                 switch (lvlString) {
                     case "LevelOne.tmx":
                         game.setScreen(new MeatGame(game, "LevelTwo.tmx"));
                         break;
                     case "LevelTwo.tmx":
-                        game.setScreen(new MeatGame(game, "LevelOne.tmx"));
+                        game.setScreen(new MeatGame(game, "LevelThree.tmx"));
                         break;
+                    case "LevelThree.tmx":
+                        game.setScreen(new MeatGame(game, "LevelOne.tmx"));
                     default:
                         game.setScreen(new LevelSelectScreen(game));
                         break;
@@ -106,6 +111,8 @@ public class CongratsScreen implements Screen {
         return new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
                 game.setScreen(new LevelSelectScreen(game));
 
             }
@@ -116,6 +123,8 @@ public class CongratsScreen implements Screen {
         return new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
                 game.setScreen(new MainMenu(game));
             }
         };

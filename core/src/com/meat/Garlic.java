@@ -1,6 +1,7 @@
 package com.meat;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
@@ -18,5 +19,7 @@ public class Garlic extends Pickup {
     public void effect() {
         Gdx.app.log("got", "Garlic");
         player.addModifier(new SpeedUp(7, player, 0.5f));
+        Sound sound = Gdx.audio.newSound(Gdx.files.internal("garlic.mp3"));
+        sound.play(1F);
     }
 }

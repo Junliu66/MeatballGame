@@ -1,6 +1,7 @@
 package com.meat;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
@@ -17,5 +18,7 @@ public class Tomato extends Pickup {
     @Override
     public void effect() {
         Gdx.app.log("got", "Tomato");
+        Sound sound = Gdx.audio.newSound(Gdx.files.internal("tomato.mp3"));
+        sound.play(1F);
     }
 }

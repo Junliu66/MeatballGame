@@ -197,7 +197,7 @@ public class MainMenu implements Screen {
                 imgPlay.setPosition(buttonXPlay,buttonYPlay,0);
 
                 if (!playing) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("button.mp3"));
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
                     sound.play(1F);
                     playing = true;
                 }
@@ -235,7 +235,7 @@ public class MainMenu implements Screen {
                 imgHelp.setPosition(buttonXHelp,buttonYHelp,0);
 
                 if (!playing) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("button.mp3"));
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
                     sound.play(1F);
                     playing = true;
                 }
@@ -269,7 +269,7 @@ public class MainMenu implements Screen {
                 imgSettings.setWidth(120);
                 imgSettings.setPosition(buttonXSettings,buttonYSettings,0);
                 if (!playing) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("button.mp3"));
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
                     sound.play(1F);
                     playing = true;
                 }
@@ -302,7 +302,7 @@ public class MainMenu implements Screen {
                 imgExit.setWidth(72);
                 imgExit.setPosition(buttonXExit,buttonYExit,0);
                 if (!playing) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("button.mp3"));
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
                     sound.play(1F);
                     playing = true;
                 }
@@ -338,7 +338,7 @@ public class MainMenu implements Screen {
                 imgSave.setPosition(buttonXSave, buttonYSave,0);
 
                 if (!playing) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("button.mp3"));
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
                     sound.play(1F);
                     playing = true;
                 }
@@ -371,7 +371,7 @@ public class MainMenu implements Screen {
                 imgLoad.setPosition(buttonXLoad, buttonYLoad,0);
 
                 if (!playing) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("button.mp3"));
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
                     sound.play(1F);
                     playing = true;
                 }
