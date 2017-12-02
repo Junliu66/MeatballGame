@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" nextobjectid="159">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" nextobjectid="160">
  <tileset firstgid="1" source="tabletop.tsx"/>
  <tileset firstgid="37" source="wallTile.tsx"/>
  <tileset firstgid="38" source="BaseMapElements.tsx"/>
@@ -358,6 +358,7 @@
   <object id="158" name="wall" x="1969.47" y="2016.54">
    <polygon points="0,0 -19.084,29.2621 15.2672,29.2621"/>
   </object>
+  <object id="159" name="goal" x="1104.33" y="1493.64" width="413.486" height="153.944"/>
  </objectgroup>
  <objectgroup name="Object Layer 2">
   <object id="53" name="tomato" x="878.788" y="848.485"/>

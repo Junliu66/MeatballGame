@@ -282,6 +282,7 @@ public class HelpScreen implements Screen {
 
                 Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
                 sound.play(1F);
+                stage.clear();
                 game.setScreen(new MainMenu(game));
             }
         };

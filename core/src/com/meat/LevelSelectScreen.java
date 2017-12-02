@@ -322,7 +322,10 @@ public class LevelSelectScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
                 stage.draw();
+                stage.clear();
                 game.setScreen(new MeatGame(game, "LevelOne.tmx"));
 
             }
@@ -358,7 +361,10 @@ public class LevelSelectScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
                 stage.draw();
+                stage.clear();
                 game.setScreen(new MeatGame(game, "LevelTwo.tmx"));
             }
         };
@@ -391,7 +397,12 @@ public class LevelSelectScreen implements Screen {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new ControlMenu(game));
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
+                stage.draw();
+                stage.clear();
+                game.setScreen(new MeatGame(game, "LevelThree.tmx"));
+
             }
         };
     }
@@ -424,7 +435,10 @@ public class LevelSelectScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
                 stage.draw();
+                stage.clear();
                 Gdx.app.exit();
             }
         };
@@ -458,7 +472,10 @@ public class LevelSelectScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
                 stage.draw();
+                stage.clear();
                 Gdx.app.exit();
             }
         };
@@ -492,7 +509,10 @@ public class LevelSelectScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
                 stage.draw();
+                stage.clear();
                 Gdx.app.exit();
             }
         };
@@ -526,6 +546,7 @@ public class LevelSelectScreen implements Screen {
                 Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
                 sound.play(1F);
                 stage.draw();
+                stage.clear();
                 game.setScreen(new MainMenu(game));
             }
         };

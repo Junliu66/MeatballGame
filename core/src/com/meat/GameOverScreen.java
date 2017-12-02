@@ -76,6 +76,7 @@ public class GameOverScreen implements Screen {
             public void clicked(InputEvent event, float x, float y){
                 Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
                 sound.play(1F);
+                stage.clear();
                 game.setScreen(new MainMenu(game));
             }
         };
@@ -87,6 +88,7 @@ public class GameOverScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
                 sound.play(1F);
+                stage.clear();
                 game.setScreen(new LevelSelectScreen(game));
 
             }
@@ -101,6 +103,7 @@ public class GameOverScreen implements Screen {
                 //game.setScreen(game.meatGame);
                 Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
                 sound.play(1F);
+                stage.clear();
                 game.setScreen(new MeatGame(game, lvlString));
             }
         };
