@@ -28,5 +28,7 @@
  <tile id="393" terrain=",1,,1"/>
  <tile id="394" terrain="1,1,1,1"/>
  <tile id="395" terrain="1,,1,"/>
+ <tile id="425" terrain=",1,,"/>
  <tile id="426" terrain="1,1,,"/>
+ <tile id="427" terrain="1,,,"/>
 </tileset>
