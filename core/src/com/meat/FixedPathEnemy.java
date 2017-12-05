@@ -1,5 +1,8 @@
 package com.meat;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
@@ -71,6 +74,10 @@ public class FixedPathEnemy extends Enemy {
         Pair<Vector2, Float> nextPair = new Pair<Vector2, Float>(trajectory.nor(),length);
         path.add(nextPair);
 
+        //Use a default picture
+        texture = new Texture(Gdx.files.internal("bug.png"));
+        textureRegion = new TextureRegion(texture);
+
 
         this.speed = speed;
         isAggressive = false;
@@ -108,6 +115,8 @@ public class FixedPathEnemy extends Enemy {
         Vector2 currentForce = currentTrajectory.getKey().scl(speed);
         distSquare = (float)Math.pow(currentTrajectory.getValue(), 2);
         body.setLinearVelocity(currentForce);
+        //rotationAngle = currentForce.angleRad() + PI2;
+        rotationAngle = currentForce.angle() - NINETY;
     }
 
 

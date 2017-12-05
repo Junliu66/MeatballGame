@@ -228,6 +228,9 @@ public class MeatGame implements Screen {
         player.render(game.batch);
         for (Pickup p : pickups)
             p.draw(game.batch);
+        for(Enemy e : enemies){
+            e.draw(game.batch);
+        }
         game.batch.end();
 
         if (RENDER_DEBUG) {
