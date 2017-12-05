@@ -18,6 +18,7 @@ public class Tomato extends Pickup {
     @Override
     public void effect() {
         Gdx.app.log("got", "Tomato");
+        player.addTomato();
         Sound sound = Gdx.audio.newSound(Gdx.files.internal("tomato.mp3"));
         sound.play(1F);
     }
