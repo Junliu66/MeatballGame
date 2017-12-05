@@ -26,7 +26,7 @@ public abstract class Pickup extends Sprite {
         hoverTimer += 4*dt;
         if (hoverTimer >= 2*Math.PI)
             hoverTimer = 0;
-        setY(origY + getHeight()/4 * (float) Math.sin(hoverTimer) - getHeight()/8);
+        setY(origY + getHeight()/4 * (float) Math.sin(hoverTimer));
         float distToPlayer = getCenter().dst(player.getPixelPosition());
         if (distToPlayer <= (16+getWidth()/2)) {
             effect();
