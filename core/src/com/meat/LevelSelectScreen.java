@@ -515,7 +515,7 @@ public class LevelSelectScreen implements Screen {
                 sound.play(1F);
                 stage.draw();
                 stage.clear();
-                Gdx.app.exit();
+                game.setScreen(new MeatGame(game, "LevelSix.tmx"));
             }
         };
     }

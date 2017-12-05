@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
@@ -243,6 +245,7 @@ public class MeatGame implements Screen {
     private void pauseButton() {
         //Stage pauseStage = new Stage(new ScreenViewport(), game.batch);
         Texture myTexture = new Texture(Gdx.files.internal("btnPause0.png"));
+        Sprite pauseSprite = new Sprite(myTexture);
         TextureRegion myTextureRegion = new TextureRegion(myTexture);
         TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         myTexRegionDrawable.setMinHeight(80);
