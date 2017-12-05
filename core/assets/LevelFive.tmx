@@ -321,7 +321,7 @@
    <polygon points="0,0 0,48 16,40 16,0"/>
   </object>
   <object id="79" name="hole" x="320" y="416" width="16" height="288"/>
-  <object id="80" name="start" x="166" y="291"/>
+  <object id="80" name="start" x="193" y="305"/>
   <object id="91" x="104" y="504" width="8"/>
   <object id="92" name="wall" x="64" y="288" width="32" height="32"/>
   <object id="94" name="hole" x="400" y="384">
@@ -749,7 +749,7 @@
  </objectgroup>
  <objectgroup name="Object Layer 2">
   <object id="459" name="pepper" x="493" y="499"/>
-  <object id="460" name="garlic" x="299" y="329"/>
+  <object id="460" name="garlic" x="363" y="411"/>
   <object id="462" name="garlic" x="1571" y="406"/>
   <object id="463" name="garlic" x="1684" y="919"/>
   <object id="465" name="pepper" x="973" y="1491"/>
