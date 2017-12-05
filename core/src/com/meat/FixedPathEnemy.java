@@ -107,7 +107,7 @@ public class FixedPathEnemy extends Enemy {
         lastStartPoint = new Vector2(body.getPosition().x, body.getPosition().y);
         Vector2 currentForce = currentTrajectory.getKey().scl(speed);
         distSquare = (float)Math.pow(currentTrajectory.getValue(), 2);
-        body.setLinearVelocity(currentForce.scl(speed));
+        body.setLinearVelocity(currentForce);
     }
 
 

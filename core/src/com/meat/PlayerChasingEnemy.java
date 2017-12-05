@@ -1,5 +1,7 @@
 package com.meat;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -36,8 +38,9 @@ public class PlayerChasingEnemy extends Enemy {
         this.maxRadius = maxRadius;
         maxRadiusSquare = maxRadius * maxRadius;
 
-
         currentStartPoint = body.getPosition().cpy();
+
+        texture = new Texture(Gdx.files.internal("bug.png"));
     }
 
     public void update(){
