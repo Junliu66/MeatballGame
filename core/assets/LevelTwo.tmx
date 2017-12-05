@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" nextobjectid="499">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" nextobjectid="500">
  <tileset firstgid="1" source="tabletop.tsx"/>
  <tileset firstgid="37" source="wallTile.tsx"/>
  <tileset firstgid="38" source="beer.tsx"/>
@@ -675,19 +675,19 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="479" name="path_enemy" x="1374" y="387">
+  <object id="479" name="path_enemy" x="1376.61" y="376.564">
    <properties>
     <property name="clockwise" type="bool" value="false"/>
     <property name="speed" type="float" value="1"/>
    </properties>
-   <polygon points="0,0 -84,110 0,162 73,106"/>
+   <polygon points="0,0 -84,112.362 0,165.479 73,108.276"/>
   </object>
-  <object id="480" name="path_enemy" x="1116" y="558">
+  <object id="480" name="path_enemy" x="1137.74" y="544.086">
    <properties>
     <property name="clockwise" type="bool" value="true"/>
     <property name="speed" type="float" value="1"/>
    </properties>
-   <polygon points="0,0 240,6 240,94 2,82"/>
+   <polygon points="0,0 218.259,6.88814 218.259,107.914 1.81882,94.138"/>
   </object>
   <object id="486" name="chasing_enemy" x="752" y="210">
    <properties>

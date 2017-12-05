@@ -20,9 +20,13 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.meat.Objects.Obstacle;
@@ -71,6 +75,7 @@ public class MeatGame implements Screen {
     private Button btnPause;
 
     private boolean paused;
+    private Texture pauseButtonTexture;
 
     public MeatGame(final MainGame game, String lvlName) {
         this.game = game;
@@ -112,6 +117,14 @@ public class MeatGame implements Screen {
 
         player.setPosition(playerStart);
 
+        pauseButtonTexture = new Texture(Gdx.files.internal("btnPause0.png"));
+        TextureRegion myTextureRegion = new TextureRegion(pauseButtonTexture);
+        TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        myTexRegionDrawable.setMinHeight(80);
+        myTexRegionDrawable.setMinWidth(80);
+        btnPause = new ImageButton(myTexRegionDrawable);
+        btnPause.setPosition(680, 510);
+        pauseStage.addActor(btnPause);
 
 
         //*****Testing Enemy AI **** Comment out if needed
@@ -234,24 +247,11 @@ public class MeatGame implements Screen {
         }
 
         displayBloodPoints();
-        pauseButton();
 
-
-
-    }
-
-    private void pauseButton() {
-        //Stage pauseStage = new Stage(new ScreenViewport(), game.batch);
-        Texture myTexture = new Texture(Gdx.files.internal("btnPause0.png"));
-        TextureRegion myTextureRegion = new TextureRegion(myTexture);
-        TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
-        myTexRegionDrawable.setMinHeight(80);
-        myTexRegionDrawable.setMinWidth(80);
-        btnPause = new ImageButton(myTexRegionDrawable);
-        btnPause.setPosition(680, 510);
-        pauseStage.addActor(btnPause);
         pauseStage.draw();
-        myTexture.dispose();
+
+        pauseStage.act();
+
     }
 
     private void displayBloodPoints() {
@@ -321,12 +321,31 @@ public class MeatGame implements Screen {
     @Override
     public void pause() {
         // show the pause screen here
+        pauseStage.clear();
+        Skin labelSkin = new Skin(Gdx.files.internal("uiskin.json"));
+        Label label = new Label("PAUSED", labelSkin);
+        label.setPosition(370,470);
+        label.setFontScale(1.5f);
+
+        pauseStage.addActor(label);
     }
 
     @Override
     public void resume() {
         // hide the pause screen here
-
+        pauseStage.clear();
+        TextureRegion myTextureRegion = new TextureRegion(pauseButtonTexture);
+        TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        myTexRegionDrawable.setMinHeight(80);
+        myTexRegionDrawable.setMinWidth(80);
+        btnPause = new ImageButton(myTexRegionDrawable);
+        btnPause.setPosition(680, 510);
+        // pause()
+        // paused = true
+        //
+        // resume()
+        // paused = false
+        pauseStage.addActor(btnPause);
     }
 
     @Override
@@ -336,6 +355,7 @@ public class MeatGame implements Screen {
 
     @Override
     public void dispose() {
+        pauseButtonTexture.dispose();
         player.dispose();
         sauceTrail.dispose();
         background.dispose();
