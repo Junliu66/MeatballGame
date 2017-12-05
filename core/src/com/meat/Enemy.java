@@ -1,5 +1,7 @@
 package com.meat;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -12,6 +14,7 @@ public abstract class Enemy {
     boolean isAggressive;
     Player playerRef;
     World worldRef;
+    Texture texture;
 
     public Enemy(){
         body = null;
@@ -42,9 +45,13 @@ public abstract class Enemy {
         fixtureDef.friction = 0.0f;
         fixtureDef.density = 15f;
         body.createFixture(fixtureDef);
+
     }
 
     public abstract void update();
 
+    public void draw(SpriteBatch batch){
 
+        batch.draw(texture, body.getPosition().x * TO_PIXELS - 16, body.getPosition().y * TO_PIXELS - 16);
+    }
 }
