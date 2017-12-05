@@ -2,6 +2,8 @@ package com.meat;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -15,6 +17,11 @@ public abstract class Enemy {
     Player playerRef;
     World worldRef;
     Texture texture;
+    TextureRegion textureRegion;
+
+    final float PI2 = (float) (Math.PI / 2);
+    final float NINETY = 90f;
+    float rotationAngle = PI2;
 
     public Enemy(){
         body = null;
@@ -51,7 +58,12 @@ public abstract class Enemy {
     public abstract void update();
 
     public void draw(SpriteBatch batch){
-
-        batch.draw(texture, body.getPosition().x * TO_PIXELS - 16, body.getPosition().y * TO_PIXELS - 16);
+        //batch.draw(textureRegion, body.getPosition().x * TO_PIXELS - 16, body.getPosition().y * TO_PIXELS - 16, affineTransform);
+        //batch.draw(textureRegion, texture.getWidth(), texture.getHeight(), affineTransform);
+        batch.draw(textureRegion, body.getPosition().x * TO_PIXELS - 16, body.getPosition().y * TO_PIXELS - 16,
+                texture.getWidth()/2, texture.getHeight()/2,texture.getWidth(), texture.getHeight(), 1.0f, 1.0f,
+                rotationAngle
+        );
     }
+
 }
