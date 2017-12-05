@@ -39,11 +39,18 @@ public class CongratsScreen implements Screen {
     private final Stage stage;
     private Texture texture;
     private String lvlString;
+    private int numTomatoes;
+    int tomatoXPos[] = { 300, 300, 320, 320, 340, 340, 360, 360, 380, 380, 400, 400, 420, 420, 440, 440, 460, 460, 480, 480 };
+    int tomatoYPos[] = { 310, 290, 310, 290, 310, 290, 310, 290, 310, 290, 310, 290, 310, 290, 310, 290, 310, 290, 310, 290 };
+    Image tomatoes[] = new Image[20];
+    Image emptyTomatoes[] = new Image[20];
 
 
-    public  CongratsScreen(MainGame game, String lvlName) {
+
+    public  CongratsScreen(MainGame game, String lvlName, int numTomatoes) {
         this.game = game;
         this.lvlString = lvlName;
+        this.numTomatoes = numTomatoes;
         stage = new Stage(new ScreenViewport(), game.batch);
     }
 
@@ -59,7 +66,6 @@ public class CongratsScreen implements Screen {
         congrats.setColor(1, 1, 0, 1);
         congrats.setPosition(280, 550, 0);
 
-
         nextLevel = new TextButton("NEXT LEVEL", skin);
         nextLevel.addListener(getNextLevel());
         nextLevel.setPosition(400, 150, 0);
@@ -74,11 +80,32 @@ public class CongratsScreen implements Screen {
 
 
         stage.addActor(image);
+        showTomatoes();
         stage.addActor(congrats);
         stage.addActor(nextLevel);
         stage.addActor(mainMenu);
         stage.addActor(levelSelection);
         Gdx.input.setInputProcessor(stage);
+    }
+
+    private void showTomatoes() {
+        for (int i = 0; i < 20; i++) {
+            if (numTomatoes > 0)
+            {
+                texture = new Texture ("tomato.png");
+                tomatoes[i] = new Image (texture);
+                tomatoes[i].setPosition(tomatoXPos[i], tomatoYPos[i], 0);
+                stage.addActor(tomatoes[i]);
+                numTomatoes--;
+            }
+            else
+            {
+                texture = new Texture ("emptyTomato.png");
+                emptyTomatoes[i] = new Image (texture);
+                emptyTomatoes[i].setPosition(tomatoXPos[i], tomatoYPos[i], 0);
+                stage.addActor(emptyTomatoes[i]);
+            }
+        }
     }
 
     //TODO: fix it to connect next level

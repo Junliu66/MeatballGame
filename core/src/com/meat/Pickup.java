@@ -9,6 +9,7 @@ public abstract class Pickup extends Sprite {
 
     private float hoverTimer = 0f;
     private float origY;
+    private int numTomatoes = 0;
     public enum Status {RUNNING, FINISHED}
     protected Player player;
 
@@ -41,6 +42,10 @@ public abstract class Pickup extends Sprite {
     }
 
     public abstract void effect();
+
+    public void addTomato() { numTomatoes++; }
+
+    public int getNumTomatoes() { return numTomatoes; }
 
     public Vector2 getCenter()
     {

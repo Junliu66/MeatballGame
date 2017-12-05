@@ -24,7 +24,7 @@ public class MainGame extends Game
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont();
-        this.setScreen(new SplashScreen(this));
+        this.setScreen(new MainMenu(this));
     }
 
     public void render() {
@@ -60,6 +60,52 @@ public class MainGame extends Game
         Files.write(path, strToBytes);
 
         String read = Files.readAllLines(path).get(0);
+    }
+
+    public void setScore(int numTomatoes, String lvlString)
+    {
+        int earnedTrophies = numTomatoes / 10;
+
+        switch (lvlString) {
+            case "LevelOne.tmx":
+                if (numTrophies > earnedTrophies)
+                {
+                    lvlTrophies[0] = earnedTrophies;
+                }
+                break;
+            case "LevelTwo.tmx":
+                if (numTrophies > earnedTrophies)
+                {
+                    lvlTrophies[1] = earnedTrophies;
+                }
+                break;
+            case "LevelThree.tmx":
+                if (numTrophies > earnedTrophies)
+                {
+                    lvlTrophies[2] = earnedTrophies;
+                }
+                break;
+            case "LevelFour.tmx":
+                if (numTrophies > earnedTrophies)
+                {
+                    lvlTrophies[3] = earnedTrophies;
+                }
+                break;
+            case "LevelFive.tmx":
+                if (numTrophies > earnedTrophies)
+                {
+                    lvlTrophies[4] = earnedTrophies;
+                }
+                break;
+            case "LevelSix.tmx":
+                if (numTrophies > earnedTrophies)
+                {
+                    lvlTrophies[5] = earnedTrophies;
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     public void loadGame ()
