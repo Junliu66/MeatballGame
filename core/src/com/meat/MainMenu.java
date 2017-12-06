@@ -18,6 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class MainMenu implements Screen {
     MainGame game;
     OrthographicCamera camera;
@@ -356,7 +359,11 @@ public class MainMenu implements Screen {
                 stage.draw();
             }
             public void clicked(InputEvent event, float x, float y) {
-
+                try {
+                    game.saveGame();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
                 sound.play(1F);
             }
@@ -389,7 +396,11 @@ public class MainMenu implements Screen {
                 stage.draw();
             }
             public void clicked(InputEvent event, float x, float y) {
-
+                try {
+                    game.loadGame();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
                 sound.play(1F);
             }

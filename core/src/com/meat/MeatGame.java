@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
@@ -251,6 +253,9 @@ public class MeatGame implements Screen {
         player.render(game.batch);
         for (Pickup p : pickups)
             p.draw(game.batch);
+        for(Enemy e : enemies){
+            e.draw(game.batch);
+        }
         game.batch.end();
 
         if (RENDER_DEBUG) {
@@ -481,7 +486,6 @@ public class MeatGame implements Screen {
                 }
             } else if (obj.getName().equals("wall")) {
                 if (obj instanceof RectangleMapObject) {
-                    sound.play(1F);
                     PolygonShape poly = new PolygonShape();
                     poly.setAsBox((((RectangleMapObject) obj).getRectangle().width / 2) / TO_PIXELS, (((RectangleMapObject) obj).getRectangle().height / 2) / TO_PIXELS,
                             new Vector2((((RectangleMapObject) obj).getRectangle().x + ((RectangleMapObject) obj).getRectangle().width / 2) / TO_PIXELS,
@@ -722,8 +726,10 @@ public class MeatGame implements Screen {
     }
 
     public void congrats() {
+        int numTomatoes = player.getNumTomatoes();
+        game.setScore(numTomatoes, lvlString);
         currentBloodPoint = TOTAL_BLOOD_POINTS;
-        game.setScreen(new CongratsScreen(game, lvlString));
+        game.setScreen(new CongratsScreen(game, lvlString, numTomatoes));
     }
 
     public void reduceBlood() {

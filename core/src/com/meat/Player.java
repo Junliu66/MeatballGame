@@ -25,6 +25,7 @@ public class Player {
     public Body body;
     private int textureOffsetX;
     private int textureOffsetY;
+    private int numTomatoes = 0;
     private boolean isPlayerOne;
     private ArrayList<PlayerModifier> modifers;
     private boolean invincible = false;
@@ -266,4 +267,9 @@ public class Player {
         this.invincible = invincible;
         invincibleCounter = 0f;
     }
+
+    public void addTomato() { numTomatoes++; }
+
+    public int getNumTomatoes() { return numTomatoes; }
+
 }

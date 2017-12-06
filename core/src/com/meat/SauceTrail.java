@@ -73,6 +73,7 @@ public class SauceTrail {
                 sections.get(furthest).dispose();
                 sections.remove(furthest);
                 coords.remove(furthest);
+                furthest--;
             }
             currentTexture = sections.get(furthest);
             sections.add(furthest, new Texture(SECTION_WIDTH, SECTION_HEIGHT, Pixmap.Format.RGBA8888));

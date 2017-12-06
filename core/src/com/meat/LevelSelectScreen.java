@@ -439,7 +439,7 @@ public class LevelSelectScreen implements Screen {
                 sound.play(1F);
                 stage.draw();
                 stage.clear();
-                Gdx.app.exit();
+                game.setScreen(new MeatGame(game, "LevelFour.tmx"));
             }
         };
     }
@@ -476,7 +476,7 @@ public class LevelSelectScreen implements Screen {
                 sound.play(1F);
                 stage.draw();
                 stage.clear();
-                Gdx.app.exit();
+                game.setScreen(new MeatGame(game, "LevelFive.tmx"));
             }
         };
     }
@@ -513,7 +513,7 @@ public class LevelSelectScreen implements Screen {
                 sound.play(1F);
                 stage.draw();
                 stage.clear();
-                Gdx.app.exit();
+                game.setScreen(new MeatGame(game, "LevelSix.tmx"));
             }
         };
     }
@@ -547,7 +547,8 @@ public class LevelSelectScreen implements Screen {
                 sound.play(1F);
                 stage.draw();
                 stage.clear();
-                game.setScreen(new MainMenu(game));
+                Gdx.app.exit();
+                game.setScreen(new MeatGame(game, "LevelOne.tmx"));
             }
         };
     }
