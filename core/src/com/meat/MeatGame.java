@@ -46,7 +46,7 @@ public class MeatGame implements Screen {
     private static int POSITION_ITERATIONS = 2;
     private static int DESIRED_RENDER_WIDTH = 800;
     private static int DESIRED_RENDER_HEIGHT = 600;
-    private static boolean RENDER_DEBUG = true;
+    private static boolean RENDER_DEBUG = false;
     final MainGame game;
     public ArrayList<Shape2D> holes;
     public ArrayList<Shape2D> goals;
