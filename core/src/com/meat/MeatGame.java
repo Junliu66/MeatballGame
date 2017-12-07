@@ -22,9 +22,12 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.meat.Objects.Obstacle;
@@ -43,7 +46,7 @@ public class MeatGame implements Screen {
     private static int POSITION_ITERATIONS = 2;
     private static int DESIRED_RENDER_WIDTH = 800;
     private static int DESIRED_RENDER_HEIGHT = 600;
-    private static boolean RENDER_DEBUG = true;
+    private static boolean RENDER_DEBUG = false;
     final MainGame game;
     public ArrayList<Shape2D> holes;
     public ArrayList<Shape2D> goals;
@@ -71,8 +74,18 @@ public class MeatGame implements Screen {
     private ArrayList<Pickup> finishedPickups;
     private int currentBloodPoint;
     private Button btnPause;
+    private Button btnResume;
+    private Button btnLevelSelect;
+    private Button btnMainMenu;
 
     private boolean paused;
+    private Texture pauseButtonTexture, otherButtonTexture, bgTexture;
+    private TextureRegion myTextureRegion;
+    private TextureRegionDrawable myTexRegionDrawable;
+
+    Sound sound;
+
+
 
     public MeatGame(final MainGame game, String lvlName) {
         this.game = game;
@@ -85,6 +98,8 @@ public class MeatGame implements Screen {
 
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
+
+        sound = Gdx.audio.newSound(Gdx.files.internal("collision.mp3"));
 
         background = new Texture("clouds_bg.png");
         background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
@@ -114,6 +129,14 @@ public class MeatGame implements Screen {
 
         player.setPosition(playerStart);
 
+        pauseButtonTexture = new Texture(Gdx.files.internal("btnPause0.png"));
+        TextureRegion myTextureRegion = new TextureRegion(pauseButtonTexture);
+        TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        myTexRegionDrawable.setMinHeight(80);
+        myTexRegionDrawable.setMinWidth(80);
+        btnPause = new ImageButton(myTexRegionDrawable);
+        btnPause.setPosition(680, 510);
+        pauseStage.addActor(btnPause);
 
 
         //*****Testing Enemy AI **** Comment out if needed
@@ -162,6 +185,8 @@ public class MeatGame implements Screen {
         debugRenderer = new Box2DDebugRenderer();
 
         paused = false;
+        Gdx.input.setInputProcessor(pauseStage);
+        resume();
     }
 
 
@@ -228,6 +253,9 @@ public class MeatGame implements Screen {
         player.render(game.batch);
         for (Pickup p : pickups)
             p.draw(game.batch);
+        for(Enemy e : enemies){
+            e.draw(game.batch);
+        }
         game.batch.end();
 
         if (RENDER_DEBUG) {
@@ -236,25 +264,10 @@ public class MeatGame implements Screen {
         }
 
         displayBloodPoints();
-        pauseButton();
 
-
-
-    }
-
-    private void pauseButton() {
-        //Stage pauseStage = new Stage(new ScreenViewport(), game.batch);
-        Texture myTexture = new Texture(Gdx.files.internal("btnPause0.png"));
-        Sprite pauseSprite = new Sprite(myTexture);
-        TextureRegion myTextureRegion = new TextureRegion(myTexture);
-        TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
-        myTexRegionDrawable.setMinHeight(80);
-        myTexRegionDrawable.setMinWidth(80);
-        btnPause = new ImageButton(myTexRegionDrawable);
-        btnPause.setPosition(680, 510);
-        pauseStage.addActor(btnPause);
+        pauseStage.act(dt);
         pauseStage.draw();
-        myTexture.dispose();
+
     }
 
     private void displayBloodPoints() {
@@ -324,12 +337,63 @@ public class MeatGame implements Screen {
     @Override
     public void pause() {
         // show the pause screen here
+        pauseStage.clear();
+
+        bgTexture = new Texture("pauseBG.png");
+        Image image = new Image(bgTexture);
+        image.setSize(800,600);
+        image.setColor(0,0,0,0.5f);
+
+
+        Skin labelSkin = new Skin(Gdx.files.internal("uiskin.json"));
+        Label label = new Label("PAUSED", labelSkin);
+        label.setPosition(350,470);
+        label.setFontScale(2f);
+
+        otherButtonTexture = new Texture(Gdx.files.internal("btnResume.png"));
+        myTextureRegion = new TextureRegion(otherButtonTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        btnResume = new ImageButton(myTexRegionDrawable);
+        btnResume.setPosition(287, 350);
+
+        otherButtonTexture = new Texture(Gdx.files.internal("btnLevel.png"));
+        myTextureRegion = new TextureRegion(otherButtonTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        btnLevelSelect = new ImageButton(myTexRegionDrawable);
+        btnLevelSelect.setPosition(287, 225);
+
+        otherButtonTexture = new Texture(Gdx.files.internal("btnMainMenu.png"));
+        myTextureRegion = new TextureRegion(otherButtonTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        btnMainMenu = new ImageButton(myTexRegionDrawable);
+        btnMainMenu.setPosition(287, 100);
+
+
+        btnResume.addListener(getResumeListener());
+        btnLevelSelect.addListener(getLevelListener());
+        btnMainMenu.addListener(getMainMenuListener());
+
+        pauseStage.addActor(image);
+        pauseStage.addActor(label);
+        pauseStage.addActor(btnResume);
+        pauseStage.addActor(btnLevelSelect);
+        pauseStage.addActor(btnMainMenu);
+        Gdx.input.setInputProcessor(pauseStage);
+
     }
 
     @Override
     public void resume() {
         // hide the pause screen here
-
+        pauseStage.clear();
+        TextureRegion myTextureRegion = new TextureRegion(pauseButtonTexture);
+        TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        myTexRegionDrawable.setMinHeight(80);
+        myTexRegionDrawable.setMinWidth(80);
+        btnPause = new ImageButton(myTexRegionDrawable);
+        btnPause.setPosition(680, 510);
+        btnPause.addListener(getPauseListener());
+        pauseStage.addActor(btnPause);
     }
 
     @Override
@@ -339,9 +403,68 @@ public class MeatGame implements Screen {
 
     @Override
     public void dispose() {
+        pauseButtonTexture.dispose();
         player.dispose();
         sauceTrail.dispose();
         background.dispose();
+    }
+
+    private EventListener getPauseListener() {
+        return new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
+                pauseStage.clear();
+                pause();
+                paused = true;
+
+            }
+
+        };
+    }
+
+    private EventListener getResumeListener() {
+        return new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
+                pauseStage.clear();
+                resume();
+                paused = false;
+
+            }
+
+        };
+    }
+
+
+    private EventListener getLevelListener() {
+        return new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
+                pauseStage.clear();
+                game.setScreen(new LevelSelectScreen(game));
+
+            }
+
+        };
+    }
+
+    private EventListener getMainMenuListener() {
+        return new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
+                sound.play(1F);
+                pauseStage.clear();
+                game.setScreen(new MainMenu(game));;
+            }
+
+        };
     }
 
 

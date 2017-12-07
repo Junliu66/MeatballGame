@@ -2,6 +2,7 @@ package com.meat;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -17,6 +18,7 @@ public class PlayerChasingEnemy extends Enemy {
     float minRadiusSquare;
     float maxRadius;        //the radius that the enemy loses aggro
     float maxRadiusSquare;
+
 
     Vector2 currentStartPoint;
     final float maxStep = 0.5f;
@@ -40,7 +42,9 @@ public class PlayerChasingEnemy extends Enemy {
 
         currentStartPoint = body.getPosition().cpy();
 
-        texture = new Texture(Gdx.files.internal("bug.png"));
+        texture = new Texture(Gdx.files.internal("fly.png"));
+        textureRegion = new TextureRegion(texture);
+
     }
 
     public void update(){
@@ -54,7 +58,9 @@ public class PlayerChasingEnemy extends Enemy {
 
                 Vector2 next = getNextTrajectory();
                 if(next != null){
-                    body.setLinearVelocity(getNextTrajectory().scl(speed));
+                    body.setLinearVelocity(next);
+                    //rotationAngle = next.angleRad() + PI2;
+                    rotationAngle = next.angle();
                 }
                 else{
                 }

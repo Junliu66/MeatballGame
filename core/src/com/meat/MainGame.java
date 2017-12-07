@@ -17,6 +17,8 @@ public class MainGame extends Game
     public SpriteBatch batch;
     public BitmapFont font;
     int totalScore, numTrophies;
+    int visitHelp = 0;
+    //TODO: change it to 1 so the save function works.
     int lvlTrophies[] = {2, 1, 3, 2, 0, 0};
 
     public MeatGame meatGame = null;
