@@ -65,7 +65,7 @@ public class MainMenu implements Screen {
 
     public void show() {
         stage = new Stage(new ScreenViewport());
-        texture = new Texture("mainMenu.png");
+        texture = new Texture("mainMenuOriginal.png");
         Image image= new Image(texture);
         image.setSize(800,600);
 

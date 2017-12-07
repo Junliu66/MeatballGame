@@ -26,7 +26,7 @@ public class MainGame extends Game
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont();
-        this.setScreen(new MainMenu(this));
+        this.setScreen(new SplashScreen(this));
     }
 
     public void render() {
