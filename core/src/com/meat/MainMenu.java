@@ -52,7 +52,7 @@ public class MainMenu implements Screen {
     int buttonYHelp = 30;
     int buttonYSettings = 30;
     int buttonYExit = 30;
-    int buttonYPlay = 85;
+    int buttonYPlay = 90;
     int buttonXSave = 260;
     int buttonXLoad = 560;
     int buttonYSave = 100;

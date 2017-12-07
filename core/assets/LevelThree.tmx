@@ -410,14 +410,14 @@
   <object id="186" name="path_enemy" x="1817.47" y="2065.24">
    <properties>
     <property name="clockwise" type="bool" value="true"/>
-    <property name="speed" type="float" value="1.5"/>
+    <property name="speed" type="float" value="1.2"/>
    </properties>
    <polygon points="0,0 298.629,-3.6928 298.629,311.118 0,312.965"/>
   </object>
   <object id="187" name="path_enemy" x="494.732" y="2060.83">
    <properties>
     <property name="clockwise" type="bool" value="true"/>
-    <property name="speed" type="float" value="1.5"/>
+    <property name="speed" type="float" value="1.2"/>
    </properties>
    <polygon points="0,0 320.634,-4.17752 320.634,351.955 0,354.045"/>
   </object>
