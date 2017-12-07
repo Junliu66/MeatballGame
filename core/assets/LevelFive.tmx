@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="v1.0.3-308-g1056357" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextobjectid="531">
+<map version="1.0" tiledversion="v1.0.3-308-g1056357" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextobjectid="535">
  <tileset firstgid="1" source="tabletop.tsx"/>
  <tileset firstgid="37" source="wallTile.tsx"/>
  <tileset firstgid="38" source="beer.tsx"/>
@@ -746,6 +746,34 @@
    <polygon points="0,0 -17,2 -24,14 -31,26 -26,39 -30,60 -26,75 -32,95 -46,96 -59,94 -73,98 -80,97 -88,105 -93,122 -90,138 -92,150 -73,150 -72,170 -53,168 -39,167 -41,150 -23,152 -15,137 4,134 41,134 347,134 368,161 382,169 391,156 397,140 390,129 400,106 412,106 422,117 408,122 412,133 447,139 462,163 474,169 498,163 512,169 524,140 518,129 525,107 519,97 521,80 501,69 489,62 494,44 527,37 544,34 561,14 562,-10 555,-10 556,-25 551,-31 559,-55 545,-61 558,-84 549,-95 558,-117 551,-125 551,-145 535,-158 521,-160 522,-175 504,-192 481,-184 464,-192 449,-182 441,-190 412,-161 392,-161 382,-152 374,-158 351,-127 340,-125 322,-95 300,-94 293,-117 268,-127 243,-121 230,-127 201,-130 194,-124 168,-128 163,-121 146,-127 130,-97 101,-95 71,-97 53,-93 37,-75 39,-45 27,-31 21,-31 6,-14"/>
   </object>
   <object id="530" name="wall" x="881" y="2159"/>
+  <object id="531" name="path_enemy" x="814" y="721">
+   <properties>
+    <property name="clockwise" type="bool" value="false"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+   <polygon points="-5,-138 0,29 3,345 108,332"/>
+  </object>
+  <object id="532" name="path_enemy" x="2118" y="1202">
+   <properties>
+    <property name="clockwise" type="bool" value="false"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+   <polygon points="56,-111 -142,9 12,52 174,-1"/>
+  </object>
+  <object id="533" name="path_enemy" x="597" y="2005">
+   <properties>
+    <property name="clockwise" type="bool" value="false"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+   <polygon points="105,-59 -113,-3 -261,101 79,19"/>
+  </object>
+  <object id="534" name="path_enemy" x="1492" y="1984">
+   <properties>
+    <property name="clockwise" type="bool" value="false"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+   <polygon points="-156,-16 -154,58 235,61 241,-21"/>
+  </object>
  </objectgroup>
  <objectgroup name="Object Layer 2">
   <object id="459" name="pepper" x="493" y="499"/>
