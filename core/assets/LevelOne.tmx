@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.10.31" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextobjectid="171">
+<map version="1.0" tiledversion="v1.0.3-308-g1056357" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextobjectid="202">
  <tileset firstgid="1" source="tabletop.tsx"/>
  <tileset firstgid="37" source="wallTile.tsx"/>
  <tileset firstgid="38" source="spaghetti.tsx"/>
@@ -260,7 +260,7 @@
  </layer>
  <objectgroup name="Object Layer 1">
   <object id="3" name="wall" x="320" y="1984" width="1024" height="32"/>
-  <object id="4" name="start" x="382" y="2122"/>
+  <object id="4" name="start" x="383" y="2125"/>
   <object id="5" name="hole" x="1552" y="432" width="32" height="32">
    <ellipse/>
   </object>
@@ -339,7 +339,7 @@
    <polygon points="0,0 -20,3 -29,9 -34,23 -33,75 -34,86 -25,97 -20,104 252,105 266,77 257,65 258,56 267,50 257,30 268,17 260,-1 263,-10 253,-27 231,-32 215,-30 199,-34 183,-29 164,-35 146,-30 128,-33 110,-31 98,-20 92,-6 89,4 71,-1 37,-2 0,1"/>
   </object>
   <object id="160" name="wall" x="2030" y="2002"/>
-  <object id="162" name="wall" x="2192" y="2004"/>
+  <object id="162" name="wall" x="2191" y="1999"/>
   <object id="163" name="wall" x="2096" y="2114">
    <polygon points="0,0 -15,29 15,29"/>
   </object>
@@ -354,8 +354,17 @@
   </object>
   <object id="167" name="wall" x="1231" y="560"/>
   <object id="168" name="wall" x="1298" y="1426"/>
-  <object id="170" x="361" y="2072" width="83" height="19">
-   <text wrap="1">Hello World</text>
+  <object id="198" name="hand" x="2062" y="2015">
+   <point/>
+  </object>
+  <object id="199" name="hand" x="2161" y="2141">
+   <point/>
+  </object>
+  <object id="200" name="hand" x="1223" y="1471">
+   <point/>
+  </object>
+  <object id="201" name="hand" x="1653" y="629">
+   <point/>
   </object>
  </objectgroup>
  <objectgroup name="Object Layer 2">
@@ -390,5 +399,28 @@
   <object id="139" name="tomato" x="1951" y="2131"/>
   <object id="156" name="tomato" x="1721" y="466"/>
   <object id="157" name="tomato" x="1663" y="664"/>
+ </objectgroup>
+ <objectgroup name="hand">
+  <object id="188" name="hand_init" x="746" y="1905">
+   <point/>
+  </object>
+  <object id="189" name="hand_init" x="331" y="2057">
+   <point/>
+  </object>
+  <object id="191" name="hand_init" x="168" y="2417">
+   <point/>
+  </object>
+  <object id="194" name="hand_init" x="418" y="2140">
+   <point/>
+  </object>
+  <object id="195" name="hand" x="610" y="2141">
+   <point/>
+  </object>
+  <object id="196" name="hand" x="1279" y="2140">
+   <point/>
+  </object>
+  <object id="197" name="hand" x="829" y="2131">
+   <point/>
+  </object>
  </objectgroup>
 </map>

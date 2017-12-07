@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
@@ -22,7 +20,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -32,7 +29,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.meat.Objects.Obstacle;
 import javafx.util.Pair;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,6 +54,7 @@ public class MeatGame implements Screen {
     private TiledMapRenderer tiledMapRenderer;
     private TiledMapTileLayer collisionLayer;
     private Stage pauseStage;
+    private Stage initInstructionStage;
     private Player player;
     private OrthographicCamera camera;
     private OrthographicCamera box2DCamera;
@@ -72,6 +69,8 @@ public class MeatGame implements Screen {
     private String lvlString;
     private ArrayList<Enemy> enemies;
     private ArrayList<Pickup> pickups;
+    private ArrayList<HandIntro> handIntros;
+    private ArrayList<HandIntro> handInit;
     private ArrayList<Pickup> finishedPickups;
     private int currentBloodPoint;
     private Button btnPause;
@@ -87,6 +86,7 @@ public class MeatGame implements Screen {
     Sound sound;
 
 
+
     public MeatGame(final MainGame game, String lvlName) {
         this.game = game;
         this.lvlString = lvlName;
@@ -95,6 +95,7 @@ public class MeatGame implements Screen {
         shapeRenderer = new ShapeRenderer();
 
         pauseStage = new Stage(new ScreenViewport(), game.batch);
+
 
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -118,6 +119,8 @@ public class MeatGame implements Screen {
         goals = new ArrayList<Shape2D>();
         obstacles = new HashMap<String, Obstacle>();
         pickups = new ArrayList<Pickup>();
+        handIntros = new ArrayList<HandIntro>();
+        handInit = new ArrayList<HandIntro>();
         finishedPickups = new ArrayList<Pickup>();
         playerStart = new Vector2(0, 0);
         player = new Player(new Vector2(playerStart.x, playerStart.y), collisionLayer, 24f, world, true);
@@ -138,7 +141,19 @@ public class MeatGame implements Screen {
         btnPause.setPosition(680, 510);
         pauseStage.addActor(btnPause);
 
+        //indicate the pause button when new player starts the game.
+        initInstructionStage = new Stage(new ScreenViewport(), game.batch);
+        Skin labelSkin = new Skin(Gdx.files.internal("uiskin.json"));
+        Label label = new Label("Press P or Click Pause Button", labelSkin);
+        label.setPosition(450,530);
+        label.setColor(Color.BLACK);
 
+        initInstructionStage.addActor(label);
+
+        Label labelBlood = new Label("Blood Points", labelSkin);
+        labelBlood.setPosition(250,20);
+        labelBlood.setColor(Color.BLACK);
+        initInstructionStage.addActor(labelBlood);
         //*****Testing Enemy AI **** Comment out if needed
         ArrayList<Pair<Vector2, Float>> testPath = new ArrayList<Pair<Vector2, Float>>();
 
@@ -180,8 +195,6 @@ public class MeatGame implements Screen {
         //***** End testing Enemy ****
 
         sauceTrail = new SauceTrail(player);
-
-        //Gdx.input.setInputProcessor(this);
         debugRenderer = new Box2DDebugRenderer();
 
         paused = false;
@@ -193,7 +206,8 @@ public class MeatGame implements Screen {
     @Override
     public void render(float dt) {
 
-        if (Gdx.input.isKeyJustPressed(Config.pause)) {
+        if (Gdx.input.isKeyJustPressed(Config.pause))
+        {
             paused = !paused;
             if (paused)
                 pause();
@@ -201,7 +215,8 @@ public class MeatGame implements Screen {
                 resume();
         }
 
-        if (paused) {
+        if (paused)
+        {
 
         } else {
             doPhysicsStep(dt);
@@ -233,6 +248,17 @@ public class MeatGame implements Screen {
                     pickups.remove(i);
                 }
             }
+            for (int i = 0; i < handIntros.size(); i++) {
+                HandIntro handIntro = handIntros.get(i);
+                handIntro.update(dt);
+                float distToPlayer = handIntro.getCenter().dst(player.getPixelPosition());
+                if (distToPlayer <= (64+handIntro.getWidth()/2)) {
+                    handIntros.remove(i);
+                }
+            }
+            for (HandIntro handIntro : handInit) {
+                handIntro.update(dt);
+            }
         }
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -251,7 +277,11 @@ public class MeatGame implements Screen {
         player.render(game.batch);
         for (Pickup p : pickups)
             p.draw(game.batch);
-        for (Enemy e : enemies) {
+        for(HandIntro h: handIntros)
+            h.draw(game.batch);
+        for(HandIntro h: handInit)
+            h.draw(game.batch);
+        for(Enemy e : enemies){
             e.draw(game.batch);
         }
         game.batch.end();
@@ -265,7 +295,12 @@ public class MeatGame implements Screen {
 
         pauseStage.act(dt);
         pauseStage.draw();
-
+        initInstructionStage.act(dt);
+        initInstructionStage.draw();
+        if (player.body.getLinearVelocity().x > 1 || player.body.getLinearVelocity().y > 1) {
+            initInstructionStage.clear();
+            handInit = new ArrayList<>();
+        }
     }
 
     private void displayBloodPoints() {
@@ -459,8 +494,7 @@ public class MeatGame implements Screen {
                 Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
                 sound.play(1F);
                 pauseStage.clear();
-                game.setScreen(new MainMenu(game));
-                ;
+                game.setScreen(new MainMenu(game));;
             }
 
         };
@@ -646,7 +680,11 @@ public class MeatGame implements Screen {
                 pickups.add(new Garlic(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
             } else if (obj.getName().equals("tomato")) {
                 pickups.add(new Tomato(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
-            } else if (objName.equals("chasing_enemy")) {
+            } else if (obj.getName().equals("hand_init")) {
+                handInit.add(new HandPointer(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
+            } else if (obj.getName().equals("hand")) {
+                handIntros.add(new HandPointer(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
+            } else if(objName.equals("chasing_enemy")){
                 EllipseMapObject objBody = (EllipseMapObject) obj;
                 float positionX = objBody.getEllipse().x / TO_PIXELS;
                 float positionY = objBody.getEllipse().y / TO_PIXELS;
