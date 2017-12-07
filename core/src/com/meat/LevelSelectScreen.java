@@ -75,31 +75,31 @@ public class LevelSelectScreen implements Screen {
         btnLvlOne = new ImageButton(myTexRegionDrawable);
         Label lblLvlOne = new Label("LEVEL ONE", labelSkin);
 
-        myTexture = new Texture(Gdx.files.internal("testLevelSelect.png"));
+        myTexture = new Texture(Gdx.files.internal("LevelTwoSelect.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnLvlTwo = new ImageButton(myTexRegionDrawable);
         Label lblLvlTwo = new Label("LEVEL TWO", labelSkin);
 
-        myTexture = new Texture(Gdx.files.internal("LevelOneSelect.png"));
+        myTexture = new Texture(Gdx.files.internal("LevelThreeSelect.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnLvlThree = new ImageButton(myTexRegionDrawable);
         Label lblLvlThree = new Label("LEVEL THREE", labelSkin);
 
-        myTexture = new Texture(Gdx.files.internal("testLevelSelect.png"));
+        myTexture = new Texture(Gdx.files.internal("LevelFourSelect.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnLvlFour = new ImageButton(myTexRegionDrawable);
         Label lblLvlFour = new Label("LEVEL FOUR", labelSkin);
 
-        myTexture = new Texture(Gdx.files.internal("LevelOneSelect.png"));
+        myTexture = new Texture(Gdx.files.internal("LevelFiveSelect.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnLvlFive = new ImageButton(myTexRegionDrawable);
         Label lblLvlFive = new Label("LEVEL FIVE", labelSkin);
 
-        myTexture = new Texture(Gdx.files.internal("testLevelSelect.png"));
+        myTexture = new Texture(Gdx.files.internal("LevelSixSelect.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnLvlSix = new ImageButton(myTexRegionDrawable);
