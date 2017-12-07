@@ -6,7 +6,6 @@
  <tileset firstgid="74" source="BaseMapElements.tsx"/>
  <tileset firstgid="1098" source="pizza.tsx"/>
  <tileset firstgid="1107" source="beer.tsx"/>
- <tileset firstgid="1108" source="handwall.tsx"/>
  <layer name="Base" width="80" height="80">
   <data encoding="csv">
 27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,
@@ -424,5 +423,4 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup name="helpHand"/>
 </map>
