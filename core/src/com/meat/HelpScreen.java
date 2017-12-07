@@ -25,7 +25,7 @@ public class HelpScreen implements Screen {
     MainGame game;
     Stage stage;
     Button btnBack, btnLeft, btnRight, btnUp, btnDown, btnTomato, btnPepperBomb, btnBug,
-            btnGarlic, btnLava, btnWater;
+            btnGarlic, btnLava, btnWater,btnFly,btnWall,btnBeer,btnPizza;
     Texture myTexture;
     TextureRegion myTextureRegion;
     TextureRegionDrawable myTexRegionDrawable;
@@ -34,7 +34,7 @@ public class HelpScreen implements Screen {
     Label labelElements;
     Skin labelSkin;
     Image imgBack, imgLeft, imgRight, imgUp, imgDown, imgTomato, imgPepperBomb, imgBug,
-            imgGarlic, imgLava, imgWater;
+            imgGarlic, imgLava, imgWater,imgFly,imgWall,imgBeer,imgPizza;
 
     public HelpScreen(MainGame game) {
         this.game = game;
@@ -46,10 +46,12 @@ public class HelpScreen implements Screen {
         labelSkin = new Skin(Gdx.files.internal("uiskin.json"));
         labelArrow = new Label("", labelSkin);
         labelElements = new Label("", labelSkin);
-        labelArrow.setPosition(500,400);
-        labelElements.setPosition(420,210);
+        labelArrow.setPosition(300,150);
+        labelElements.setPosition(300,150);
         labelArrow.setFontScale(1.5f);
-        labelElements.setFontScale(1.2f);
+        labelArrow.setColor(0,0,0,1);
+        labelElements.setFontScale(1.5f);
+        labelElements.setColor(0,0,0,1);
 
         stage = new Stage(new ScreenViewport());
         texture = new Texture("helpScreen.png");
@@ -60,7 +62,7 @@ public class HelpScreen implements Screen {
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnBack = new ImageButton(myTexRegionDrawable);
-        btnBack.setColor(0, 0, 0, 0);
+        btnBack.setColor(1, 0, 1, 1);
         imgBack = new Image(myTexture);
 
         myTexture = new Texture(Gdx.files.internal("btnLeft.png"));
@@ -131,6 +133,16 @@ public class HelpScreen implements Screen {
         imgBug = new Image(myTexture);
         imgBug.setSize(60,60);
 
+        myTexture = new Texture(Gdx.files.internal("fly.png"));
+        myTextureRegion = new TextureRegion(myTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        myTexRegionDrawable.setMinHeight(60);
+        myTexRegionDrawable.setMinWidth(60);
+        btnFly = new ImageButton(myTexRegionDrawable);
+        btnFly.setColor(0, 0, 0, 0);
+        imgFly = new Image(myTexture);
+        imgFly.setSize(60,60);
+
         myTexture = new Texture(Gdx.files.internal("lava.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
@@ -151,6 +163,36 @@ public class HelpScreen implements Screen {
         imgWater = new Image(myTexture);
         imgWater.setSize(60,60);
 
+        myTexture = new Texture(Gdx.files.internal("wall.png"));
+        myTextureRegion = new TextureRegion(myTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        myTexRegionDrawable.setMinHeight(40);
+        myTexRegionDrawable.setMinWidth(40);
+        btnWall = new ImageButton(myTexRegionDrawable);
+        btnWall.setColor(0, 0, 0, 0);
+        imgWall = new Image(myTexture);
+        imgWall.setSize(40,40);
+
+        myTexture = new Texture(Gdx.files.internal("beer.png"));
+        myTextureRegion = new TextureRegion(myTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        myTexRegionDrawable.setMinHeight(60);
+        myTexRegionDrawable.setMinWidth(60);
+        btnBeer = new ImageButton(myTexRegionDrawable);
+        btnBeer.setColor(0, 0, 0, 0);
+        imgBeer = new Image(myTexture);
+        imgBeer.setSize(60,60);
+
+        myTexture = new Texture(Gdx.files.internal("pizza.png"));
+        myTextureRegion = new TextureRegion(myTexture);
+        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        myTexRegionDrawable.setMinHeight(100);
+        myTexRegionDrawable.setMinWidth(100);
+        btnPizza = new ImageButton(myTexRegionDrawable);
+        btnPizza.setColor(0, 0, 0, 0);
+        imgPizza = new Image(myTexture);
+        imgPizza.setSize(100,100);
+
         btnBack.addListener(getBackListener());
         btnLeft.addListener(getLeftListener());
         btnRight.addListener(getRightListener());
@@ -162,30 +204,43 @@ public class HelpScreen implements Screen {
         btnLava.addListener(getLavaListener());
         btnWater.addListener(getWaterListener());
         btnBug.addListener(getBugListener());
+        btnFly.addListener(getFlyListener());
+        btnWall.addListener(getWallListener());
+        btnBeer.addListener(getBeerListener());
+        btnPizza.addListener(getPizzaListener());
 
         imgBack.setPosition(400, 80, 0);
         imgLeft.setPosition(180, 400, 0);
         imgRight.setPosition(340, 400,0);
         imgUp.setPosition(260, 480,0);
         imgDown.setPosition(260, 400,0);
-        imgTomato.setPosition(180,270,0);
-        imgPepperBomb.setPosition(270,270,0);
-        imgGarlic.setPosition(360,270,0);
-        imgBug.setPosition(180,150,0);
-        imgLava.setPosition(270,150,0);
-        imgWater.setPosition(360,150,0);
+        imgTomato.setPosition(480,450,0);
+        imgPepperBomb.setPosition(570,450,0);
+        imgGarlic.setPosition(660,450,0);
+        imgBug.setPosition(525,330,0);
+        imgFly.setPosition(615,330,0);
+        imgLava.setPosition(525,230,0);
+        imgWater.setPosition(615,230,0);
+        imgWall.setPosition(170,230,0);
+        imgBeer.setPosition(260,230,0);
+        imgPizza.setPosition(350,230,0);
+
 
         btnBack.setPosition(400, 80, 0);
         btnLeft.setPosition(180, 400, 0);
         btnRight.setPosition(340, 400,0);
         btnUp.setPosition(260, 480,0);
         btnDown.setPosition(260, 400,0);
-        btnTomato.setPosition(180,270,0);
-        btnPepperBomb.setPosition(270,270,0);
-        btnGarlic.setPosition(360,270,0);
-        btnBug.setPosition(180,150,0);
-        btnLava.setPosition(270,150,0);
-        btnWater.setPosition(360,150,0);
+        btnTomato.setPosition(480,450,0);
+        btnPepperBomb.setPosition(570,450,0);
+        btnGarlic.setPosition(660,450,0);
+        btnBug.setPosition(525,330,0);
+        btnFly.setPosition(615,330,0);
+        btnLava.setPosition(525,230,0);
+        btnWater.setPosition(615,230,0);
+        btnWall.setPosition(170,230,0);
+        btnBeer.setPosition(260,230,0);
+        btnPizza.setPosition(350,230,0);
 
         stage.addActor(image);
         stage.addActor(imgBack);
@@ -197,8 +252,13 @@ public class HelpScreen implements Screen {
         stage.addActor(imgPepperBomb);
         stage.addActor(imgGarlic);
         stage.addActor(imgBug);
+        stage.addActor(imgFly);
         stage.addActor(imgLava);
         stage.addActor(imgWater);
+        stage.addActor(imgWall);
+        stage.addActor(imgBeer);
+        stage.addActor(imgPizza);
+
 
 
         stage.addActor(btnBack);
@@ -212,6 +272,10 @@ public class HelpScreen implements Screen {
         stage.addActor(btnLava);
         stage.addActor(btnWater);
         stage.addActor(btnBug);
+        stage.addActor(btnFly);
+        stage.addActor(btnWall);
+        stage.addActor(btnBeer);
+        stage.addActor(btnPizza);
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -431,7 +495,7 @@ public class HelpScreen implements Screen {
             boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                imgTomato.setPosition(180,290,0);
+                imgTomato.setPosition(480,470,0);
 
                 if (!playing) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
@@ -445,7 +509,7 @@ public class HelpScreen implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                imgTomato.setPosition(180,270,0);
+                imgTomato.setPosition(480,450,0);
 
                 playing = false;
 
@@ -460,7 +524,7 @@ public class HelpScreen implements Screen {
             boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                imgPepperBomb.setPosition(270,290,0);
+                imgPepperBomb.setPosition(570,470,0);
 
                 if (!playing) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
@@ -474,7 +538,7 @@ public class HelpScreen implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                imgPepperBomb.setPosition(270,270,0);
+                imgPepperBomb.setPosition(570,450,0);
 
                 playing = false;
 
@@ -489,7 +553,7 @@ public class HelpScreen implements Screen {
             boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                imgGarlic.setPosition(360,290,0);
+                imgGarlic.setPosition(660,470,0);
 
                 if (!playing) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
@@ -503,7 +567,7 @@ public class HelpScreen implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                imgGarlic.setPosition(360,270,0);
+                imgGarlic.setPosition(660,450,0);
 
                 playing = false;
 
@@ -518,7 +582,7 @@ public class HelpScreen implements Screen {
             boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                imgBug.setPosition(180,170,0);
+                imgBug.setPosition(525,350,0);
 
                 if (!playing) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
@@ -532,7 +596,36 @@ public class HelpScreen implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                imgBug.setPosition(180,150,0);
+                imgBug.setPosition(525,330,0);
+
+                playing = false;
+
+                labelElements.setText("");
+                stage.draw();
+            }
+        };
+    }
+
+    private ClickListener getFlyListener() {
+        return new ClickListener() {
+            boolean playing = false;
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+
+                imgFly.setPosition(615,350,0);
+
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
+                labelElements.setText("Fly: Chase MeatBall & Push it to edge.");
+                stage.addActor(labelElements);
+                stage.draw();
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+
+                imgFly.setPosition(615,330,0);
 
                 playing = false;
 
@@ -547,7 +640,7 @@ public class HelpScreen implements Screen {
                 boolean playing = false;
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                    imgLava.setPosition(270,170,0);
+                    imgLava.setPosition(525,250,0);
 
                     if (!playing) {
                         Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
@@ -561,7 +654,7 @@ public class HelpScreen implements Screen {
 
                 public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                    imgLava.setPosition(270,150,0);
+                    imgLava.setPosition(525,230,0);
 
                     playing = false;
 
@@ -572,13 +665,12 @@ public class HelpScreen implements Screen {
         }
 
 
-
     public EventListener getWaterListener() {
         return new ClickListener() {
             boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
-                imgWater.setPosition(360,170,0);
+                imgWater.setPosition(615,250,0);
 
                 if (!playing) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
@@ -592,7 +684,93 @@ public class HelpScreen implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
-                imgWater.setPosition(360,150,0);
+                imgWater.setPosition(615,230,0);
+
+                playing = false;
+
+                labelElements.setText("");
+                stage.draw();
+            }
+        };
+    }
+
+    private ClickListener getWallListener() {
+        return new ClickListener() {
+            boolean playing = false;
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+
+                imgWall.setPosition(170,250,0);
+
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
+                labelElements.setText("Wall: Block the way.");
+                stage.addActor(labelElements);
+                stage.draw();
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+
+                imgWall.setPosition(170,230,0);
+
+                playing = false;
+
+                labelElements.setText("");
+                stage.draw();
+            }
+        };
+    }
+
+    private ClickListener getBeerListener() {
+        return new ClickListener() {
+            boolean playing = false;
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+
+                imgBeer.setPosition(260,250,0);
+
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
+                labelElements.setText("Beer: Block the way.");
+                stage.addActor(labelElements);
+                stage.draw();
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+
+                imgBeer.setPosition(260,230,0);
+
+                playing = false;
+
+                labelElements.setText("");
+                stage.draw();
+            }
+        };
+    }
+    private ClickListener getPizzaListener() {
+        return new ClickListener() {
+            boolean playing = false;
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+
+                imgPizza.setPosition(350,250,0);
+
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnEnter.mp3"));
+                    sound.play(1F);
+                    playing = true;
+                }
+                labelElements.setText("Pizza: Block the way.");
+                stage.addActor(labelElements);
+                stage.draw();
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+
+                imgPizza.setPosition(350,230,0);
 
                 playing = false;
 

@@ -338,8 +338,8 @@ public class MainMenu implements Screen {
         return new ClickListener() {
             boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                imgSave.setHeight(27);
-                imgSave.setWidth(71);
+                imgSave.setHeight(28);
+                imgSave.setWidth(66);
                 imgSave.setPosition(buttonXSave, buttonYSave,0);
 
                 if (!playing) {
@@ -352,7 +352,7 @@ public class MainMenu implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 imgSave.setHeight(32);
-                imgSave.setWidth(76);
+                imgSave.setWidth(72);
                 imgSave.setPosition(buttonXSave, buttonYSave,0);
 
                 playing = false;
@@ -375,8 +375,8 @@ public class MainMenu implements Screen {
         return new ClickListener() {
             boolean playing = false;
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                imgLoad.setHeight(26);
-                imgLoad.setWidth(70);
+                imgLoad.setHeight(28);
+                imgLoad.setWidth(68);
                 imgLoad.setPosition(buttonXLoad, buttonYLoad,0);
 
                 if (!playing) {
@@ -389,7 +389,7 @@ public class MainMenu implements Screen {
 
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 imgLoad.setHeight(32);
-                imgLoad.setWidth(74);
+                imgLoad.setWidth(72);
                 imgLoad.setPosition(buttonXLoad, buttonYLoad,0);
 
                 playing = false;

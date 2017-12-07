@@ -60,7 +60,7 @@ public class SplashScreen implements Screen{
             batch.draw(texture, 0, 0);
             batch.end();
             rendCount++;
-            if (TimeUtils.millis() > (startTime + 2000)) game.setScreen(new MainMenu(game));
+            if (TimeUtils.millis() > (startTime + 5000)) game.setScreen(new MainMenu(game));
 
         }
 
@@ -71,7 +71,7 @@ public class SplashScreen implements Screen{
         @Override
         public void show() {
             Gdx.app.log("my Splash Screen", "show called");
-            texture = new Texture(Gdx.files.internal("mainMenu0.png"));
+            texture = new Texture(Gdx.files.internal("splashScreen.png"));
             startTime = TimeUtils.millis();
         }
 
