@@ -99,14 +99,14 @@ public class MainMenu implements Screen {
         btnExit.setColor(0, 0, 0, 0);
         imgExit = new Image(myTexture);
 
-        myTexture = new Texture(Gdx.files.internal("btnSave.png"));
+        myTexture = new Texture(Gdx.files.internal("btnSaveBlack.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnSave = new ImageButton(myTexRegionDrawable);
         btnSave.setColor(0, 0, 0, 0);
         imgSave = new Image(myTexture);
 
-        myTexture = new Texture(Gdx.files.internal("btnLoad.png"));
+        myTexture = new Texture(Gdx.files.internal("btnLoadBlack.png"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         btnLoad = new ImageButton(myTexRegionDrawable);
