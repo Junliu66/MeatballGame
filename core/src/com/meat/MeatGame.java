@@ -144,16 +144,17 @@ public class MeatGame implements Screen {
         //indicate the pause button when new player starts the game.
         initInstructionStage = new Stage(new ScreenViewport(), game.batch);
         Skin labelSkin = new Skin(Gdx.files.internal("uiskin.json"));
-        Label label = new Label("Press P or Click Pause Button", labelSkin);
+        Label label = new Label(" ", labelSkin);
         label.setPosition(450,530);
         label.setColor(Color.BLACK);
 
         initInstructionStage.addActor(label);
 
-        Label labelBlood = new Label("Blood Points", labelSkin);
+        Label labelBlood = new Label(" ", labelSkin);
         labelBlood.setPosition(250,20);
         labelBlood.setColor(Color.BLACK);
         initInstructionStage.addActor(labelBlood);
+
         //*****Testing Enemy AI **** Comment out if needed
         ArrayList<Pair<Vector2, Float>> testPath = new ArrayList<Pair<Vector2, Float>>();
 
