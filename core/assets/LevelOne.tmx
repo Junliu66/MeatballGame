@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="v1.0.3-308-g1056357" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextobjectid="202">
+<map version="1.0" tiledversion="v1.0.3-308-g1056357" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextobjectid="204">
  <tileset firstgid="1" source="tabletop.tsx"/>
  <tileset firstgid="37" source="wallTile.tsx"/>
  <tileset firstgid="38" source="spaghetti.tsx"/>
  <tileset firstgid="74" source="BaseMapElements.tsx"/>
  <tileset firstgid="1098" source="pizza.tsx"/>
  <tileset firstgid="1107" source="beer.tsx"/>
- <layer name="Base" width="80" height="80" locked="1">
+ <tileset firstgid="1108" source="handwall.tsx"/>
+ <layer name="Base" width="80" height="80">
   <data encoding="csv">
 27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,
 27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,37,37,37,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,27,19,20,21,21,27,27,27,27,
@@ -423,4 +424,5 @@
    <point/>
   </object>
  </objectgroup>
+ <objectgroup name="helpHand"/>
 </map>
