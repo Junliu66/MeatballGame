@@ -19,7 +19,6 @@ public abstract class HandIntro extends Sprite {
         this.player = player;
         this.origX = x;
         this.setPosition(x, y);
-        this.setSize(50,50);
     }
 
     public void update(float dt)

@@ -144,14 +144,14 @@ public class MeatGame implements Screen {
         //indicate the pause button when new player starts the game.
         initInstructionStage = new Stage(new ScreenViewport(), game.batch);
         Skin labelSkin = new Skin(Gdx.files.internal("uiskin.json"));
-        Label label = new Label(" ", labelSkin);
-        label.setPosition(450,530);
+        Label label = new Label("Press P or Click it to Pause the Game", labelSkin);
+        label.setPosition(400,530);
         label.setColor(Color.BLACK);
 
         initInstructionStage.addActor(label);
 
-        Label labelBlood = new Label(" ", labelSkin);
-        labelBlood.setPosition(250,20);
+        Label labelBlood = new Label("Health Bar ", labelSkin);
+        labelBlood.setPosition(200,20);
         labelBlood.setColor(Color.BLACK);
         initInstructionStage.addActor(labelBlood);
 
@@ -682,9 +682,11 @@ public class MeatGame implements Screen {
             } else if (obj.getName().equals("tomato")) {
                 pickups.add(new Tomato(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
             } else if (obj.getName().equals("hand_init")) {
-                handInit.add(new HandPointer(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
             } else if (obj.getName().equals("hand")) {
-                handIntros.add(new HandPointer(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
+                MapProperties mapProperties = obj.getProperties();
+                String imagePath = (String) mapProperties.get("image");
+                if (imagePath != null)
+                    handIntros.add(new HandPointer(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player, imagePath));
             } else if(objName.equals("chasing_enemy")){
                 EllipseMapObject objBody = (EllipseMapObject) obj;
                 float positionX = objBody.getEllipse().x / TO_PIXELS;

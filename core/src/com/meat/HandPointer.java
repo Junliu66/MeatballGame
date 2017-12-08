@@ -6,12 +6,12 @@ import com.badlogic.gdx.math.Vector2;
 
 public class HandPointer extends HandIntro {
 
-    public HandPointer(float x, float y, Player player) {
-        super(new Texture("handleft.png"), x, y, player);
+    public HandPointer(float x, float y, Player player, String imagePath) {
+        super(new Texture(imagePath), x, y, player);
     }
 
-    public HandPointer(Vector2 position, Player player) {
-        super(new Texture("handleft.png"), position.x, position.y, player);
+    public HandPointer(Vector2 position, Player player, String imagePath) {
+        super(new Texture(imagePath), position.x, position.y, player);
     }
 
     @Override
