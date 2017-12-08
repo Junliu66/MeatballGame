@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" nextobjectid="214">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" nextobjectid="225">
  <tileset firstgid="1" source="tabletop.tsx"/>
  <tileset firstgid="37" source="wallTile.tsx"/>
  <tileset firstgid="38" source="BaseMapElements.tsx"/>
@@ -407,7 +407,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="186" name="path_enemy" x="1817.47" y="2065.24">
+  <object id="186" name="path_enemy" x="1817.47" y="2078.04">
    <properties>
     <property name="clockwise" type="bool" value="true"/>
     <property name="speed" type="float" value="1.2"/>
@@ -451,14 +451,14 @@
   <object id="199" name="hole" x="1479.73" y="2509.05">
    <polyline points="0,0 14.9719,-29.9439 24.9532,-32.4392 61.1354,-31.1915 73.612,-46.1634 71.1167,-113.537 79.8503,-126.014 101.061,-131.004 108.546,-160.948 133.5,-167.187 142.233,-190.892 189.644,-192.14 197.13,-203.369 205.864,-219.588 243.294,-225.827 250.78,-220.836 268.247,-237.056 215.845,-83.5933 0,1.24766"/>
   </object>
-  <object id="201" name="path_enemy" x="1226.49" y="2278.44">
+  <object id="201" name="path_enemy" x="1245.69" y="2303.47">
    <properties>
     <property name="clockwise" type="bool" value="true"/>
     <property name="speed" type="float" value="1.2"/>
    </properties>
-   <polygon points="0,0 261.406,-2.06084 261.406,173.625 0,174.656"/>
+   <polygon points="0,0 226.844,-1.49357 226.844,125.833 0,126.581"/>
   </object>
-  <object id="202" name="chasing_enemy" x="1968.98" y="2243.74" rotation="1.62">
+  <object id="202" name="chasing_enemy" x="1971.54" y="2207.89" rotation="1.62">
    <properties>
     <property name="max_radius" type="float" value="5"/>
     <property name="min_radius" type="float" value="3"/>
@@ -514,7 +514,49 @@
    </properties>
    <ellipse/>
   </object>
-  <object id="212" name="hole" x="1263.44" y="2319.51" width="190.732" height="94.7261"/>
+  <object id="212" name="hole" x="1264.72" y="2320.79" width="190.732" height="94.7261"/>
+  <object id="214" name="path_enemy" x="2306.46" y="1801.36">
+   <properties>
+    <property name="clockwise" type="bool" value="true"/>
+    <property name="speed" type="float" value="1.2"/>
+   </properties>
+   <polygon points="0,0 153.98,-0.946039 153.98,79.7036 0,80.1769"/>
+  </object>
+  <object id="215" name="path_enemy" x="1881.47" y="1638.94">
+   <properties>
+    <property name="clockwise" type="bool" value="true"/>
+    <property name="speed" type="float" value="1.2"/>
+   </properties>
+   <polygon points="0,0 171.901,-1.09532 171.901,92.2804 0,92.8284"/>
+  </object>
+  <object id="216" name="path_enemy" x="570.671" y="1611.93">
+   <properties>
+    <property name="clockwise" type="bool" value="true"/>
+    <property name="speed" type="float" value="1.2"/>
+   </properties>
+   <polygon points="0,0 165.501,-0.975895 165.501,82.219 0,82.7072"/>
+  </object>
+  <object id="217" name="path_enemy" x="152.084" y="1784.91">
+   <properties>
+    <property name="clockwise" type="bool" value="true"/>
+    <property name="speed" type="float" value="1.2"/>
+   </properties>
+   <polygon points="0,0 171.901,-1.1401 171.901,96.0535 0,96.6239"/>
+  </object>
+  <object id="223" name="path_enemy" x="1226.49" y="2279.7">
+   <properties>
+    <property name="clockwise" type="bool" value="false"/>
+    <property name="speed" type="float" value="1.2"/>
+   </properties>
+   <polygon points="0,0 265.246,-2.04591 265.246,172.368 0,173.391"/>
+  </object>
+  <object id="224" name="path_enemy" x="1204.72" y="2264.74">
+   <properties>
+    <property name="clockwise" type="bool" value="true"/>
+    <property name="speed" type="float" value="1.2"/>
+   </properties>
+   <polygon points="0,0 316.45,-2.44897 316.45,206.325 0,207.55"/>
+  </object>
  </objectgroup>
  <objectgroup name="Object Layer 2">
   <object id="53" name="tomato" x="878.788" y="848.485"/>
@@ -532,7 +574,7 @@
   <object id="66" name="tomato" x="2390.91" y="1842.42"/>
   <object id="67" name="tomato" x="1300" y="306.667"/>
   <object id="68" name="tomato" x="666.667" y="2242.42"/>
-  <object id="69" name="tomato" x="1869.7" y="2309.09"/>
+  <object id="69" name="tomato" x="1966.99" y="2268.13"/>
   <object id="70" name="tomato" x="2266.67" y="851.515"/>
   <object id="71" name="tomato" x="303.03" y="790.909"/>
   <object id="77" name="tomato" x="654.545" y="1657.58"/>
@@ -553,9 +595,6 @@
   <object id="136" name="obstacle_2" x="723.478" y="2249.47">
    <polyline points="0,0 20.2655,2.02655 30.3982,19.2522 27.3584,37.4911 43.5708,37.4911 45.5973,33.438 55.7301,39.5177 60.7964,54.7168 56.7433,66.8761 60.7964,71.9424 64.8495,80.0486 56.7433,93.2212 58.7699,100.314 63.8363,108.42 59.7832,123.619 52.6902,133.752 -86.1283,135.779 -102.341,118.553 -96.261,106.394 -101.327,89.1681 -86.1283,65.8628 -74.9823,70.9292 -63.8363,45.5973 -52.6902,35.4646 -44.5841,36.4779 -26.3451,5.06637 -21.2788,0"/>
   </object>
-  <object id="137" name="obstacle_1" x="1856.32" y="2136.99">
-   <polyline points="0,0 192.522,1.01327 192.522,189.482 187.456,210.761 70.9292,208.734 67.8894,194.549 57.7566,194.549 49.6504,119.566 8.10619,114.5 4.0531,98.2876 -6.07964,95.2477"/>
-  </object>
   <object id="139" name="obstacle_2" x="2087.46" y="267.399">
    <polyline points="0,0 155.342,0 169.682,22.6831 169.682,273.709 152.952,291.856 -7.16963,287.32 -21.5089,264.636 -17.924,15.122 -1.19494,-1.5122"/>
   </object>
@@ -565,9 +604,13 @@
   <object id="178" name="path_enemy" x="2253.75" y="1248.04">
    <properties>
     <property name="clockwise" type="bool" value="true"/>
-    <property name="speed" type="float" value="1.5"/>
+    <property name="speed" type="float" value="1.2"/>
    </properties>
    <polygon points="0,0 194.762,-0.55966 195.321,179.091 0,179.651"/>
   </object>
+  <object id="218" name="obstacle_1" x="1840.76" y="2098.05" width="94.7261" height="92.1659"/>
+  <object id="219" name="obstacle_1" x="2000.77" y="2127.5" width="94.7261" height="92.1659"/>
+  <object id="220" name="obstacle_1" x="1999.49" y="2288.79" width="94.7261" height="92.1659"/>
+  <object id="221" name="obstacle_1" x="1840.76" y="2256.78" width="94.7261" height="92.1659"/>
  </objectgroup>
 </map>
