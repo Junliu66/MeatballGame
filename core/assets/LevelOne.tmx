@@ -399,7 +399,7 @@
    </properties>
    <point/>
   </object>
-  <object id="210" name="hand" x="170" y="2416">
+  <object id="210" name="hand_init" x="170" y="2416">
    <properties>
     <property name="image" value="handleft.png"/>
    </properties>
@@ -453,7 +453,7 @@
    </properties>
    <point/>
   </object>
-  <object id="238" name="hand" x="767" y="1890">
+  <object id="238" name="hand_init" x="767" y="1890">
    <properties>
     <property name="image" value="handleft.png"/>
    </properties>

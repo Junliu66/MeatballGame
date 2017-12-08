@@ -682,6 +682,10 @@ public class MeatGame implements Screen {
             } else if (obj.getName().equals("tomato")) {
                 pickups.add(new Tomato(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
             } else if (obj.getName().equals("hand_init")) {
+                MapProperties mapProperties = obj.getProperties();
+                String imagePath = (String) mapProperties.get("image");
+                if (imagePath != null)
+                    handInit.add(new HandPointer(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player, imagePath));
             } else if (obj.getName().equals("hand")) {
                 MapProperties mapProperties = obj.getProperties();
                 String imagePath = (String) mapProperties.get("image");
