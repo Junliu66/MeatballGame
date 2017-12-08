@@ -177,6 +177,23 @@ public class MeatGame implements Screen {
         Float downDist = new Float(1.0f);
         Pair<Vector2, Float> downPair = new Pair(downVector, downDist);
         testPath.add(downPair);
+        /**
+         FixedPathEnemy newEnemy = new FixedPathEnemy(
+         new Vector2(playerStart.x + 2, playerStart.y + 1),
+         world,
+         1.0f,
+         player,
+         testPath
+         );
+         //enemies.add(newEnemy);
+         **/
+
+        //PlayerChasingEnemy
+        //PlayerChasingEnemy chasingEnemy = new PlayerChasingEnemy(new Vector2(playerStart.x + 5.5f, playerStart.y - 3.0f),
+        //world, 1.0f, player, 3.0f, 5.0f );
+
+        //enemies.add(chasingEnemy);
+        //***** End testing Enemy ****
 
         sauceTrail = new SauceTrail(player);
         debugRenderer = new Box2DDebugRenderer();
@@ -358,13 +375,13 @@ public class MeatGame implements Screen {
 
         bgTexture = new Texture("pauseBG.png");
         Image image = new Image(bgTexture);
-        image.setSize(800,600);
-        image.setColor(0,0,0,0.5f);
+        image.setSize(800, 600);
+        image.setColor(0, 0, 0, 0.5f);
 
 
         Skin labelSkin = new Skin(Gdx.files.internal("uiskin.json"));
         Label label = new Label("PAUSED", labelSkin);
-        label.setPosition(350,470);
+        label.setPosition(350, 470);
         label.setFontScale(2f);
 
         otherButtonTexture = new Texture(Gdx.files.internal("btnResume.png"));
@@ -618,7 +635,7 @@ public class MeatGame implements Screen {
                     Polygon polygon = ((PolygonMapObject) obj).getPolygon();
                     polygon.setPosition(((PolygonMapObject) obj).getPolygon().getX(), ((PolygonMapObject) obj).getPolygon().getY());
                     polygon.setRotation(((PolygonMapObject) obj).getPolygon().getRotation());
-                    shape= polygon;
+                    shape = polygon;
                 } else if (obj instanceof PolylineMapObject) {
                     Polygon polygon = new Polygon(((PolylineMapObject) obj).getPolyline().getVertices());
                     polygon.setPosition(
@@ -629,7 +646,7 @@ public class MeatGame implements Screen {
                 } else {
                     Gdx.app.log("Shape not recognized", "" + obj.getClass().getName());
                 }
-                if (shape!= null) {
+                if (shape != null) {
                     String obstacleKey = obj.getName().split("_")[1];
                     ArrayList<Shape2D> obstacleArea = new ArrayList<Shape2D>();
                     if (obstacles.containsKey(obstacleKey)) {
@@ -683,9 +700,7 @@ public class MeatGame implements Screen {
                 );
 
                 enemies.add(newEnemy);
-            }
-
-            else if(objName.equals("path_enemy")){
+            } else if (objName.equals("path_enemy")) {
                 PolygonMapObject objBody = (PolygonMapObject) obj;
                 MapProperties properties = obj.getProperties();
                 float speed = (float) properties.get("speed");

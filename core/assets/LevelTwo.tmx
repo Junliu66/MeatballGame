@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="2017.11.22" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextobjectid="489">
+<map version="1.0" tiledversion="2017.10.31" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextobjectid="490">
  <tileset firstgid="1" source="tabletop.tsx"/>
  <tileset firstgid="37" source="BaseMapElements.tsx"/>
  <layer name="Tile Layer 1" width="100" height="100">
@@ -225,76 +225,25 @@
   <object id="111" name="pepper" x="1424" y="1424">
    <point/>
   </object>
-  <object id="422" name="tomato" x="336" y="144">
-   <point/>
-  </object>
-  <object id="424" name="tomato" x="336" y="176">
-   <point/>
-  </object>
-  <object id="425" name="tomato" x="336" y="208">
-   <point/>
-  </object>
-  <object id="426" name="tomato" x="144" y="336">
-   <point/>
-  </object>
-  <object id="427" name="tomato" x="176" y="336">
-   <point/>
-  </object>
-  <object id="428" name="tomato" x="208" y="336">
-   <point/>
-  </object>
   <object id="429" name="tomato" x="240" y="336">
    <point/>
   </object>
   <object id="430" name="tomato" x="336" y="240">
    <point/>
   </object>
-  <object id="436" name="tomato" x="416" y="384">
+  <object id="437" name="tomato" x="424" y="440">
    <point/>
   </object>
-  <object id="437" name="tomato" x="384" y="416">
+  <object id="439" name="tomato" x="472" y="488">
    <point/>
   </object>
-  <object id="438" name="tomato" x="480" y="448">
-   <point/>
-  </object>
-  <object id="439" name="tomato" x="448" y="480">
-   <point/>
-  </object>
-  <object id="440" name="tomato" x="512" y="544">
-   <point/>
-  </object>
-  <object id="441" name="tomato" x="544" y="512">
-   <point/>
-  </object>
-  <object id="442" name="tomato" x="560" y="816">
-   <point/>
-  </object>
-  <object id="443" name="tomato" x="592" y="816">
-   <point/>
-  </object>
-  <object id="444" name="tomato" x="624" y="816">
+  <object id="440" name="tomato" x="528" y="544">
    <point/>
   </object>
   <object id="445" name="tomato" x="592" y="848">
    <point/>
   </object>
-  <object id="446" name="tomato" x="560" y="848">
-   <point/>
-  </object>
   <object id="447" name="tomato" x="560" y="880">
-   <point/>
-  </object>
-  <object id="448" name="tomato" x="592" y="880">
-   <point/>
-  </object>
-  <object id="449" name="tomato" x="624" y="880">
-   <point/>
-  </object>
-  <object id="450" name="tomato" x="624" y="848">
-   <point/>
-  </object>
-  <object id="451" name="tomato" x="1248" y="1312">
    <point/>
   </object>
   <object id="455" name="tomato" x="1184" y="1344">
@@ -303,25 +252,13 @@
   <object id="456" name="tomato" x="1136" y="1376">
    <point/>
   </object>
-  <object id="457" name="tomato" x="1312" y="1248">
-   <point/>
-  </object>
   <object id="459" name="tomato" x="1344" y="1184">
    <point/>
   </object>
   <object id="460" name="tomato" x="1376" y="1136">
    <point/>
   </object>
-  <object id="467" name="tomato" x="816" y="1296">
-   <point/>
-  </object>
-  <object id="468" name="tomato" x="848" y="1328">
-   <point/>
-  </object>
-  <object id="469" name="tomato" x="880" y="1360">
-   <point/>
-  </object>
-  <object id="470" name="tomato" x="912" y="1360">
+  <object id="470" name="tomato" x="912" y="1368">
    <point/>
   </object>
   <object id="471" name="tomato" x="816" y="1264">
@@ -342,34 +279,10 @@
   <object id="476" name="tomato" x="1440" y="1536">
    <point/>
   </object>
-  <object id="477" name="tomato" x="1960" y="1960">
+  <object id="479" name="tomato" x="1944" y="1864">
    <point/>
   </object>
-  <object id="478" name="tomato" x="1976" y="1944">
-   <point/>
-  </object>
-  <object id="479" name="tomato" x="1944" y="1976">
-   <point/>
-  </object>
-  <object id="480" name="tomato" x="1928" y="1992">
-   <point/>
-  </object>
-  <object id="482" name="tomato" x="1992" y="1928">
-   <point/>
-  </object>
-  <object id="483" name="tomato" x="2080" y="2080">
-   <point/>
-  </object>
-  <object id="484" name="tomato" x="2080" y="2048">
-   <point/>
-  </object>
-  <object id="485" name="tomato" x="2048" y="2080">
-   <point/>
-  </object>
-  <object id="486" name="tomato" x="2064" y="2080">
-   <point/>
-  </object>
-  <object id="487" name="tomato" x="2080" y="2056">
+  <object id="480" name="tomato" x="1856" y="1976">
    <point/>
   </object>
  </objectgroup>
@@ -474,7 +387,7 @@
    <polygon points="0,0 24,-24 88,-24 112,0 104,8 112,24 104,40 120,40 128,48 136,56 136,64 136,72 152,72 160,80 168,80 176,96 168,104 160,112 152,112 144,120 144,128 136,136 128,144 120,144 104,128 88,112 80,112 64,96 64,88 56,80 24,80 16,80 8,64 8,48 8,32 8,16"/>
   </object>
  </objectgroup>
- <objectgroup color="#ff0000" name="Holes" visible="0">
+ <objectgroup color="#ff0000" name="Holes">
   <object id="125" name="hole" x="848" y="1264" width="32" height="32">
    <ellipse/>
   </object>
