@@ -66,41 +66,42 @@ public class MainGame extends Game
 
     public void setScore(int numTomatoes, String lvlString)
     {
-        int earnedTrophies = numTomatoes / 10;
+        int earnedTrophies = (numTomatoes / 10) + 1;
+        System.out.println(earnedTrophies);
 
         switch (lvlString) {
             case "LevelOne.tmx":
-                if (numTrophies > earnedTrophies)
+                if (lvlTrophies[0] < earnedTrophies)
                 {
                     lvlTrophies[0] = earnedTrophies;
                 }
                 break;
             case "LevelTwo.tmx":
-                if (numTrophies > earnedTrophies)
+                if (lvlTrophies[1] < earnedTrophies)
                 {
                     lvlTrophies[1] = earnedTrophies;
                 }
                 break;
             case "LevelThree.tmx":
-                if (numTrophies > earnedTrophies)
+                if (lvlTrophies[2] < earnedTrophies)
                 {
                     lvlTrophies[2] = earnedTrophies;
                 }
                 break;
             case "LevelFour.tmx":
-                if (numTrophies > earnedTrophies)
+                if (lvlTrophies[3] < earnedTrophies)
                 {
                     lvlTrophies[3] = earnedTrophies;
                 }
                 break;
             case "LevelFive.tmx":
-                if (numTrophies > earnedTrophies)
+                if (lvlTrophies[4] < earnedTrophies)
                 {
                     lvlTrophies[4] = earnedTrophies;
                 }
                 break;
             case "LevelSix.tmx":
-                if (numTrophies > earnedTrophies)
+                if (lvlTrophies[5] < earnedTrophies)
                 {
                     lvlTrophies[5] = earnedTrophies;
                 }
