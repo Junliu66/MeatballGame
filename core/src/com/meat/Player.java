@@ -38,10 +38,11 @@ public class Player {
 
     /**
      *  @param spawnLoc The location the player spawns in the game.
-     * @param collisionLayer
-     * @param acceleration How fast the player accelerates.
+     *  @param acceleration How fast the player accelerates.
+     *  @param world the box2d world used in the current level
+     *  @param isPlayerOne whether the player is player one (not used)
      */
-    public Player(Vector2 spawnLoc, TiledMapTileLayer collisionLayer, float acceleration, World world, boolean isPlayerOne) {
+    public Player(Vector2 spawnLoc,  float acceleration, World world, boolean isPlayerOne) {
         this.meatTexture = new Texture(32, 32, Pixmap.Format.RGBA8888);
         this.acceleration = acceleration;
         this.input = new Vector2();
@@ -69,6 +70,11 @@ public class Player {
         circle.dispose();
     }
 
+    /**
+     * Handles movement input and updates the player's position
+     * @param game the running MeatGame instance
+     * @param dt the delta-time
+     */
     public void update(MeatGame game, float dt) {
         if (invincible)
             invincibleCounter += dt;
@@ -110,6 +116,10 @@ public class Player {
         }
     }
 
+    /**
+     * Renders the player
+     * @param batch the global SpriteBatch (declared in MainGame)
+     */
     public void render(SpriteBatch batch)
     {
         if (invincible) {
@@ -124,6 +134,10 @@ public class Player {
 
     }
 
+    /**
+     * Draws the player.
+     * @param batch the global SpriteBatch (declared in MainGame)
+     */
     public void draw(SpriteBatch batch)
     {
         int y = Math.round(1.25f * TO_PIXELS * body.getPosition().y % 64f);
@@ -142,6 +156,14 @@ public class Player {
 
     public Vector2 getPosition() {return body.getPosition();}
 
+    /**
+     * Takes a square Pixmap and cuts a circle out of it in a given radius
+     * @param pixmap The Pixmap to be cut
+     * @param xOff the x-offset of the circle cut
+     * @param yOff the y-offset of the circle cut
+     * @param radius the radius of the circle cut
+     * @return A Pixmap cutout of the given definitions.
+     */
     public static Pixmap roundPixmap(Pixmap pixmap, int xOff, int yOff, int radius)
     {
         Pixmap round = new Pixmap(radius*2, radius*2, Pixmap.Format.RGBA8888);
@@ -169,6 +191,10 @@ public class Player {
         return round;
     }
 
+    /**
+     * Handles collision reactions with holes and goals
+     * @param meatGame the running MeatGame instance
+     */
     public void checkCollisionMap(MeatGame meatGame) {
         float x = body.getWorldCenter().x * TO_PIXELS;
         float y = body.getWorldCenter().y * TO_PIXELS;
@@ -195,6 +221,12 @@ public class Player {
         checkObstacle(meatGame, x, y);
     }
 
+    /**
+     * Checks for collision with obstacles (lava and water). If found, reverse the player's velocity and lose a heart.
+     * @param meatGame the running MeatGame instance
+     * @param x the x position to be checked
+     * @param y the y position to be checked
+     */
     private void checkObstacle(MeatGame meatGame, float x, float y) {
         for (Obstacle ob : meatGame.getObstacles().values())
         {
@@ -213,6 +245,13 @@ public class Player {
         }
     }
 
+    /**
+     * Checks for collision with holes and goals at a given coordinate
+     * @param meatGame the running MeatGame instance
+     * @param x the x position to be checked
+     * @param y the y position to be checked
+     * @return GOAL if Player is over a goal, HOLE if Player is over a hole, else 0
+     */
     public int isCellBlocked(MeatGame meatGame, float x, float y) {
         for (Shape2D s : meatGame.goals)
         {
@@ -249,25 +288,43 @@ public class Player {
         this.acceleration = acceleration;
     }
 
+    /**
+     * adds a PlayerModifier
+     * @param modifier the PlayerModifier to add
+     */
     public void addModifier(PlayerModifier modifier) {
         modifers.add(modifier);
     }
 
+    /**
+     * Removes all playerModifiers
+     */
     public void clearModifiers() {
         for (PlayerModifier m : modifers)
             m.finished();
         modifers.clear();
     }
 
+    /**
+     *
+     * @return the pixel position of the player, as opposed to the box2d position
+     */
     public Vector2 getPixelPosition() {
         return new Vector2(body.getPosition().x * TO_PIXELS, body.getPosition().y * TO_PIXELS);
     }
 
+    /**
+     * makes the player invincible
+     * @param invincible
+     */
     public void setInvincible(boolean invincible) {
         this.invincible = invincible;
         invincibleCounter = 0f;
     }
 
+    /**
+     * Adds tomatoes
+     */
     public void addTomato() { numTomatoes++; }
 
     public int getNumTomatoes() { return numTomatoes; }

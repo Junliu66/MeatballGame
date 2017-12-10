@@ -5,6 +5,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * Garlic slows the player down
+ */
 public class Garlic extends Pickup {
 
     public Garlic(float x, float y, Player player) {
@@ -15,6 +18,9 @@ public class Garlic extends Pickup {
         super(new Texture("garlicSlow.png"), position.x, position.y, player);
     }
 
+    /**
+     * Adds a SpeedUp modifier set to 0.5x
+     */
     @Override
     public void effect() {
         Gdx.app.log("got", "Garlic");

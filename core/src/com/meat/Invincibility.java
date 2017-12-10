@@ -3,6 +3,9 @@ package com.meat;
 import com.meat.Player;
 import com.meat.PlayerModifier;
 
+/**
+ * Makes the player temporally invincible
+ */
 public class Invincibility extends PlayerModifier {
 
     public Invincibility(float duration, Player player) {

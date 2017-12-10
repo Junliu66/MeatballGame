@@ -11,6 +11,9 @@ import java.util.ArrayList;
 
 import static com.meat.MeatGame.TO_PIXELS;
 
+/**
+ * Handles drawing of the sauce trail behind the player
+ */
 public class SauceTrail {
 
     private static int SECTION_WIDTH = 800;
@@ -24,6 +27,10 @@ public class SauceTrail {
     private Rectangle lastInside;
     private Pixmap blood;
 
+    /**
+     * Sets up the SauceTrail
+     * @param player the Player
+     */
     public SauceTrail(Player player)
     {
         this.player = player;
@@ -36,6 +43,11 @@ public class SauceTrail {
         coords.add(lastInside);
     }
 
+    /**
+     * Draws new pieces of the sauce trail to the current Texture.
+     * Checks if another Texture needs to be allocated.
+     * @param dt the delta time
+     */
     public void update(float dt)
     {
         Vector2 pos = player.getPixelPosition().add(-8, 8);
@@ -80,7 +92,7 @@ public class SauceTrail {
             coords.add(furthest, new Rectangle(newX, newY, SECTION_WIDTH, SECTION_HEIGHT));
         }
 
-        if (lastPos.dst(pos) > 5 && currentTexture != null) {
+        if (lastPos.dst(pos) > 8 && currentTexture != null) {
             Pixmap bloodRotated = rotatePixmap(blood, (float) ( (Math.atan2(player.body.getLinearVelocity().x, player.body.getLinearVelocity().y) + 0) / (2*Math.PI) ) * 360f + 90f);
 //            Gdx.app.log("Player pos", ""+pos);
 //            Gdx.app.log("lastinside", ""+lastInside.toString());
@@ -91,6 +103,10 @@ public class SauceTrail {
         }
     }
 
+    /**
+     * Draws the SauceTrail
+     * @param batch the global SpriteBatch
+     */
     public void draw(SpriteBatch batch)
     {
         for (int i = 0; i < sections.size(); i++)
@@ -99,6 +115,12 @@ public class SauceTrail {
         }
     }
 
+    /**
+     * Rotates a pixmap
+     * @param src the Pixmap to rotate
+     * @param angle the angle to rotate at
+     * @return the rotated Pixmap
+     */
     public Pixmap rotatePixmap (Pixmap src, float angle){
         final int width = src.getWidth();
         final int height = src.getHeight();

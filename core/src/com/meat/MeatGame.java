@@ -123,7 +123,7 @@ public class MeatGame implements Screen {
         handInit = new ArrayList<HandIntro>();
         finishedPickups = new ArrayList<Pickup>();
         playerStart = new Vector2(0, 0);
-        player = new Player(new Vector2(playerStart.x, playerStart.y), collisionLayer, 24f, world, true);
+        player = new Player(new Vector2(playerStart.x, playerStart.y), 24f, world, true);
         enemies = new ArrayList<Enemy>();
         // parse Tiled objects
         for (MapLayer layer : tiledMap.getLayers())
