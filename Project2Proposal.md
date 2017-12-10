@@ -167,7 +167,13 @@ Deliverables include:
 | Project Proposal                        | November 9, 2017  |
 | Project structure done; tasks assigned. | November 10, 2017 |
 | Player movement done, Map loading       | November 16, 2017 |
-| Player can fall off level               | November 23, 2017 |
-| Collision between obstacles and player  | November 28, 2017 |
-|                                         | September 7, 2017 |
-| Final Presentation                      | December 14, 2017 |
+| Collision between obstacles and player  | November 21, 2017 |
+| Main Menu, Help Screen                  | November 22, 2017 |
+| Player can fall off level               | November 24, 2017 |
+| Player can fall off level               | November 24, 2017 |
+| Path enemies                            | November 30, 2017 |
+| Chasing enemies                         | December 1, 2017  |
+| Sounds                                  | December 1, 2017  |
+| Pause Screen                            | December 5, 2017  |
+| All levels done                         | December 5, 2017  |
+| Final Presentation                      | December 7, 2017 |
