@@ -29,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.meat.Objects.Obstacle;
 import javafx.util.Pair;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,9 +48,8 @@ public class MeatGame implements Screen {
     final MainGame game;
     public ArrayList<Shape2D> holes;
     public ArrayList<Shape2D> goals;
-
+    Sound sound;
     private Map<String, Obstacle> obstacles = null;
-
     private TiledMap tiledMap;
     private TiledMapRenderer tiledMapRenderer;
     private TiledMapTileLayer collisionLayer;
@@ -65,7 +65,6 @@ public class MeatGame implements Screen {
     private ShapeRenderer shapeRenderer;
     private Vector2 playerStart;
     private SauceTrail sauceTrail;
-
     private String lvlString;
     private ArrayList<Enemy> enemies;
     private ArrayList<Pickup> pickups;
@@ -77,20 +76,16 @@ public class MeatGame implements Screen {
     private Button btnResume;
     private Button btnLevelSelect;
     private Button btnMainMenu;
-
     private boolean paused;
     private Texture pauseButtonTexture, otherButtonTexture, bgTexture;
     private TextureRegion myTextureRegion;
     private TextureRegionDrawable myTexRegionDrawable;
 
-    Sound sound;
-
-
 
     public MeatGame(final MainGame game, String lvlName) {
         this.game = game;
         this.lvlString = lvlName;
-        // TODO currentBloodPoint-- if hit any blood-losing object
+        //currentBloodPoint-- if hit any blood-losing object
         currentBloodPoint = TOTAL_BLOOD_POINTS;
         shapeRenderer = new ShapeRenderer();
 
@@ -144,14 +139,15 @@ public class MeatGame implements Screen {
         //indicate the pause button when new player starts the game.
         initInstructionStage = new Stage(new ScreenViewport(), game.batch);
         Skin labelSkin = new Skin(Gdx.files.internal("uiskin.json"));
+        //auto tutorial of pause button
         Label label = new Label("Press P or Click it to Pause the Game", labelSkin);
-        label.setPosition(400,530);
+        label.setPosition(400, 530);
         label.setColor(Color.BLACK);
 
         initInstructionStage.addActor(label);
-
+        //auto tutorial of health bar
         Label labelBlood = new Label("Health Bar ", labelSkin);
-        labelBlood.setPosition(200,20);
+        labelBlood.setPosition(200, 20);
         labelBlood.setColor(Color.BLACK);
         initInstructionStage.addActor(labelBlood);
 
@@ -203,12 +199,14 @@ public class MeatGame implements Screen {
         resume();
     }
 
-
+    /**
+     * Render for the pause,enemies,auto tutorial,
+     * @param dt
+     */
     @Override
     public void render(float dt) {
 
-        if (Gdx.input.isKeyJustPressed(Config.pause))
-        {
+        if (Gdx.input.isKeyJustPressed(Config.pause)) {
             paused = !paused;
             if (paused)
                 pause();
@@ -216,8 +214,7 @@ public class MeatGame implements Screen {
                 resume();
         }
 
-        if (paused)
-        {
+        if (paused) {
 
         } else {
             doPhysicsStep(dt);
@@ -253,7 +250,7 @@ public class MeatGame implements Screen {
                 HandIntro handIntro = handIntros.get(i);
                 handIntro.update(dt);
                 float distToPlayer = handIntro.getCenter().dst(player.getPixelPosition());
-                if (distToPlayer <= (64+handIntro.getWidth()/2)) {
+                if (distToPlayer <= (64 + handIntro.getWidth() / 2)) {
                     handIntros.remove(i);
                 }
             }
@@ -278,11 +275,11 @@ public class MeatGame implements Screen {
         player.render(game.batch);
         for (Pickup p : pickups)
             p.draw(game.batch);
-        for(HandIntro h: handIntros)
+        for (HandIntro h : handIntros)
             h.draw(game.batch);
-        for(HandIntro h: handInit)
+        for (HandIntro h : handInit)
             h.draw(game.batch);
-        for(Enemy e : enemies){
+        for (Enemy e : enemies) {
             e.draw(game.batch);
         }
         game.batch.end();
@@ -304,6 +301,9 @@ public class MeatGame implements Screen {
         }
     }
 
+    /**
+     * Display the health bar on game screen, when meetball touch the water or lava, it reduces one blood.
+     */
     private void displayBloodPoints() {
         Stage bpStage = new Stage(new ScreenViewport(), game.batch);
         Texture myTexture = new Texture(Gdx.files.internal("blod.png"));
@@ -350,6 +350,11 @@ public class MeatGame implements Screen {
 
     }
 
+    /**
+     * Use to debug and test the objects like hole goal, wall on the game map
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
         // scales to fixed viewport width
@@ -368,6 +373,9 @@ public class MeatGame implements Screen {
         box2DCamera.update();
     }
 
+    /**
+     * The pause screen set up
+     */
     @Override
     public void pause() {
         // show the pause screen here
@@ -416,6 +424,9 @@ public class MeatGame implements Screen {
 
     }
 
+    /**
+     * when press the button P, hide the pause button
+     */
     @Override
     public void resume() {
         // hide the pause screen here
@@ -443,6 +454,10 @@ public class MeatGame implements Screen {
         background.dispose();
     }
 
+    /**
+     * Add eventlistener when call the pause function
+     * @return
+     */
     private EventListener getPauseListener() {
         return new ClickListener() {
             @Override
@@ -495,13 +510,17 @@ public class MeatGame implements Screen {
                 Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
                 sound.play(1F);
                 pauseStage.clear();
-                game.setScreen(new MainMenu(game));;
+                game.setScreen(new MainMenu(game));
+                ;
             }
 
         };
     }
 
-
+    /**
+     * set up collision map, all the elements display on the game map will
+     * @param objectLayer
+     */
     private void parseTiledObjects(MapLayer objectLayer) {
         BodyDef wallDef = new BodyDef();
         wallDef.type = BodyDef.BodyType.StaticBody;
@@ -674,14 +693,15 @@ public class MeatGame implements Screen {
                         Obstacle obstacle = new Obstacle(restart, shapes);
                         obstacles.put(obstacleKey, obstacle);
                     }
-                }
+                }// get pepper,garlic,and tomato pickup function works
             } else if (obj.getName().equals("pepper")) {
                 pickups.add(new Pepper(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
             } else if (obj.getName().equals("garlic")) {
                 pickups.add(new Garlic(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
             } else if (obj.getName().equals("tomato")) {
                 pickups.add(new Tomato(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player));
-            } else if (obj.getName().equals("hand_init")) {
+            }//the hands if methond, make auto tutorial works for level one and two.
+            else if (obj.getName().equals("hand_init")) {
                 MapProperties mapProperties = obj.getProperties();
                 String imagePath = (String) mapProperties.get("image");
                 if (imagePath != null)
@@ -691,7 +711,7 @@ public class MeatGame implements Screen {
                 String imagePath = (String) mapProperties.get("image");
                 if (imagePath != null)
                     handIntros.add(new HandPointer(((RectangleMapObject) obj).getRectangle().getX(), ((RectangleMapObject) obj).getRectangle().getY(), player, imagePath));
-            } else if(objName.equals("chasing_enemy")){
+            } else if (objName.equals("chasing_enemy")) {
                 EllipseMapObject objBody = (EllipseMapObject) obj;
                 float positionX = objBody.getEllipse().x / TO_PIXELS;
                 float positionY = objBody.getEllipse().y / TO_PIXELS;
@@ -760,20 +780,28 @@ public class MeatGame implements Screen {
         shapeRenderer.end();
     }
 
+    /**
+     * lose screen function it can restart the level
+     */
     public void lose() {
         currentBloodPoint = TOTAL_BLOOD_POINTS;
         game.setScreen(new GameOverScreen(game, lvlString));
     }
 
+    /**
+     * win screen function it can go to the next level
+     */
     public void congrats() {
         int numTomatoes = player.getNumTomatoes();
         game.setScore(numTomatoes, lvlString);
-        System.out.println("numTomatoes: " + numTomatoes + "\nPlayer.getNumTomatoes: "  + player.getNumTomatoes() + "\nlvlString: " + lvlString + "\ngame.lvlTrophies[0]:" + game.lvlTrophies[0] + "\n");
+        System.out.println("numTomatoes: " + numTomatoes + "\nPlayer.getNumTomatoes: " + player.getNumTomatoes() + "\nlvlString: " + lvlString + "\ngame.lvlTrophies[0]:" + game.lvlTrophies[0] + "\n");
 
         currentBloodPoint = TOTAL_BLOOD_POINTS;
         game.setScreen(new CongratsScreen(game, lvlString, numTomatoes));
     }
-
+    /**
+     * win screen function it can go to the next level
+     */
     public void reduceBlood() {
         currentBloodPoint--;
         if (currentBloodPoint <= 0) {

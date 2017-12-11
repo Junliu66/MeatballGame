@@ -192,7 +192,7 @@ public class Player {
     }
 
     /**
-     * Handles collision reactions with holes and goals
+d     * Handles collision reactions with holes and goals
      * @param meatGame the running MeatGame instance
      */
     public void checkCollisionMap(MeatGame meatGame) {

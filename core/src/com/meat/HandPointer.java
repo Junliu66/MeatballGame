@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * make the different hand introduction of images work on the game map
+ */
 public class HandPointer extends HandIntro {
 
     public HandPointer(float x, float y, Player player, String imagePath) {

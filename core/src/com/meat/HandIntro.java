@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.meat.Player;
-
+/**
+ * make a new HandIntro class as Sprite to set up the auto tutorial function work for game
+ */
 public abstract class HandIntro extends Sprite {
 
     private float hoverTimer = 0f;

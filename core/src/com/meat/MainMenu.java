@@ -63,6 +63,9 @@ public class MainMenu implements Screen {
         this.game = game;
     }
 
+    /**
+     * different image buttons display on the main menu screen
+     */
     public void show() {
         stage = new Stage(new ScreenViewport());
         texture = new Texture("mainMenuOriginal.png");

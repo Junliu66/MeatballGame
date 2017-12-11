@@ -5,6 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
+/**
+ * set up obstacle function when meatball touch obstacles(water and lava)
+ */
 public class Obstacle {
 
     private Vector2 restartPoint;
