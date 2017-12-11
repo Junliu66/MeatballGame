@@ -12,6 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+/**
+ * This class shows the victory screen when you complete a level, it shows
+ * how many of the twenty tomatoes that the player earned in the level.
+ */
 public class CongratsScreen implements Screen {
     private MainGame game;
     private Button nextLevel;
@@ -27,8 +31,12 @@ public class CongratsScreen implements Screen {
     Image tomatoes[] = new Image[20];
     Image emptyTomatoes[] = new Image[20];
 
-
-
+    /**
+     * Constructor for the victory screen.
+     * @param game Main game class, used for passing values between screens
+     * @param lvlName name of the level that called this screen
+     * @param numTomatoes number of tomatoes earned in the last level
+     */
     public  CongratsScreen(MainGame game, String lvlName, int numTomatoes) {
         this.game = game;
         this.lvlString = lvlName;
@@ -36,6 +44,9 @@ public class CongratsScreen implements Screen {
         stage = new Stage(new ScreenViewport(), game.batch);
     }
 
+    /**
+     * sets up the scene for the victory screen
+     */
     @Override
     public void show() {
         texture = new Texture("clouds_bg.png");
@@ -70,6 +81,10 @@ public class CongratsScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
 
+    /**
+     * This function shows the amount of tomatoes that were earned in the last
+     * round and how many were still missing.
+     */
     private void showTomatoes() {
         for (int i = 0; i < 20; i++) {
             if (numTomatoes > 0)
@@ -90,7 +105,11 @@ public class CongratsScreen implements Screen {
         }
     }
 
-    //TODO: fix it to connect next level
+    /**
+     * Fucntion that attaches to the next level button, checks the level completed and calls
+     * a new meatgame object with the next level file.
+     * @return
+     */
     private ClickListener getNextLevel() {
         return new ClickListener() {
             @Override
@@ -105,7 +124,17 @@ public class CongratsScreen implements Screen {
                         game.setScreen(new MeatGame(game, "LevelThree.tmx"));
                         break;
                     case "LevelThree.tmx":
-                        game.setScreen(new MeatGame(game, "LevelOne.tmx"));
+                        game.setScreen(new MeatGame(game, "LevelFour.tmx"));
+                        break;
+                    case "LevelFour.tmx":
+                        game.setScreen(new MeatGame(game, "LevelFive.tmx"));
+                        break;
+                    case "LevelFive.tmx":
+                        game.setScreen(new MeatGame(game, "LevelSix.tmx"));
+                        break;
+                    case "LevelSix.tmx":
+                        game.setScreen(new LevelSelectScreen(game));
+                        break;
                     default:
                         game.setScreen(new LevelSelectScreen(game));
                         break;
@@ -116,6 +145,10 @@ public class CongratsScreen implements Screen {
     }
 
 
+    /**
+     * Function for the level select button, sets up the level select screen when clicked.
+     * @return
+     */
     private EventListener getLevelSelectionListener() {
         return new ClickListener(){
             @Override
@@ -128,6 +161,10 @@ public class CongratsScreen implements Screen {
         };
     }
 
+    /**
+     * Function for the menu button, sets up the menu screen when clicked.
+     * @return
+     */
     private EventListener getMenuListener() {
         return new ClickListener(){
             @Override
@@ -139,6 +176,10 @@ public class CongratsScreen implements Screen {
         };
     }
 
+    /**
+     * function called every frame to update the scene.
+     * @param delta
+     */
     @Override
     public void render(float delta) {
         stage.act(Gdx.graphics.getDeltaTime());

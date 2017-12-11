@@ -17,6 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+/**
+ * Creates the screen that allows the user to select the level that they want to play.
+ */
 public class LevelSelectScreen implements Screen {
     MainGame game;
     OrthographicCamera camera;
@@ -60,9 +63,15 @@ public class LevelSelectScreen implements Screen {
 
     Button btnPause;
 
-
+    /**
+     * Constructor for the level select screen.
+     * @param game Holds the maingame class to pass values between scenes.
+     */
     public LevelSelectScreen(MainGame game) { this.game = game; }
 
+    /**
+     * This function sets up the screen with images and buttons.
+     */
     public void show() {
         stage = new Stage(new ScreenViewport());
         texture = new Texture("LevelSelectBg.png");
@@ -164,12 +173,15 @@ public class LevelSelectScreen implements Screen {
         texture = new Texture("tomato.png");
         Image filledTrophy = new Image(texture);
 
-        drawTrophies(emptyTrophy, filledTrophy);
+        drawTrophies();
 
         Gdx.input.setInputProcessor(stage);
     }
 
-    private void drawTrophies(Image emptyTrophy, Image filledTrophy) {
+    /**
+     * This function displays the highest level trophy that a player managed to receive on a given level.
+     */
+    private void drawTrophies() {
         int[] levelXPos =  {buttonXLvlOne, buttonXLvlTwo, buttonXLvlThree, buttonXLvlFour, buttonXLvlFive, buttonXLvlSix};
         int[] levelYPos =  {buttonYLvlOne, buttonYLvlTwo, buttonYLvlThree, buttonYLvlFour, buttonYLvlFive, buttonYLvlSix};
 
@@ -249,6 +261,10 @@ public class LevelSelectScreen implements Screen {
 
     }
 
+    /**
+     * function called every frame to update scene
+     * @param delta time between frames
+     */
     @Override
     public void render(float delta) {
 
@@ -289,6 +305,9 @@ public class LevelSelectScreen implements Screen {
 
     }
 
+    /**
+     * garbage collecting function
+     */
     @Override
     public void dispose() {
         myTexture.dispose();
@@ -296,9 +315,22 @@ public class LevelSelectScreen implements Screen {
         batch.dispose();
     }
 
+    /**
+     * Button function for the level one button
+     * @return click listener for level one button
+     */
     private ClickListener getLvlOneListener() {
         return new ClickListener() {
             boolean playing = false;
+
+            /**
+             * notifies player when they enter into button's radius with sound and highlighting the button.
+             * @param event
+             * @param x
+             * @param y
+             * @param pointer
+             * @param fromActor
+             */
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                 if (!playing) {
@@ -312,6 +344,14 @@ public class LevelSelectScreen implements Screen {
                 iconSelectedY = buttonYLvlOne;
             }
 
+            /**
+             * removes the highlighting around the button.
+             * @param event
+             * @param x
+             * @param y
+             * @param pointer
+             * @param toActor
+             */
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
                 stage.draw();
@@ -319,6 +359,12 @@ public class LevelSelectScreen implements Screen {
                 playing = false;
             }
 
+            /**
+             * Plays a click sound, clears the stage and sets the screen to the level selected.
+             * @param event
+             * @param x
+             * @param y
+             */
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
@@ -332,9 +378,22 @@ public class LevelSelectScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the level two button
+     * @return click listener for level two button
+     */
     private ClickListener getLvlTwoListener() {
         return new ClickListener() {
             boolean playing = false;
+
+            /**
+             * notifies player when they enter into button's radius with sound and highlighting the button.
+             * @param event
+             * @param x
+             * @param y
+             * @param pointer
+             * @param fromActor
+             */
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
 
@@ -349,6 +408,14 @@ public class LevelSelectScreen implements Screen {
                 iconSelectedY = buttonYLvlTwo;
             }
 
+            /**
+             * removes the highlighting around the button.
+             * @param event
+             * @param x
+             * @param y
+             * @param pointer
+             * @param toActor
+             */
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
 
@@ -358,6 +425,12 @@ public class LevelSelectScreen implements Screen {
 
             }
 
+            /**
+             * Plays a click sound, clears the stage and sets the screen to the level selected.
+             * @param event
+             * @param x
+             * @param y
+             */
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
@@ -370,9 +443,22 @@ public class LevelSelectScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the level three button
+     * @return click listener for level three button
+     */
     private ClickListener getLvlThreeListener() {
         return new ClickListener() {
             boolean playing = false;
+
+            /**
+             * notifies player when they enter into button's radius with sound and highlighting the button.
+             * @param event
+             * @param x
+             * @param y
+             * @param pointer
+             * @param fromActor
+             */
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                 if (!playing) {
@@ -386,6 +472,14 @@ public class LevelSelectScreen implements Screen {
                 iconSelectedY = buttonYLvlThree;
             }
 
+            /**
+             * removes the highlighting around the button.
+             * @param event
+             * @param x
+             * @param y
+             * @param pointer
+             * @param toActor
+             */
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
 
@@ -395,6 +489,12 @@ public class LevelSelectScreen implements Screen {
 
             }
 
+            /**
+             * Plays a click sound, clears the stage and sets the screen to the level selected.
+             * @param event
+             * @param x
+             * @param y
+             */
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Sound sound = Gdx.audio.newSound(Gdx.files.internal("btnClick.mp3"));
@@ -407,9 +507,22 @@ public class LevelSelectScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the level four button
+     * @return click listener for level four button
+     */
     private ClickListener getLvlFourListener() {
         return new ClickListener() {
             boolean playing = false;
+
+            /**
+             * notifies player when they enter into button's radius with sound and highlighting the button.
+             * @param event
+             * @param x
+             * @param y
+             * @param pointer
+             * @param fromActor
+             */
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                 if (!playing) {
@@ -423,6 +536,14 @@ public class LevelSelectScreen implements Screen {
                 iconSelectedY = buttonYLvlFour;
             }
 
+            /**
+             * removes the highlighting around the button.
+             * @param event
+             * @param x
+             * @param y
+             * @param pointer
+             * @param toActor
+             */
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
 
@@ -432,6 +553,12 @@ public class LevelSelectScreen implements Screen {
 
             }
 
+            /**
+             * Plays a click sound, clears the stage and sets the screen to the level selected.
+             * @param event
+             * @param x
+             * @param y
+             */
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
@@ -444,9 +571,22 @@ public class LevelSelectScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the level five button
+     * @return click listener for level five button
+     */
     private ClickListener getLvlFiveListener() {
         return new ClickListener() {
             boolean playing = false;
+
+            /**
+             * notifies player when they enter into button's radius with sound and highlighting the button.
+             * @param event
+             * @param x
+             * @param y
+             * @param pointer
+             * @param fromActor
+             */
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                 if (!playing) {
@@ -460,6 +600,14 @@ public class LevelSelectScreen implements Screen {
                 iconSelectedY = buttonYLvlFive;
             }
 
+            /**
+             * removes the highlighting around the button.
+             * @param event
+             * @param x
+             * @param y
+             * @param pointer
+             * @param toActor
+             */
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
 
@@ -469,6 +617,12 @@ public class LevelSelectScreen implements Screen {
 
             }
 
+            /**
+             * Plays a click sound, clears the stage and sets the screen to the level selected.
+             * @param event
+             * @param x
+             * @param y
+             */
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
@@ -481,9 +635,22 @@ public class LevelSelectScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the level six button
+     * @return click listener for level six button
+     */
     private ClickListener getLvlSixListener() {
         return new ClickListener() {
             boolean playing = false;
+
+            /**
+             * notifies player when they enter into button's radius with sound and highlighting the button.
+             * @param event
+             * @param x
+             * @param y
+             * @param pointer
+             * @param fromActor
+             */
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                 if (!playing) {
@@ -497,6 +664,14 @@ public class LevelSelectScreen implements Screen {
                 iconSelectedY = buttonYLvlSix;
             }
 
+            /**
+             * removes the highlighting around the button.
+             * @param event
+             * @param x
+             * @param y
+             * @param pointer
+             * @param toActor
+             */
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
 
@@ -506,6 +681,12 @@ public class LevelSelectScreen implements Screen {
 
             }
 
+            /**
+             * Plays a click sound, clears the stage and sets the screen to the level selected.
+             * @param event
+             * @param x
+             * @param y
+             */
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
@@ -518,9 +699,22 @@ public class LevelSelectScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the back button
+     * @return click listener for back button
+     */
     private ClickListener getBackListener() {
         return new ClickListener() {
             boolean playing = false;
+
+            /**
+             * notifies player when they enter into button's radius with sound and highlighting the button.
+             * @param event
+             * @param x
+             * @param y
+             * @param pointer
+             * @param fromActor
+             */
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
 
                 if (!playing) {
@@ -531,6 +725,14 @@ public class LevelSelectScreen implements Screen {
                 stage.draw();
             }
 
+            /**
+             * removes the highlighting around the button.
+             * @param event
+             * @param x
+             * @param y
+             * @param pointer
+             * @param toActor
+             */
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
 
 
@@ -540,6 +742,12 @@ public class LevelSelectScreen implements Screen {
 
             }
 
+            /**
+             * Plays a click sound, clears the stage and sets the screen back to the main menu.
+             * @param event
+             * @param x
+             * @param y
+             */
             @Override
             public void clicked(InputEvent event, float x, float y) {
 

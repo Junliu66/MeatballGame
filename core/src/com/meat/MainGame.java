@@ -12,6 +12,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+/**
+ * The main game class, used for passing values between levels and other screens, also has a simple save game feature.
+ */
 public class MainGame extends Game
 {
     public SpriteBatch batch;
@@ -23,31 +26,36 @@ public class MainGame extends Game
 
     public MeatGame meatGame = null;
 
+    /**
+     * On creation of the main game class, sets the scene to the SplashScreen
+     */
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont();
         this.setScreen(new SplashScreen(this));
     }
 
+    /**
+     * function called every frame to update scene, not used for MainGame
+     */
     public void render() {
         super.render();
         batch.begin();
         batch.end();
     }
 
+    /**
+     * garbage collecting function
+     */
     public void dispose() {
         batch.dispose();
         font.dispose();
     }
 
-    public int getTrophies(){
-        return numTrophies;
-    }
-
-    public int[] getLvlTrophies() {
-        return lvlTrophies;
-    }
-
+    /**
+     * Save game function, saves how many trophies that you've received in each level.
+     * @throws IOException
+     */
     public void saveGame()
             throws IOException {
         String str = totalScore + "\n" + numTrophies + "\n";
@@ -64,6 +72,12 @@ public class MainGame extends Game
         String read = Files.readAllLines(path).get(0);
     }
 
+    /**
+     * Retrieves the number of tomatoes received in the last completed level if the level of
+     * trophy is higher than what was earned previously, adds it to the trophy array for that level.
+     * @param numTomatoes Number of tomatoes earned in the last completed level.
+     * @param lvlString Name of the level completed.
+     */
     public void setScore(int numTomatoes, String lvlString)
     {
         int earnedTrophies = (numTomatoes / 10) + 1;
@@ -111,6 +125,11 @@ public class MainGame extends Game
         }
     }
 
+    /**
+     * retrieves the save information from the save file. Updates the lvlTrophies array with
+     * data from the text file.
+     * @throws FileNotFoundException
+     */
     public void loadGame ()
             throws FileNotFoundException {
         File file = new File("save.txt");
