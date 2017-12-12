@@ -21,6 +21,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
 
+/**
+ * This class create a screen let user change the control button
+ */
 public class ControlMenu extends Stage implements Screen {
 
     final MainGame game;
@@ -59,12 +62,11 @@ public class ControlMenu extends Stage implements Screen {
     Stage stage;
     Image imgBack;
 
-    TextButton playerUp;
-    TextButton playerDown;
-    TextButton playerLeft;
-    TextButton playerRight;
 
-
+    /**
+     * Constructor for the control manu screen.
+     * @param game Holds the maingame class to pass values between scenes.
+     */
 
     public ControlMenu(MainGame game){
         this.game = game;
@@ -166,6 +168,10 @@ public class ControlMenu extends Stage implements Screen {
 
     }
 
+    /**
+     * function called every frame to update scene
+     * @param delta time between frames
+     */
     public void render(float delta){
         camera.update();
         Gdx.gl.glClearColor(1, 0, 0, 1);
@@ -187,6 +193,10 @@ public class ControlMenu extends Stage implements Screen {
 
     }
 
+    /**
+     * Button function for the back button
+     * @return click listener for back button
+     */
     private ClickListener getBackListener() {
         return new ClickListener(){
 
@@ -223,6 +233,10 @@ public class ControlMenu extends Stage implements Screen {
         };
     }
 
+    /**
+     * Button function for the change control button
+     * @return click listener for change control button
+     */
     public ClickListener getChangeControlListener(){
         return new ClickListener(){
             public void clicked(InputEvent event, float x, float y){

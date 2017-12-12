@@ -1,7 +1,5 @@
 package com.meat;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
@@ -12,15 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TiledDrawable;
-import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * This class creates a screen of main menu of the game
+ */
 public class MainMenu implements Screen {
     MainGame game;
     OrthographicCamera camera;
@@ -158,6 +156,10 @@ public class MainMenu implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
 
+    /**
+     * function called every frame to update scene
+     * @param delta time between frames
+     */
     @Override
     public void render(float delta) {
 
@@ -192,6 +194,10 @@ public class MainMenu implements Screen {
         batch.dispose();
     }
 
+    /**
+     * Button function for the play button
+     * @return click listener for play button
+     */
     private ClickListener getPlayListener(){
         return new ClickListener(){
             boolean playing = false;
@@ -232,6 +238,10 @@ public class MainMenu implements Screen {
         };
     }
 
+    /**
+     * Button function for the help button
+     * @return click listener for help button
+     */
     private ClickListener getHelpListener(){
         return new ClickListener(){
             boolean playing = false;
@@ -268,6 +278,10 @@ public class MainMenu implements Screen {
         };
     }
 
+    /**
+     * Button function for the settings button
+     * @return click listener for settings button
+     */
     private ClickListener getSettingsListener(){
         return new ClickListener(){
             boolean playing = false;
@@ -302,6 +316,10 @@ public class MainMenu implements Screen {
         };
     }
 
+    /**
+     * Button function for the exit button
+     * @return click listener for exit button
+     */
     private ClickListener getExitListener(){
         return new ClickListener(){
             boolean playing = false;
@@ -337,6 +355,10 @@ public class MainMenu implements Screen {
         };
     }
 
+    /**
+     * Button function for the save button
+     * @return click listener for save button
+     */
     private ClickListener getSaveListener() {
         return new ClickListener() {
             boolean playing = false;
@@ -374,6 +396,10 @@ public class MainMenu implements Screen {
         };
     }
 
+    /**
+     * Button function for the load button
+     * @return click listener for load button
+     */
     private ClickListener getLoadListener() {
         return new ClickListener() {
             boolean playing = false;

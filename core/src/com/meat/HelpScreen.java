@@ -18,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 /**
- * Created by zhangJunliu on 11/15/17.
+ * Create screen that give instructions to the user of how to play the game
  */
 public class HelpScreen implements Screen {
 
@@ -36,10 +36,17 @@ public class HelpScreen implements Screen {
     Image imgBack, imgLeft, imgRight, imgUp, imgDown, imgTomato, imgPepperBomb, imgBug,
             imgGarlic, imgLava, imgWater,imgFly,imgWall,imgBeer,imgPizza;
 
+    /**
+     * Constructor for the level select screen.
+     * @param game Holds the maingame class to pass values between scenes.
+     */
     public HelpScreen(MainGame game) {
         this.game = game;
     }
 
+    /**
+     * This function sets up the screen with images and buttons.
+     */
     @Override
     public void show() {
 
@@ -259,8 +266,6 @@ public class HelpScreen implements Screen {
         stage.addActor(imgBeer);
         stage.addActor(imgPizza);
 
-
-
         stage.addActor(btnBack);
         stage.addActor(btnLeft);
         stage.addActor(btnRight);
@@ -280,6 +285,10 @@ public class HelpScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
 
+    /**
+     * function called every frame to update scene
+     * @param delta time between frames
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 0, 0, 1);
@@ -314,6 +323,10 @@ public class HelpScreen implements Screen {
 
     }
 
+    /**
+     * Button function for the back button
+     * @return click listener for back button
+     */
     private ClickListener getBackListener() {
         return new ClickListener(){
             boolean playing = false;
@@ -352,6 +365,10 @@ public class HelpScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the left button
+     * @return click listener for left button
+     */
     private ClickListener getLeftListener() {
         return new ClickListener() {
             boolean playing = false;
@@ -388,6 +405,10 @@ public class HelpScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for right button
+     * @return click listener for right button
+     */
     private ClickListener getRightListener() {
         return new ClickListener() {
             boolean playing = false;
@@ -422,6 +443,10 @@ public class HelpScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the up button
+     * @return click listener for up button
+     */
     private ClickListener getUpListener() {
         return new ClickListener() {
             boolean playing = false;
@@ -457,6 +482,10 @@ public class HelpScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the down button
+     * @return click listener for down button
+     */
     private ClickListener getDownListener() {
         return new ClickListener() {
             boolean playing = false;
@@ -490,6 +519,10 @@ public class HelpScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the tomato button
+     * @return click listener for tomato button
+     */
     private ClickListener getTomatoListener() {
         return new ClickListener() {
             boolean playing = false;
@@ -519,6 +552,10 @@ public class HelpScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the pepper bomb button
+     * @return click listener for pepper bomb button
+     */
     private ClickListener getPepperBombListener() {
         return new ClickListener() {
             boolean playing = false;
@@ -548,6 +585,10 @@ public class HelpScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the garlic button
+     * @return click listener for garlic button
+     */
     public EventListener getGarlicSlowListener() {
         return new ClickListener() {
             boolean playing = false;
@@ -577,6 +618,10 @@ public class HelpScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the bug button
+     * @return click listener for bug button
+     */
     private ClickListener getBugListener() {
         return new ClickListener() {
             boolean playing = false;
@@ -606,6 +651,10 @@ public class HelpScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the fly button
+     * @return click listener for fly button
+     */
     private ClickListener getFlyListener() {
         return new ClickListener() {
             boolean playing = false;
@@ -635,6 +684,10 @@ public class HelpScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the lava button
+     * @return click listener for lava button
+     */
     public EventListener getLavaListener() {
             return new ClickListener() {
                 boolean playing = false;
@@ -664,7 +717,10 @@ public class HelpScreen implements Screen {
             };
         }
 
-
+    /**
+     * Button function for the water button
+     * @return click listener for water button
+     */
     public EventListener getWaterListener() {
         return new ClickListener() {
             boolean playing = false;
@@ -694,6 +750,10 @@ public class HelpScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the wall button
+     * @return click listener for wall button
+     */
     private ClickListener getWallListener() {
         return new ClickListener() {
             boolean playing = false;
@@ -723,6 +783,10 @@ public class HelpScreen implements Screen {
         };
     }
 
+    /**
+     * Button function for the beer button
+     * @return click listener for beer button
+     */
     private ClickListener getBeerListener() {
         return new ClickListener() {
             boolean playing = false;
@@ -751,6 +815,11 @@ public class HelpScreen implements Screen {
             }
         };
     }
+
+    /**
+     * Button function for the pizza button
+     * @return click listener for pizza button
+     */
     private ClickListener getPizzaListener() {
         return new ClickListener() {
             boolean playing = false;
