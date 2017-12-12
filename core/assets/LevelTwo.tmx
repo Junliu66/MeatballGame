@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" nextobjectid="257">
+<map version="1.0" tiledversion="v1.0.3-308-g1056357" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextobjectid="262">
  <tileset firstgid="1" source="tabletop.tsx"/>
  <tileset firstgid="37" source="wallTile.tsx"/>
  <tileset firstgid="38" source="BaseMapElements.tsx"/>
@@ -554,6 +554,21 @@
    </properties>
    <polygon points="0,0 238.651,-3.89105 234.76,-130.999 186.77,-207.523 -42.8016,-47.9896"/>
   </object>
+  <object id="260" name="path_enemy" x="1425" y="1167">
+   <properties>
+    <property name="clockwise" type="bool" value="true"/>
+    <property name="speed" type="float" value="1"/>
+   </properties>
+   <polygon points="52,12 188.605,-2.23864 131,125 27,123"/>
+  </object>
+  <object id="261" name="chasing_enemy" x="1558" y="1107" rotation="386.501">
+   <properties>
+    <property name="max_radius" type="float" value="5"/>
+    <property name="min_radius" type="float" value="3"/>
+    <property name="speed" type="float" value="1.5"/>
+   </properties>
+   <ellipse/>
+  </object>
  </objectgroup>
  <objectgroup name="Object Layer 2">
   <object id="53" name="tomato" x="878.788" y="848.485"/>
@@ -582,7 +597,7 @@
   <object id="85" name="garlic" x="2300.41" y="1042.42"/>
   <object id="86" name="garlic" x="245.455" y="2121.21"/>
   <object id="87" name="garlic" x="2378.79" y="2127.27"/>
-  <object id="133" name="start" x="1494.9" y="1367.69"/>
+  <object id="133" name="start" x="1460" y="1464"/>
   <object id="135" name="obstacle_2" x="582" y="2096">
    <polyline points="0,0 130,-2 140,34 132,60 116,66 92.8404,98.7512 77.6413,100.778 67.5086,124.083 57.3758,130.163 49.2696,127.123 36.0971,131.176 15.8316,125.096 5.69886,114.964 7.7254,95.7114 6.71213,79.499 -11.5268,64.2999 -26.7259,51.1274 -20.6463,35.9283 -27.7392,20.7292 -12.5401,-1.56287 2.65903,-0.5496"/>
   </object>
@@ -610,6 +625,20 @@
   <object id="228" name="obstacle_1" x="1229.26" y="957.426" width="71.9568" height="754.601"/>
   <object id="235" name="hole" x="1744.18" y="2255.82">
    <polyline points="0,0 -53.4555,-1.5273 -61.092,-8.40015 -66.4376,-24.4368 -76.365,-30.546 -91.638,-32.0733 -117.602,-32.0733 -124.475,-38.9462 -134.402,-60.3284 -151.966,-64.9103 -185.567,-65.6739 -197.022,-90.8744 -206.949,-96.2199 -248.186,-98.5109 -258.877,-119.893 -268.805,-127.53 -281.023,-126.766 -287.132,-118.366 -290.187,-101.565 -290.187,-80.1833 -292.478,-71.0195 -304.696,-64.1466 -176.403,14.5094 1.5273,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup color="#996633" name="Hand">
+  <object id="257" name="hand" x="1452" y="1329">
+   <properties>
+    <property name="image" value="handbug.png"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="258" name="hand" x="1452" y="1178">
+   <properties>
+    <property name="image" value="handfly.png"/>
+   </properties>
+   <point/>
   </object>
  </objectgroup>
 </map>
